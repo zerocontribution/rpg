@@ -3,19 +3,22 @@ package io.zerocontribution.winter.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+// TODO The collision detection code is a little janky still.
 public class Player extends Sprite implements InputProcessor {
 
-    final public static String OBSTACLE_KEY = "obstacle";
-
     private Vector2 velocity = new Vector2();
-    private float speed = 60 * 2, animationTime = 0, increment;
+    private float speed = 60 * 5, animationTime = 0, increment;
     private final Animation still;
 
     private final TiledMapTileLayer collisionLayer;
@@ -30,6 +33,16 @@ public class Player extends Sprite implements InputProcessor {
     public void draw(SpriteBatch spriteBatch) {
         update(Gdx.graphics.getDeltaTime());
         super.draw(spriteBatch);
+    }
+
+    public void drawDebug(Camera camera) {
+        Rectangle bbox = getBoundingRectangle();
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(bbox.getX()-1, bbox.getY()-1, bbox.getWidth()+2, bbox.getHeight()+2);
+        shapeRenderer.end();
     }
 
     public void update(float delta) {
@@ -73,8 +86,19 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     private boolean isCellBlocked(float x, float y) {
-        Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight()));
-        return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey(OBSTACLE_KEY);
+        double tileW = collisionLayer.getTileWidth();
+        double tileH = collisionLayer.getTileHeight();
+
+        int cx = (int) ((y / tileH) + (x / tileW));
+        int cy = (int) ((x / tileW) - (y / tileH));
+
+        Cell cell = collisionLayer.getCell(cy, cx);
+
+        if (cell == null) {
+            return true;
+        } else {
+            return cell.getTile().getProperties().containsKey("obstacle");
+        }
     }
 
     private boolean collidesRight() {
@@ -88,7 +112,7 @@ public class Player extends Sprite implements InputProcessor {
 
     private boolean collidesLeft() {
         for (float step = 0; step <= getHeight(); step += increment) {
-            if (isCellBlocked(getX(), getY() + step)) {
+            if (isCellBlocked(getX() - getWidth(), getY() + step)) {
                 return true;
             }
         }
@@ -106,7 +130,8 @@ public class Player extends Sprite implements InputProcessor {
 
     private boolean collidesBottom() {
         for (float step = 0; step <= getWidth(); step += increment) {
-            if (isCellBlocked(getX(), getY() + getHeight())) {
+            // Well this one is fucked: Probably an issue of rendering the player asset?
+            if (isCellBlocked(getX() + step, getY() - getHeight())) {
                 return true;
             }
         }

@@ -4,6 +4,7 @@ sourceCompatibility = 1.6
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile files("./libs/artemis-a609b2076aacc0ef5ecf0b390205d01bb88ceae2.jar")
 }
 
 eclipse.project {

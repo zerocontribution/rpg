@@ -5,17 +5,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import io.zerocontribution.winter.entities.Player;
-import io.zerocontribution.winter.maps.TiledMapHelper;
+import io.zerocontribution.winter.maps.IsometricTiledMapHelper;
 
 public class TiledMapScreen implements Screen {
 
@@ -28,6 +27,8 @@ public class TiledMapScreen implements Screen {
 
     private int[] background = new int[] {0}, foreground = new int[] {1};
 
+    private BitmapFont font;
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -36,13 +37,21 @@ public class TiledMapScreen implements Screen {
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
 
+        IsometricTiledMapHelper mapHelper = new IsometricTiledMapHelper(map);
+
         renderer.setView(camera);
 
         renderer.render(background);
 
-        renderer.getSpriteBatch().begin();
-        player.draw(renderer.getSpriteBatch());
-        renderer.getSpriteBatch().end();
+        Vector3 pos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+
+        SpriteBatch spriteBatch = renderer.getSpriteBatch();
+        spriteBatch.begin();
+
+        player.draw(spriteBatch);
+        spriteBatch.end();
+
+        player.drawDebug(camera);
 
         renderer.render(foreground);
     }
@@ -56,21 +65,25 @@ public class TiledMapScreen implements Screen {
 
     @Override
     public void show() {
+        font = new BitmapFont();
+
         map = new TmxMapLoader().load("maps/isometric.tmx");
 
         renderer = new IsometricTiledMapRenderer(map);
 
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         playerAtlas = new TextureAtlas("img/player/player.atlas");
         Animation still;
         still = new Animation(1 / 2f, playerAtlas.findRegions("down"));
         still.setPlayMode(Animation.LOOP);
 
-        player = new Player(still, (TiledMapTileLayer) map.getLayers().get(0));
+        IsometricTiledMapHelper mapHelper = new IsometricTiledMapHelper(map);
 
-        TiledMapHelper mapHelper = new TiledMapHelper(map);
-        Vector2 spawnPoint = mapHelper.toScreenCoords(mapHelper.getSpawnPoint());
+        player = new Player(still, mapHelper.getCollisionLayer());
+
+        Vector2 spawnPoint = mapHelper.convertToScreen(0, 1);
+
         player.setPosition(spawnPoint.x, spawnPoint.y);
         camera.position.set(player.getX(), player.getY(), 0);
 
