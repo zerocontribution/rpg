@@ -3,18 +3,13 @@ package io.zerocontribution.winter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import io.zerocontribution.winter.screens.TiledMapScreen;
+import io.zerocontribution.winter.screens.IsoTiledMapScreen;
 
 public class WinterGame extends Game {
 
     @Override
     public void create () {
-        setScreen(new TiledMapScreen());
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
+        setScreen(new IsoTiledMapScreen());
     }
 
     @Override
@@ -29,21 +24,6 @@ public class WinterGame extends Game {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-        super.pause();
-    }
-
-    @Override
-    public void resume() {
-        super.resume();
     }
 
 }
