@@ -9,8 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Helper class to deal with all of the fucking oddities that libGDX seems to have.
  *
- * Unlike other tiled renderers; libGDX uses an inversed y-indexed coordinate system. That makes a lot of the
- * necessary calculations custom.
+ * WARNING: Be cautious on using any of these... I don't think they quite work right... or maybe at all. Need better
+ * support for translating screen to/from world and world to/from grid. The formulae look like I was thinking of going
+ * screen to/from grid; which won't work as I have it. Good job 3am development.
  */
 public class IsometricTiledMapHelper {
 

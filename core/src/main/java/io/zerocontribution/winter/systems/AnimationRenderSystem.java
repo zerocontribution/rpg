@@ -5,6 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.TagManager;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
@@ -15,7 +16,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.AnimationSprite;
+import io.zerocontribution.winter.components.Cam;
 import io.zerocontribution.winter.components.Position;
+import io.zerocontribution.winter.components.Velocity;
 
 import java.util.*;
 
@@ -25,7 +28,13 @@ public class AnimationRenderSystem extends EntitySystem {
     ComponentMapper<Position> pm;
 
     @Mapper
+    ComponentMapper<Velocity> vm;
+
+    @Mapper
     ComponentMapper<AnimationSprite> sm;
+
+    @Mapper
+    ComponentMapper<Cam> cm;
 
     private HashMap<String, TextureAtlas.AtlasRegion> regions;
     private TextureAtlas textureAtlas;
@@ -39,9 +48,8 @@ public class AnimationRenderSystem extends EntitySystem {
     private List<Entity> sortedEntities;
 
     @SuppressWarnings("unchecked")
-    public AnimationRenderSystem(OrthographicCamera camera) {
+    public AnimationRenderSystem() {
         super(Aspect.getAspectForAll(Position.class, AnimationSprite.class));
-        this.camera = camera;
     }
 
     // TODO Change the location of the atlas
@@ -58,6 +66,8 @@ public class AnimationRenderSystem extends EntitySystem {
         spriteBatch = new SpriteBatch();
 
         sortedEntities = new ArrayList<Entity>();
+
+        camera = cm.get(world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW)).camera;
     }
 
     @Override
@@ -86,9 +96,18 @@ public class AnimationRenderSystem extends EntitySystem {
             TextureAtlas.AtlasRegion spriteRegion = regionsByEntity.get(e.getId());
             spriteBatch.setColor(sprite.r, sprite.g, sprite.b, sprite.a);
 
-            float posX = position.x * (spriteRegion.getRegionWidth() / 2 * sprite.scaleX);
-            float posY = position.y * (spriteRegion.getRegionHeight() / 2 * sprite.scaleY);
+            float posX, posY;
+            if (vm.has(e)) {
+                // If we have velocity, the entity has already been moved by the MovementSystem and we don't need to do
+                // anything about it.
+                posX = position.x;
+                posY = position.y;
+            } else {
+                posX = position.x * (spriteRegion.getRegionWidth() / 2 * sprite.scaleX);
+                posY = position.y * (spriteRegion.getRegionHeight() / 2 * sprite.scaleY);
+            }
 
+            sprite.time += Gdx.graphics.getDeltaTime(); // TODO Feel like this should be right before getting the keyframe.
             if (sprite.active) {
                 texture = sprite.animation.getKeyFrame(sprite.time, sprite.loop);
             } else {
@@ -96,7 +115,6 @@ public class AnimationRenderSystem extends EntitySystem {
             }
 
             spriteBatch.draw(spriteRegion, posX, posY, 0, 0, spriteRegion.getRegionWidth(), spriteRegion.getRegionHeight(), sprite.scaleX, sprite.scaleY, sprite.rotation);
-            sprite.time += Gdx.graphics.getDeltaTime(); // TODO Feel like this should be right before getting the keyframe.
         }
     }
 

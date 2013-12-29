@@ -5,6 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.TagManager;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
@@ -14,8 +15,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.components.Cam;
 import io.zerocontribution.winter.components.Position;
 import io.zerocontribution.winter.components.Sprite;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 
 import java.util.*;
 
@@ -27,6 +31,9 @@ public class SpriteRenderSystem extends EntitySystem {
     @Mapper
     ComponentMapper<Sprite> sm;
 
+    @Mapper
+    ComponentMapper<Cam> cm;
+
     private HashMap<String, TextureAtlas.AtlasRegion> regions;
     private TextureAtlas textureAtlas;
     private SpriteBatch spriteBatch;
@@ -37,9 +44,8 @@ public class SpriteRenderSystem extends EntitySystem {
     private List<Entity> sortedEntities;
 
     @SuppressWarnings("unchecked")
-    public SpriteRenderSystem(OrthographicCamera camera) {
+    public SpriteRenderSystem() {
         super(Aspect.getAspectForAll(Position.class, Sprite.class));
-        this.camera = camera;
     }
 
     // TODO Need to include an asset manager in the mix here... don't want to include all assets in a single atlas.
@@ -61,6 +67,8 @@ public class SpriteRenderSystem extends EntitySystem {
         TextureRegion fontRegion = new TextureRegion(fontTexture);
         font = new BitmapFont(Gdx.files.internal("fonts/normal.fnt"), fontRegion, false);
         font.setUseIntegerPositions(false);
+
+        camera = cm.get(world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW)).camera;
     }
 
     @Override

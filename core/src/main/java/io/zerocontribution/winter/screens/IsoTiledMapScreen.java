@@ -6,34 +6,46 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.systems.*;
 
 public class IsoTiledMapScreen implements Screen {
 
     private final World world;
-    private final OrthographicCamera camera;
 
     private SpriteRenderSystem spriteRenderSystem;
     private AnimationRenderSystem animationRenderSystem;
+    private MapRenderingSystem mapRenderer;
+    private CollisionDebugSystem collisionDebugSystem;
 
     public IsoTiledMapScreen() {
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Assets.loadMap("maps/isometric.tmx");
 
         world = new World();
         world.setManager(new GroupManager());
+        world.setManager(new TagManager());
 
         world.setSystem(new FPSLoggingSystem());
+        world.setSystem(new CameraSystem());
         world.setSystem(new PlayerInputSystem());
+        world.setSystem(new CollisionSystem());
         world.setSystem(new MovementSystem());
 
-        spriteRenderSystem = world.setSystem(new SpriteRenderSystem(camera), true);
-        animationRenderSystem = world.setSystem(new AnimationRenderSystem(camera), true);
+        mapRenderer = world.setSystem(new MapRenderingSystem(), true);
+        spriteRenderSystem = world.setSystem(new SpriteRenderSystem(), true);
+        animationRenderSystem = world.setSystem(new AnimationRenderSystem(), true);
+
+        if (Constants.DEBUG) {
+            collisionDebugSystem = world.setSystem(new CollisionDebugSystem(), true);
+        }
+
+        EntityFactory.createMap(world, new SpriteBatch()).addToWorld();
+        EntityFactory.createPlayer(world, 0, 0).addToWorld();
 
         world.initialize();
-
-        EntityFactory.createPlayer(world, 0, 0).addToWorld();
     }
 
     @Override
@@ -41,20 +53,24 @@ public class IsoTiledMapScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-
         world.setDelta(delta);
         world.process();
 
+        mapRenderer.process();
         spriteRenderSystem.process();
         animationRenderSystem.process();
+
+        if (Constants.DEBUG) {
+            collisionDebugSystem.process();
+        }
     }
 
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
-        camera.update();
+        // TODO: Get camera entity from world and update?
+//        camera.viewportWidth = width;
+//        camera.viewportHeight = height;
+//        camera.update();
     }
 
     @Override
