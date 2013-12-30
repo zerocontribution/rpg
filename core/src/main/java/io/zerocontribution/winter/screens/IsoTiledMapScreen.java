@@ -16,7 +16,6 @@ public class IsoTiledMapScreen implements Screen {
 
     private final World world;
 
-    private SpriteRenderSystem spriteRenderSystem;
     private AnimationRenderingSystem animationRenderingSystem;
     private MapRenderingSystem mapRenderer;
     private CollisionDebugSystem collisionDebugSystem;
@@ -39,8 +38,6 @@ public class IsoTiledMapScreen implements Screen {
         world.setSystem(new AnimationUpdatingSystem());
 
         mapRenderer = world.setSystem(new MapRenderingSystem(), true);
-        // TODO refactor to use new Assets system.
-//        spriteRenderSystem = world.setSystem(new SpriteRenderSystem(), true);
         animationRenderingSystem = world.setSystem(new AnimationRenderingSystem(spriteBatch), true);
 
         if (Constants.DEBUG) {
@@ -49,6 +46,7 @@ public class IsoTiledMapScreen implements Screen {
 
         EntityFactory.createMap(world, spriteBatch).addToWorld();
         EntityFactory.createPlayer(world, 0, 0).addToWorld();
+        EntityFactory.createEnemy(world, 6, 6).addToWorld();
 
         world.initialize();
     }
@@ -62,7 +60,6 @@ public class IsoTiledMapScreen implements Screen {
         world.process();
 
         mapRenderer.process();
-//        spriteRenderSystem.process();
         animationRenderingSystem.process();
 
         if (Constants.DEBUG) {

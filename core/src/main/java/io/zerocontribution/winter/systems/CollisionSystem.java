@@ -16,7 +16,6 @@ import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.Pair;
 import io.zerocontribution.winter.components.*;
-import io.zerocontribution.winter.utils.GdxLogHelper;
 
 public class CollisionSystem extends EntitySystem {
 
@@ -56,11 +55,6 @@ public class CollisionSystem extends EntitySystem {
         TiledMap map = Assets.currentMap;
         TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground");
 
-        float tileW = groundLayer.getTileWidth();
-        float tileH = groundLayer.getTileHeight();
-        float tileHalfW = tileW / 2;
-        float tileHalfH = tileH / 2;
-
         float mapW = (float) map.getProperties().get("width", Integer.class);
         float mapH = (float) map.getProperties().get("height", Integer.class);
 
@@ -72,10 +66,7 @@ public class CollisionSystem extends EntitySystem {
                 if (pairMap.map.get(Pair.get(x, y)) == null) {
                     TiledMapTileLayer.Cell cell = groundLayer.getCell(x, y);
                     if (cell == null || cell.getTile().getProperties().containsKey("obstacle")) {
-                        float worldX = (x * tileHalfW) + (y * tileHalfW);
-                        float worldY = (y * tileHalfH) - (x * tileHalfH);
-
-                        EntityFactory.createBlockingTile(world, x, y, worldX, worldY).addToWorld();
+                        EntityFactory.createBlockingTile(world, x, y).addToWorld();
                         pairMap.map.put(Pair.get(x, y), new Boolean(true));
                     }
                 }

@@ -30,16 +30,19 @@ public class AnimationRenderingSystem extends EntitySystem {
     ComponentMapper<Dimensions> dimensionsMapper;
 
     @Mapper
+    ComponentMapper<SpriteColor> spriteColorMapper;
+
+    @Mapper
     ComponentMapper<Cam> cameraMapper;
 
-    private SpriteBatch batch;
+    private SpriteBatch spriteBatch;
 
     private OrthographicCamera camera;
 
     @SuppressWarnings("unchecked")
-    public AnimationRenderingSystem(SpriteBatch batch) {
+    public AnimationRenderingSystem(SpriteBatch spriteBatch) {
         super(Aspect.getAspectForAll(Condition.class, AnimationName.class, AnimationTimer.class, Position.class, Dimensions.class));
-        this.batch = batch;
+        this.spriteBatch = spriteBatch;
     }
 
     @Override
@@ -52,22 +55,32 @@ public class AnimationRenderingSystem extends EntitySystem {
         return true;
     }
 
-    private void process(Entity entity) {
-        AnimationName name = animationMapper.get(entity);
-        AnimationTimer timer = timerMapper.get(entity);
-        Position position = positionMapper.get(entity);
-        Dimensions dimensions = dimensionsMapper.get(entity);
+    private void process(Entity e) {
+        AnimationName name = animationMapper.get(e);
+        AnimationTimer timer = timerMapper.get(e);
+        Position position = positionMapper.get(e);
+        Dimensions dimensions = dimensionsMapper.get(e);
 
-        batch.draw(Assets.getAnimationFrame(name.name, timer.time), position.x, position.y, dimensions.width, dimensions.height);
+        if (spriteColorMapper.has(e)) {
+            SpriteColor spriteColor = spriteColorMapper.get(e);
+            spriteBatch.setColor(spriteColor.r, spriteColor.g, spriteColor.b, spriteColor.a);
+        }
+
+        spriteBatch.draw(Assets.getAnimationFrame(name.name, timer.time), position.x, position.y, dimensions.width, dimensions.height);
+
+        if (spriteColorMapper.has(e)) {
+            // Reset back to the original values.
+            spriteBatch.setColor(1, 1, 1, 1);
+        }
     }
 
     @Override
     protected void processEntities(ImmutableBag<Entity> entities) {
-        batch.begin();
+        spriteBatch.begin();
         for (int i = 0; i < entities.size(); i++) {
             process(entities.get(i));
         }
-        batch.end();
+        spriteBatch.end();
     }
 
 }

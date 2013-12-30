@@ -9,6 +9,7 @@ import io.zerocontribution.winter.Constants.Animations.Player;
 
 /**
  * @todo This class really needs some love. Too much work to maintain it.
+ * @todo Refactor to using XML configurations of entities & maps.
  */
 public class Assets {
 

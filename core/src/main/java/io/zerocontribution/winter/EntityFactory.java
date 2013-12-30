@@ -9,12 +9,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.MapHelper;
 
 public class EntityFactory {
 
     public static Entity createPlayer(World world, float x, float y) {
         Entity e = world.createEntity();
+        Vector2 worldVector = MapHelper.gridToWorld(x, y);
 
         e.addComponent(new Name("player"));
 
@@ -24,18 +27,15 @@ public class EntityFactory {
 
         Bounds bounds = new Bounds();
         bounds.rect = new Rectangle();
-        bounds.rect.x = x;
-        bounds.rect.y = y;
+        bounds.rect.x = worldVector.x;
+        bounds.rect.y = worldVector.y;
         bounds.rect.width = 18;
         bounds.rect.height = 64; // TODO This is definitely not correct.
         e.addComponent(bounds);
 
         e.addComponent(new Blocking());
 
-        Position position = new Position();
-        position.x = x;
-        position.y = y;
-        e.addComponent(position);
+        e.addComponent(new Position(worldVector.x, worldVector.y));
 
         e.addComponent(new Dimensions(18, 64));
 
@@ -49,7 +49,45 @@ public class EntityFactory {
 
         world.getManager(TagManager.class).register(Constants.Tags.PLAYER, e);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
-        world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER_AVATAR);
+
+        return e;
+    }
+
+    // TODO Add Spawner & Despawner Systems
+    public static Entity createEnemy(World world, float x, float y) {
+        Entity e = world.createEntity();
+        Vector2 worldVector = MapHelper.gridToWorld(x, y);
+
+        e.addComponent(new Name("player")); // TODO Change when more assets come along.
+
+        e.addComponent(new SpriteColor(1, 0.3f, 0.3f, 1));
+
+        e.addComponent(new Facing(Directions.DOWN));
+
+        e.addComponent(new Condition(State.RUN));
+
+        Bounds bounds = new Bounds();
+        bounds.rect = new Rectangle();
+        bounds.rect.x = worldVector.x;
+        bounds.rect.y = worldVector.y;
+        bounds.rect.width = 18;
+        bounds.rect.height = 64;
+        e.addComponent(bounds);
+
+        e.addComponent(new Blocking());
+
+        e.addComponent(new Position(worldVector.x, worldVector.y));
+
+        e.addComponent(new Dimensions(18, 64));
+
+        e.addComponent(new Velocity());
+
+        e.addComponent(new AnimationName(Constants.Animations.Player.RUN_DOWN)); // TODO Change with new assets
+
+        e.addComponent(new AnimationTimer(0f));
+
+        world.getManager(TagManager.class).register(Constants.Tags.ENEMY, e);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
 
         return e;
     }
@@ -76,13 +114,11 @@ public class EntityFactory {
         return e;
     }
 
-    public static Entity createBlockingTile(World world, float x, float y, float worldX, float worldY) {
+    public static Entity createBlockingTile(World world, float x, float y) {
         Entity e = world.createEntity();
+        Vector2 worldVector = MapHelper.gridToWorld(x, y);
 
-        Position position = new Position();
-        position.x = worldX;
-        position.y = worldY;
-        e.addComponent(position);
+        e.addComponent(new Position(worldVector.x, worldVector.y));
 
         GridPosition gridPosition = new GridPosition();
         gridPosition.x = x;
@@ -94,8 +130,8 @@ public class EntityFactory {
 
         Bounds bounds = new Bounds();
         bounds.rect = new Rectangle();
-        bounds.rect.x = worldX;
-        bounds.rect.y = worldY;
+        bounds.rect.x = worldVector.x;
+        bounds.rect.y = worldVector.y;
         bounds.rect.width = Constants.TILE_WIDTH;
         bounds.rect.height = Constants.TILE_HEIGHT;
         e.addComponent(bounds);

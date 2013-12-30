@@ -16,13 +16,13 @@ public class Constants {
 
     public class Groups {
         final public static String ACTORS = "actors";
-        final public static String PLAYER_AVATAR = "player avatar";
         final public static String BLOCKING_TILES = "blocking tiles";
     }
 
     public class Tags {
         final public static String VIEW = "view";
         final public static String PLAYER = "player";
+        final public static String ENEMY = "enemy";
     }
 
     public class Animations {
