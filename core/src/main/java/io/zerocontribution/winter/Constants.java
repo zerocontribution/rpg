@@ -11,8 +11,6 @@ public class Constants {
     final public static int CAMERA_WIDTH = Gdx.graphics.getWidth();
     final public static int CAMERA_HEIGHT = Gdx.graphics.getHeight();
 
-    final public static String MAP_COLLISIONS_LAYER = "Collisions";
-
     final public static float TILE_WIDTH = 64;
     final public static float TILE_HEIGHT = 32;
 
@@ -25,6 +23,21 @@ public class Constants {
     public class Tags {
         final public static String VIEW = "view";
         final public static String PLAYER = "player";
+    }
+
+    public class Animations {
+        final public static int ENTITY_RUN_FRAME_LENGTH = 1;
+
+        public class Player {
+            final public static String RUN_UP = "playerRunUp";
+            final public static String RUN_UPRIGHT = "playerRunUpRight";
+            final public static String RUN_UPLEFT = "playerRunUpLeft";
+            final public static String RUN_DOWN = "playerRunDown";
+            final public static String RUN_DOWNRIGHT = "playerRunDownRight";
+            final public static String RUN_DOWNLEFT = "playerRunDownLeft";
+            final public static String RUN_RIGHT = "playerRunRight";
+            final public static String RUN_LEFT = "playerRunLeft";
+        }
     }
 
 }

@@ -17,12 +17,15 @@ public class IsoTiledMapScreen implements Screen {
     private final World world;
 
     private SpriteRenderSystem spriteRenderSystem;
-    private AnimationRenderSystem animationRenderSystem;
+    private AnimationRenderingSystem animationRenderingSystem;
     private MapRenderingSystem mapRenderer;
     private CollisionDebugSystem collisionDebugSystem;
 
     public IsoTiledMapScreen() {
         Assets.loadMap("maps/isometric.tmx");
+        Assets.loadImages();
+
+        SpriteBatch spriteBatch = new SpriteBatch();
 
         world = new World();
         world.setManager(new GroupManager());
@@ -33,16 +36,18 @@ public class IsoTiledMapScreen implements Screen {
         world.setSystem(new PlayerInputSystem());
         world.setSystem(new CollisionSystem());
         world.setSystem(new MovementSystem());
+        world.setSystem(new AnimationUpdatingSystem());
 
         mapRenderer = world.setSystem(new MapRenderingSystem(), true);
-        spriteRenderSystem = world.setSystem(new SpriteRenderSystem(), true);
-        animationRenderSystem = world.setSystem(new AnimationRenderSystem(), true);
+        // TODO refactor to use new Assets system.
+//        spriteRenderSystem = world.setSystem(new SpriteRenderSystem(), true);
+        animationRenderingSystem = world.setSystem(new AnimationRenderingSystem(spriteBatch), true);
 
         if (Constants.DEBUG) {
             collisionDebugSystem = world.setSystem(new CollisionDebugSystem(), true);
         }
 
-        EntityFactory.createMap(world, new SpriteBatch()).addToWorld();
+        EntityFactory.createMap(world, spriteBatch).addToWorld();
         EntityFactory.createPlayer(world, 0, 0).addToWorld();
 
         world.initialize();
@@ -57,8 +62,8 @@ public class IsoTiledMapScreen implements Screen {
         world.process();
 
         mapRenderer.process();
-        spriteRenderSystem.process();
-        animationRenderSystem.process();
+//        spriteRenderSystem.process();
+        animationRenderingSystem.process();
 
         if (Constants.DEBUG) {
             collisionDebugSystem.process();
@@ -68,6 +73,7 @@ public class IsoTiledMapScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         // TODO: Get camera entity from world and update?
+        // Might make more sense to create a CameraResizeSystem? Could be useful for resolution changes?
 //        camera.viewportWidth = width;
 //        camera.viewportHeight = height;
 //        camera.update();

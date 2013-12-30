@@ -3,59 +3,59 @@ player.png
 format: RGBA8888
 filter: Nearest,Linear
 repeat: none
-down
+playerRunDown
   rotate: false
-  xy: 0, 0
+  xy: 0, 1
   size: 18, 52
   orig: 18, 52
   offset: 0, 0
-  index: -1
-downleft1
+  index: 0
+playerRunDownLeft
   rotate: false
-  xy: 18, 0
+  xy: 18, 1
   size: 17, 52
   orig: 17, 52
   offset: 0, 0
-  index: -1
-downright1
+  index: 0
+playerRunDownRight
   rotate: false
-  xy: 35, 0
+  xy: 35, 1
   size: 17, 52
   orig: 18, 52
   offset: 0, 0
-  index: -1
-upleft1
+  index: 0
+playerRunUpLeft
   rotate: false
-  xy: 52, 0
+  xy: 52, 1
   size: 17, 52
   orig: 18, 52
   offset: 0, 0
-  index: -1
-upright1
+  index: 0
+playerRunUpRight
   rotate: false
-  xy: 69, 0
+  xy: 69, 1
   size: 17, 52
   orig: 18, 52
   offset: 0, 0
-  index: -1
-up1
+  index: 0
+playerRunUp
   rotate: false
-  xy: 86, 2
+  xy: 86, 3
   size: 17, 50
   orig: 18, 52
   offset: 0, 2
-  index: -1
-left1
+  index: 0
+playerRunLeft
   rotate: false
-  xy: 103, 2
+  xy: 103, 3
   size: 15, 50
   orig: 18, 52
   offset: 0, 2
-  index: -1
-right1
+  index: 0
+playerRunRight
   rotate: false
-  xy: 118, 2
+  xy: 118, 3
   size: 15, 50
   orig: 18, 52
   offset: 0, 2
-  index: -1
+  index: 0

@@ -16,6 +16,12 @@ public class EntityFactory {
     public static Entity createPlayer(World world, float x, float y) {
         Entity e = world.createEntity();
 
+        e.addComponent(new Name("player"));
+
+        e.addComponent(new Facing(Directions.DOWN));
+
+        e.addComponent(new Condition(State.RUN));
+
         Bounds bounds = new Bounds();
         bounds.rect = new Rectangle();
         bounds.rect.x = x;
@@ -35,16 +41,9 @@ public class EntityFactory {
 
         e.addComponent(new Velocity());
 
-        AnimationSprite sprite = new AnimationSprite();
-        sprite.name = "down";
-        sprite.width = 18;
-        sprite.height = 64;
-        sprite.frameTime = 1 / 2f;
-        sprite.cols = 8;
-        sprite.rows = 1;
-        sprite.loop = true;
-        sprite.layer = AnimationSprite.Layer.ACTORS_3;
-        e.addComponent(sprite);
+        e.addComponent(new AnimationName(Constants.Animations.Player.RUN_DOWN));
+
+        e.addComponent(new AnimationTimer(0f));
 
         e.addComponent(new Player());
 
@@ -63,6 +62,7 @@ public class EntityFactory {
         cam.camera.position.x = Constants.CAMERA_WIDTH / 2;
         cam.camera.position.y = Constants.CAMERA_HEIGHT / 2;
         cam.camera.update();
+        spriteBatch.setProjectionMatrix(cam.camera.combined);
         e.addComponent(cam);
 
         MapView view = new MapView();

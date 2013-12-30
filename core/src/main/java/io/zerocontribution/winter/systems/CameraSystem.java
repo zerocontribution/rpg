@@ -5,6 +5,7 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.VoidEntitySystem;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.*;
 
