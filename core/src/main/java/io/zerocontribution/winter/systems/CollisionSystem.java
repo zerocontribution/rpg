@@ -64,6 +64,9 @@ public class CollisionSystem extends EntitySystem {
         float mapW = (float) map.getProperties().get("width", Integer.class);
         float mapH = (float) map.getProperties().get("height", Integer.class);
 
+        // TODO Add -x,-y grid coordinates so they can be added to blocking tiles.
+        // TODO Rotate bounding boxes for blocks 90*
+        // TODO ??? Default to squares; check for texture region?
         for (int y = 0; y <= mapH; y++) {
             for (int x = 0; x <= mapW; x++) {
                 if (pairMap.map.get(Pair.get(x, y)) == null) {
