@@ -65,7 +65,7 @@ public class CollisionSystem extends EntitySystem {
             for (int x = 0; x <= mapW; x++) {
                 if (pairMap.map.get(Pair.get(x, y)) == null) {
                     TiledMapTileLayer.Cell cell = groundLayer.getCell(x, y);
-                    if (cell == null || cell.getTile().getProperties().containsKey("obstacle")) {
+                    if (cell == null || cell.getTile().getProperties().containsKey(Constants.TILE_OBSTACLE)) {
                         EntityFactory.createBlockingTile(world, x, y).addToWorld();
                         pairMap.map.put(Pair.get(x, y), new Boolean(true));
                     }

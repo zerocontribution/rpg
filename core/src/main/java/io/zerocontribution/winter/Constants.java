@@ -13,6 +13,7 @@ public class Constants {
 
     final public static float TILE_WIDTH = 64;
     final public static float TILE_HEIGHT = 32;
+    final public static String TILE_OBSTACLE = "obstacle";
 
     public class Groups {
         final public static String ACTORS = "actors";

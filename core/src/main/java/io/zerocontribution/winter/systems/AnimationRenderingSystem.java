@@ -5,15 +5,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
-import com.artemis.managers.TagManager;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.zerocontribution.winter.Assets;
-import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.*;
-import io.zerocontribution.winter.utils.GdxLogHelper;
 
 public class AnimationRenderingSystem extends EntitySystem {
 
@@ -32,22 +27,12 @@ public class AnimationRenderingSystem extends EntitySystem {
     @Mapper
     ComponentMapper<SpriteColor> spriteColorMapper;
 
-    @Mapper
-    ComponentMapper<Cam> cameraMapper;
-
     private SpriteBatch spriteBatch;
-
-    private OrthographicCamera camera;
 
     @SuppressWarnings("unchecked")
     public AnimationRenderingSystem(SpriteBatch spriteBatch) {
         super(Aspect.getAspectForAll(Condition.class, AnimationName.class, AnimationTimer.class, Position.class, Dimensions.class));
         this.spriteBatch = spriteBatch;
-    }
-
-    @Override
-    protected void initialize() {
-        camera = cameraMapper.get(world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW)).camera;
     }
 
     @Override
