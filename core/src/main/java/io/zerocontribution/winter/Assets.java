@@ -25,6 +25,7 @@ public class Assets {
     private static Animation playerRunLeft;
 
     public static void loadMap(String mapPath) {
+        currentMap =
         currentMap = new TmxMapLoader().load(mapPath);
     }
 

@@ -24,4 +24,8 @@ public class GdxLogHelper {
         Gdx.app.log(tag, String.valueOf(message));
     }
 
+    public static void debug(String tag, String message) {
+        Gdx.app.debug(tag, message);
+    }
+
 }

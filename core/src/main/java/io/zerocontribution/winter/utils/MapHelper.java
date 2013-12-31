@@ -24,8 +24,16 @@ public class MapHelper {
     }
 
     public static Vector2 worldToGrid(float x, float y) {
-        // TODO Implement.
-        return new Vector2(-100, -100);
+        TiledMapTileLayer groundLayer = (TiledMapTileLayer) Assets.currentMap.getLayers().get("Ground");
+
+        float tileHalfW = groundLayer.getTileWidth();
+        float tileHalfH = groundLayer.getTileHeight();
+
+        // TODO This is most certainly incorrect.
+        return new Vector2(
+                (float) Math.floor((x / tileHalfW) - (y / tileHalfW)),
+                (float) Math.floor((y / tileHalfH) + (x / tileHalfH))
+        );
     }
 
 }

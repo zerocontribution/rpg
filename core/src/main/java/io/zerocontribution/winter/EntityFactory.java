@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.zerocontribution.winter.ai.normals.ZombieAI;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.MapHelper;
 
@@ -78,6 +79,11 @@ public class EntityFactory {
 
         e.addComponent(new Position(worldVector.x, worldVector.y));
 
+        // TODO Maybe all Position information should be rolled into a singular Component?
+        e.addComponent(new GridPosition(x, y));
+
+        e.addComponent(new TargetGridPosition(x, y));
+
         e.addComponent(new Dimensions(18, 64));
 
         e.addComponent(new Velocity());
@@ -85,6 +91,8 @@ public class EntityFactory {
         e.addComponent(new AnimationName(Constants.Animations.Player.RUN_DOWN)); // TODO Change with new assets
 
         e.addComponent(new AnimationTimer(0f));
+
+        e.addComponent(new Npc(new ZombieAI()));
 
         world.getManager(TagManager.class).register(Constants.Tags.ENEMY, e);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
@@ -120,10 +128,7 @@ public class EntityFactory {
 
         e.addComponent(new Position(worldVector.x, worldVector.y));
 
-        GridPosition gridPosition = new GridPosition();
-        gridPosition.x = x;
-        gridPosition.y = y;
-        e.addComponent(gridPosition);
+        e.addComponent(new GridPosition(x, y));
 
         Dimensions dimensions = new Dimensions(Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
         e.addComponent(dimensions);

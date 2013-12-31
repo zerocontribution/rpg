@@ -25,6 +25,8 @@ import io.zerocontribution.winter.components.*;
 /**
  * The only reason why this isn't included in the normal collision system is because the map renderer is processed
  * later, and all shapes are hidden.
+ *
+ * @todo Cleanup unused code that was copied from CollisionSystem.
  */
 public class CollisionDebugSystem extends EntitySystem {
 

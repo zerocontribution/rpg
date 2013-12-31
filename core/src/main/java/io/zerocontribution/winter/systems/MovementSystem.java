@@ -6,16 +6,18 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.Directions;
-import io.zerocontribution.winter.components.Bounds;
-import io.zerocontribution.winter.components.Facing;
-import io.zerocontribution.winter.components.Position;
-import io.zerocontribution.winter.components.Velocity;
+import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.MapHelper;
 
 public class MovementSystem extends EntityProcessingSystem {
 
     @Mapper
     ComponentMapper<Position> positionMapper;
+
+    @Mapper
+    ComponentMapper<GridPosition> gridPositionMapper;
 
     @Mapper
     ComponentMapper<Velocity> velocityMapper;
@@ -40,6 +42,13 @@ public class MovementSystem extends EntityProcessingSystem {
         position.y += velocity.y * world.delta;
         bounds.rect.x = position.x;
         bounds.rect.y = position.y;
+
+        if (gridPositionMapper.has(e)) {
+            GridPosition gridPosition = gridPositionMapper.get(e);
+            Vector2 grid = MapHelper.worldToGrid(position.x, position.y);
+            gridPosition.x = grid.x;
+            gridPosition.y = grid.y;
+        }
 
         if (facingMapper.has(e)) {
             Facing facing = facingMapper.get(e);
