@@ -28,4 +28,8 @@ public class GdxLogHelper {
         Gdx.app.debug(tag, message);
     }
 
+    public static void error(String tag, String message) {
+        Gdx.app.error(tag, message);
+    }
+
 }

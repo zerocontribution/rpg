@@ -1,5 +1,7 @@
 package io.zerocontribution.winter.ai.pathfinding;
 
+import io.zerocontribution.winter.utils.GdxLogHelper;
+
 import java.util.ArrayList;
 
 /**
@@ -150,6 +152,13 @@ public class Path {
             }
 
             return false;
+        }
+
+        public String toLog(int index) {
+            return new StringBuilder()
+                    .append("Step.").append(index).append("[")
+                    .append(x).append(",").append(y)
+                    .append("]").toString();
         }
     }
 }

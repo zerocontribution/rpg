@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.Directions;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
 
 public class MovementSystem extends EntityProcessingSystem {
@@ -43,9 +44,10 @@ public class MovementSystem extends EntityProcessingSystem {
         bounds.rect.x = position.x;
         bounds.rect.y = position.y;
 
+        Vector2 grid = MapHelper.worldToGrid(position.x, position.y);
+        GdxLogHelper.log("grid", grid);
         if (gridPositionMapper.has(e)) {
             GridPosition gridPosition = gridPositionMapper.get(e);
-            Vector2 grid = MapHelper.worldToGrid(position.x, position.y);
             gridPosition.x = grid.x;
             gridPosition.y = grid.y;
         }

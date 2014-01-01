@@ -92,7 +92,7 @@ public class EntityFactory {
 
         e.addComponent(new AnimationTimer(0f));
 
-        e.addComponent(new Npc(new ZombieAI()));
+        e.addComponent(new Npc(new ZombieAI(world)));
 
         world.getManager(TagManager.class).register(Constants.Tags.ENEMY, e);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);

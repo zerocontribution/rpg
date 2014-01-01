@@ -33,7 +33,7 @@ public class IsoTiledMapScreen implements Screen {
         world.setSystem(new FPSLoggingSystem());
         world.setSystem(new CameraSystem());
         world.setSystem(new PlayerInputSystem());
-        world.setSystem(new PathfindingSystem());
+        world.setSystem(new AIProcessingSystem());
         world.setSystem(new CollisionSystem());
         world.setSystem(new MovementSystem());
         world.setSystem(new AnimationUpdatingSystem());

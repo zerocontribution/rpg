@@ -26,13 +26,37 @@ public class MapHelper {
     public static Vector2 worldToGrid(float x, float y) {
         TiledMapTileLayer groundLayer = (TiledMapTileLayer) Assets.currentMap.getLayers().get("Ground");
 
-        float tileHalfW = groundLayer.getTileWidth();
-        float tileHalfH = groundLayer.getTileHeight();
+        float tileHalfW = groundLayer.getTileWidth() / 2;
+        float tileHalfH = groundLayer.getTileHeight() / 2;
 
-        // TODO This is most certainly incorrect.
         return new Vector2(
-                (float) Math.floor((x / tileHalfW) - (y / tileHalfW)),
-                (float) Math.floor((y / tileHalfH) + (x / tileHalfH))
+                (float) Math.floor((x / tileHalfW - y / tileHalfH) / 2),
+                (float) Math.floor((y / tileHalfH + x / tileHalfW) / 2)
+        );
+    }
+
+    public static Vector2 gridToScreen(float x, float y) {
+        TiledMapTileLayer groundLayer = (TiledMapTileLayer) Assets.currentMap.getLayers().get("Ground");
+
+        float tileHalfW = groundLayer.getTileWidth() / 2;
+        float tileHalfH = groundLayer.getTileHeight() / 2;
+
+        return new Vector2(
+                (x - y) * tileHalfW,
+                (x + y) * tileHalfH
+        );
+    }
+
+    public static Vector2 screenToGrid(float x, float y) {
+        TiledMapTileLayer groundLayer = (TiledMapTileLayer) Assets.currentMap.getLayers().get("Ground");
+
+        float tileHalfW = groundLayer.getTileWidth() / 2;
+        float tileHalfH = groundLayer.getTileHeight() / 2;
+
+        // TODO Not vetted.
+        return new Vector2(
+                (float) Math.floor((x / tileHalfW + y / tileHalfH) / 2),
+                (float) Math.floor((y / tileHalfH - (x / tileHalfW)) / 2)
         );
     }
 
