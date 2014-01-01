@@ -49,6 +49,7 @@ public class EntityFactory {
         e.addComponent(new Player());
 
         world.getManager(TagManager.class).register(Constants.Tags.PLAYER, e);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
 
         return e;

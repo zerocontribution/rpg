@@ -45,7 +45,6 @@ public class MovementSystem extends EntityProcessingSystem {
         bounds.rect.y = position.y;
 
         Vector2 grid = MapHelper.worldToGrid(position.x, position.y);
-        GdxLogHelper.log("grid", grid);
         if (gridPositionMapper.has(e)) {
             GridPosition gridPosition = gridPositionMapper.get(e);
             gridPosition.x = grid.x;

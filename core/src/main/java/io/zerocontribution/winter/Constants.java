@@ -17,6 +17,7 @@ public class Constants {
 
     public class Groups {
         final public static String ACTORS = "actors";
+        final public static String PLAYERS = "players"; // TODO Shoudl we still have the player tag?
         final public static String BLOCKING_TILES = "blocking tiles";
     }
 
