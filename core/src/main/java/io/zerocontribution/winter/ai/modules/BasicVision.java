@@ -6,6 +6,8 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.State;
+import io.zerocontribution.winter.components.Condition;
 import io.zerocontribution.winter.components.Position;
 import io.zerocontribution.winter.components.Velocity;
 import io.zerocontribution.winter.utils.GdxLogHelper;
@@ -19,6 +21,8 @@ public class BasicVision extends AbstractAIModule {
     ComponentMapper<Position> positionMapper;
 
     ComponentMapper<Velocity> velocityMapper;
+
+    ComponentMapper<Condition> conditionMapper;
 
     private final float range;
 
@@ -41,10 +45,15 @@ public class BasicVision extends AbstractAIModule {
     public void initialize() {
         positionMapper = world.getMapper(Position.class);
         velocityMapper = world.getMapper(Velocity.class);
+        conditionMapper = world.getMapper(Condition.class);
     }
 
     @Override
     public boolean process(Entity e) {
+        if (conditionMapper.get(e).state == State.DYING) {
+            return true;
+        }
+
         ImmutableBag<Entity> players = world.getManager(GroupManager.class).getEntities(Constants.Groups.PLAYERS);
 
         for (int i = 0; i < players.size(); i++) {

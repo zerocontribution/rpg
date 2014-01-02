@@ -17,14 +17,15 @@ public class Constants {
 
     public class Groups {
         final public static String ACTORS = "actors";
-        final public static String PLAYERS = "players"; // TODO Shoudl we still have the player tag?
+        final public static String PLAYERS = "players";
         final public static String BLOCKING_TILES = "blocking tiles";
+        final public static String NPC_ATTACKS = "npc attacks";
+        final public static String ENEMIES = "enemies";
     }
 
     public class Tags {
         final public static String VIEW = "view";
-        final public static String PLAYER = "player";
-        final public static String ENEMY = "enemy";
+        final public static String PLAYER = "player"; // TODO Probably don't want this... maybe a tag for LOCAL_PLAYER?
     }
 
     public class Animations {

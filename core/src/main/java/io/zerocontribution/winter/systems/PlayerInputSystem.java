@@ -4,22 +4,33 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.components.Cam;
-import io.zerocontribution.winter.components.Player;
-import io.zerocontribution.winter.components.Velocity;
+import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 
 public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
 
     @Mapper
     ComponentMapper<Velocity> velocityMapper;
 
-    private boolean up, down, left, right;
+    @Mapper
+    ComponentMapper<Position> positionMapper;
+
+    @Mapper
+    ComponentMapper<Actor> actorMapper;
+
+    @Mapper
+    ComponentMapper<Player> playerMapper;
+
+    private boolean up, down, left, right, findTarget = false;
+    private int abilityId = 0;
 
     @SuppressWarnings("unchecked")
     public PlayerInputSystem() {
@@ -48,10 +59,51 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         } else if (down) {
             velocity.y = -Constants.PLAYER_SPEED;
         }
+
+        Actor actor = actorMapper.get(e);
+
+        // TODO Not sure if I want to keep this sort of functionality in here?
+        // It doesn't sem
+        if (findTarget) {
+            // TODO It would be good to have a utility class for sorting ImmutableBags.
+            ImmutableBag<Entity> enemies = world.getManager(GroupManager.class).getEntities(Constants.Groups.ENEMIES);
+            Position playerPosition = positionMapper.get(e);
+
+            Entity closest = null;
+            float closestDst = -1;
+            for (int i = 0; i < enemies.size(); i++) {
+                Position enemyPosition = positionMapper.get(enemies.get(i));
+
+                float dst = (float) Math.hypot(
+                        Math.abs(enemyPosition.x - playerPosition.x),
+                        Math.abs(enemyPosition.y - playerPosition.y));
+
+                if (closestDst > dst || closestDst == -1) {
+                    closest = enemies.get(i);
+                    closestDst = dst;
+                }
+            }
+            if (closest != null) {
+                GdxLogHelper.log("player-input", "selected closest enemy, " + closest);
+                actor.currentTarget = closest;
+            }
+            findTarget = false;
+        }
+
+        if (abilityId != 0) {
+            GdxLogHelper.log("player-input", "Inbound action: " + abilityId);
+            Player player = playerMapper.get(e);
+            e.addComponent(new ActionInput(player.group, abilityId, actor.currentTarget));
+            e.changedInWorld();
+            abilityId = 0;
+        }
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        abilityId = 0;
+        findTarget = false;
+
         switch (keycode) {
             case Keys.W:
                 up = true;
@@ -71,6 +123,14 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
             case Keys.D:
                 right = true;
                 left = false;
+                break;
+
+            case Keys.TAB:
+                findTarget = true;
+                break;
+
+            case Keys.NUM_1:
+                abilityId = 1; // TODO
                 break;
         }
         return true;
@@ -93,6 +153,10 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
             case Keys.D:
                 right = false;
+                break;
+
+            case Keys.TAB:
+                findTarget = false;
                 break;
         }
         return true;

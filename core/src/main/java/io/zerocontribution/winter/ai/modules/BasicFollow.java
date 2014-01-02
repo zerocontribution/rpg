@@ -7,6 +7,7 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.ai.pathfinding.*;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.GdxLogHelper;
@@ -24,6 +25,8 @@ import io.zerocontribution.winter.utils.MapHelper;
 public class BasicFollow extends AbstractAIModule {
 
     private static Mover mover = new Mover();
+
+    ComponentMapper<Condition> conditionMapper;
 
     ComponentMapper<Position> positionMapper;
 
@@ -61,6 +64,7 @@ public class BasicFollow extends AbstractAIModule {
 
     @Override
     public void initialize() {
+        conditionMapper = world.getMapper(Condition.class);
         positionMapper = world.getMapper(Position.class);
         gridPositionMapper = world.getMapper(GridPosition.class);
         targetGridPositionMapper = world.getMapper(TargetGridPosition.class);
@@ -75,6 +79,10 @@ public class BasicFollow extends AbstractAIModule {
 
     @Override
     public boolean process(Entity e) {
+        if (conditionMapper.get(e).state == State.DYING) {
+            return true;
+        }
+
         GridPosition gridPosition = gridPositionMapper.get(e);
         TargetGridPosition targetPosition = targetGridPositionMapper.get(e);
         Velocity velocity = velocityMapper.get(e);

@@ -48,6 +48,23 @@ public class EntityFactory {
 
         e.addComponent(new Player());
 
+        Actor actor = new Actor();
+        actor.abilities.put(1, new Delay(1));
+        e.addComponent(actor);
+
+        e.addComponent(new Stats(
+                100,
+                100,
+                100,
+                100,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1
+        ));
+
         world.getManager(TagManager.class).register(Constants.Tags.PLAYER, e);
         world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
@@ -95,7 +112,24 @@ public class EntityFactory {
 
         e.addComponent(new Npc(new ZombieAI(world)));
 
-        world.getManager(TagManager.class).register(Constants.Tags.ENEMY, e);
+        Actor actor = new Actor();
+        actor.abilities.put(1, new Delay(1));
+        e.addComponent(actor);
+
+        e.addComponent(new Stats(
+                100,
+                100,
+                100,
+                100,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1
+        ));
+
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMIES);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
 
         return e;

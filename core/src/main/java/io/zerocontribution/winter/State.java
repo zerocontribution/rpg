@@ -1,9 +1,10 @@
 package io.zerocontribution.winter;
 
 public enum State {
-    STAND("Stand"),
+    IDLE("Idle"),
     RUN("Run"),
-    SNEAK("Sneak");
+    SNEAK("Sneak"),
+    DYING("Dying");
 
     private String text;
 
