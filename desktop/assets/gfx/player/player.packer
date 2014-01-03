@@ -1,6 +1,6 @@
 name=player
 filename=
-input=
+input=.
 output=../../packs
 
 alias=true

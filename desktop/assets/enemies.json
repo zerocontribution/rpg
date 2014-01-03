@@ -1,0 +1,20 @@
+{
+    "enemies": [
+        {
+            "label": "Zombie",
+            "name": "player",
+            "aiClass": "io.zerocontribution.winter.ai.normals.ZombieAI",
+            "baseStats": {
+                "health": 100,
+                "power": 100,
+                "technicalAbility": 10,
+                "cool": 10,
+                "attractiveness": 10,
+                "body": 10
+            },
+            "color": [1, 0.3, 0.3, 1],
+            "bounds": [18, 64],
+            "abilities": [1]
+        }
+    ]
+}

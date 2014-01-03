@@ -5,6 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.components.*;
 
 public class AnimationUpdatingSystem extends EntityProcessingSystem {
@@ -51,7 +52,10 @@ public class AnimationUpdatingSystem extends EntityProcessingSystem {
 
         sb.append(name.name);
         sb.append(state.state);
-        sb.append(facing.direction);
+
+        if (state.state != State.DYING) {
+            sb.append(facing.direction);
+        }
 
         return sb.toString();
     }

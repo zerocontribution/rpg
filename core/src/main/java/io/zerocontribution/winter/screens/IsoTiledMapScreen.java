@@ -21,6 +21,7 @@ public class IsoTiledMapScreen implements Screen {
     private CollisionDebugSystem collisionDebugSystem;
 
     public IsoTiledMapScreen() {
+        Assets.loadConfigurations();
         Assets.loadMap("maps/isometric.tmx");
         Assets.loadImages();
 
@@ -51,7 +52,8 @@ public class IsoTiledMapScreen implements Screen {
 
         EntityFactory.createMap(world, spriteBatch).addToWorld();
         EntityFactory.createPlayer(world, 0, 0).addToWorld();
-        EntityFactory.createEnemy(world, 6, 6).addToWorld();
+        EntityFactory.createEnemy(world, "player", 6, 6).addToWorld();
+//        EntityFactory.createEnemy(world, 6, 6).addToWorld();
 
         world.initialize();
     }

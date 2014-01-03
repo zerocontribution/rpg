@@ -42,8 +42,8 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
                 Stats sourceStats = statsMapper.get(damage.source);
 
                 // TODO: Need animations for dying so this doesn't exception out during rendering.
-//                Condition condition = conditionMapper.get(e);
-//                condition.state = State.DYING;
+                Condition condition = conditionMapper.get(e);
+                condition.state = State.DYING;
 
                 GdxLogHelper.log("damage-processor", damage.source + " killed " + e);
                 creditKill(damage.source, sourceStats, targetStats);

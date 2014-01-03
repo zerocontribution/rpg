@@ -5,12 +5,15 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;
+import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.components.Condition;
 import io.zerocontribution.winter.components.Position;
+import io.zerocontribution.winter.components.TargetGridPosition;
 import io.zerocontribution.winter.components.Velocity;
 import io.zerocontribution.winter.utils.GdxLogHelper;
+import io.zerocontribution.winter.utils.MapHelper;
 
 /**
  * @todo Written for multiple players, but the BasicFollow system only expects a single player. Will need a way to
@@ -23,6 +26,8 @@ public class BasicVision extends AbstractAIModule {
     ComponentMapper<Velocity> velocityMapper;
 
     ComponentMapper<Condition> conditionMapper;
+
+    ComponentMapper<TargetGridPosition> targetGridPositionMapper;
 
     private final float range;
 
@@ -46,6 +51,7 @@ public class BasicVision extends AbstractAIModule {
         positionMapper = world.getMapper(Position.class);
         velocityMapper = world.getMapper(Velocity.class);
         conditionMapper = world.getMapper(Condition.class);
+        targetGridPositionMapper = world.getMapper(TargetGridPosition.class);
     }
 
     @Override
@@ -59,6 +65,7 @@ public class BasicVision extends AbstractAIModule {
         for (int i = 0; i < players.size(); i++) {
             Position entityPosition = positionMapper.get(e);
             Position playerPosition = positionMapper.get(players.get(i));
+            TargetGridPosition targetPosition = targetGridPositionMapper.get(e);
 
             float dst = (float) Math.hypot(
                     Math.abs(entityPosition.x - playerPosition.x),
@@ -66,9 +73,15 @@ public class BasicVision extends AbstractAIModule {
 
             if (!spotted) {
                 if (dst < range) {
+                    Vector2 gridPosition = MapHelper.worldToGrid(playerPosition.x, playerPosition.y);
+                    targetPosition.x = gridPosition.x;
+                    targetPosition.y = gridPosition.y;
+
                     spotted = true;
                     return false;
                 } else {
+                    targetPosition.x = -1;
+                    targetPosition.y = -1;
                     return true;
                 }
             } else {
@@ -79,8 +92,14 @@ public class BasicVision extends AbstractAIModule {
                     velocity.x = 0;
                     velocity.y = 0;
 
+                    targetPosition.x = -1;
+                    targetPosition.y = -1;
                     return true;
                 } else {
+                    Vector2 gridPosition = MapHelper.worldToGrid(playerPosition.x, playerPosition.y);
+                    targetPosition.x = gridPosition.x;
+                    targetPosition.y = gridPosition.y;
+                    
                     return false;
                 }
             }

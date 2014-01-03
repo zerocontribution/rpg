@@ -1,7 +1,6 @@
 package io.zerocontribution.winter.components;
 
 import com.artemis.Component;
-import io.zerocontribution.winter.Levels;
 
 public class Stats extends Component {
 
@@ -36,8 +35,8 @@ public class Stats extends Component {
         this.experience = experience;
         this.level = level;
 
-        this.maxLevel = Levels.getMaxLevel();
-        this.maxExperience = Levels.getLevelExperience(this.level + 1);
+        this.maxLevel = 20; // TODO
+        this.maxExperience = 3000; // TODO
 
         this.technicalAbility = technicalAbility;
         this.cool = cool;

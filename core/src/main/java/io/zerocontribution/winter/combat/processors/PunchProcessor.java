@@ -9,6 +9,7 @@ import io.zerocontribution.winter.components.Position;
 import io.zerocontribution.winter.components.Stats;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
+// TODO Add configuration to processors so that abilities can share similar processors.
 // TODO If I introduce a reset method in here, then I can share processors across all entities and combat actions
 //      That would also mean I could skip initialization most of the time.
 public class PunchProcessor implements CombatProcessor {

@@ -1,0 +1,9 @@
+{
+    "maxLevel": 20,
+    "levels": [
+        {
+            "level": 1,
+            "maxExperience": 300
+        }
+    ]
+}

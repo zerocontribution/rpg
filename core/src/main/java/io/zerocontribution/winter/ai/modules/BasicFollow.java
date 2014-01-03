@@ -14,7 +14,6 @@ import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
 
 /**
- * @todo Would like to remove the dependency on the target entity; would be much better to use `tx` and `ty`.
  * @todo Remove Mover class.
  * @todo The follower never reaches the target destination beacuse the target is in that spot, so the AI keeps
  *       recalculating the final step. I presume this won't be as big of a deal since they'll be dying.
@@ -35,12 +34,6 @@ public class BasicFollow extends AbstractAIModule {
     ComponentMapper<TargetGridPosition> targetGridPositionMapper;
 
     ComponentMapper<Velocity> velocityMapper;
-
-    public float tx, ty;
-
-    private Entity view;
-
-    private Entity target;
 
     private IsometricTileMap map;
 
@@ -70,11 +63,8 @@ public class BasicFollow extends AbstractAIModule {
         targetGridPositionMapper = world.getMapper(TargetGridPosition.class);
         velocityMapper = world.getMapper(Velocity.class);
 
-        view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
+        Entity view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
         map = new IsometricTileMap(Assets.currentMap, world.getMapper(PairMap.class).get(view));
-
-        // TODO This should be resolved during processing.
-        target = world.getManager(TagManager.class).getEntity(Constants.Tags.PLAYER);
     }
 
     @Override
@@ -83,14 +73,13 @@ public class BasicFollow extends AbstractAIModule {
             return true;
         }
 
-        GridPosition gridPosition = gridPositionMapper.get(e);
         TargetGridPosition targetPosition = targetGridPositionMapper.get(e);
-        Velocity velocity = velocityMapper.get(e);
+        if (targetPosition.x == -1 && targetPosition.y == -1) {
+            return false;
+        }
 
-        Position worldPosition = positionMapper.get(target);
-        Vector2 targetWorldPosition = MapHelper.worldToGrid(worldPosition.x, worldPosition.y);
-        targetPosition.x = targetWorldPosition.x;
-        targetPosition.y = targetWorldPosition.y;
+        GridPosition gridPosition = gridPositionMapper.get(e);
+        Velocity velocity = velocityMapper.get(e);
 
         if (gridPosition.x == targetPosition.x && gridPosition.y == targetPosition.y) {
             targetPosition.path = null;

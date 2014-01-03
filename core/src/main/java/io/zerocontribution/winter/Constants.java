@@ -40,6 +40,7 @@ public class Constants {
             final public static String RUN_DOWNLEFT = "playerRunDownLeft";
             final public static String RUN_RIGHT = "playerRunRight";
             final public static String RUN_LEFT = "playerRunLeft";
+            final public static String DYING = "playerDying";
         }
     }
 

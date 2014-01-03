@@ -1,0 +1,13 @@
+{
+    "abilities": [
+        {
+            "class": "io.zerocontribution.winter.combat.abilities.PunchAbility",
+            "id": 1,
+            "name": "Punch",
+            "description": "A standard melee attack",
+            "cost": 0,
+            "cooldown": 1,
+            "processorClass": "io.zerocontribution.winter.combat.processors.PunchProcessor"
+        }
+    ]
+}

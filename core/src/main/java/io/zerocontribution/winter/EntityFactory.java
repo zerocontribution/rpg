@@ -10,9 +10,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.sun.java.swing.plaf.gtk.resources.gtk_de;
+import io.zerocontribution.winter.ai.AI;
 import io.zerocontribution.winter.ai.normals.ZombieAI;
+import io.zerocontribution.winter.assets.EnemyAsset;
+import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class EntityFactory {
 
@@ -72,8 +79,99 @@ public class EntityFactory {
         return e;
     }
 
+    public static Entity createEnemy(World world, String name, float x, float y) {
+        Entity e = world.createEntity();
+        Vector2 worldVector = MapHelper.gridToWorld(x, y);
+
+        EnemyAsset enemyAsset = Assets.enemies.get(name);
+        GdxLogHelper.log("asset", "Creating enemy " + enemyAsset);
+
+        e.addComponent(new Name(enemyAsset.name));
+
+        if (enemyAsset.color.length == 4) {
+            e.addComponent(new SpriteColor(
+                    enemyAsset.color[0],
+                    enemyAsset.color[1],
+                    enemyAsset.color[2],
+                    enemyAsset.color[3]));
+        }
+
+        e.addComponent(new Facing(Directions.DOWN));
+
+        e.addComponent(new Condition(State.RUN));
+
+        // TODO Do we want to set boundaries towards the bottom of the entity? Might look better.
+        Bounds bounds = new Bounds();
+        bounds.rect = new Rectangle();
+        bounds.rect.x = worldVector.x;
+        bounds.rect.y = worldVector.y;
+        bounds.rect.width = enemyAsset.bounds[0];
+        bounds.rect.height = enemyAsset.bounds[1];
+        e.addComponent(bounds);
+
+        e.addComponent(new Blocking());
+
+        e.addComponent(new Position(worldVector.x, worldVector.y));
+
+        e.addComponent(new GridPosition(x, y));
+
+        e.addComponent(new TargetGridPosition(x, y));
+
+        e.addComponent(new Dimensions(enemyAsset.bounds[0], enemyAsset.bounds[1]));
+
+        e.addComponent(new Velocity());
+
+        // TODO Change with new assets
+        // TODO Animation names should be dynamically resolved using the name component, facing & condition.
+        e.addComponent(new AnimationName(Constants.Animations.Player.RUN_DOWN));
+
+        e.addComponent(new AnimationTimer(0f));
+
+        AI ai = null;
+        try {
+            ai = (AI) Class.forName(enemyAsset.aiClass).getConstructor(World.class).newInstance(world);
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+        } catch (InvocationTargetException e1) {
+            e1.printStackTrace();
+        } catch (NoSuchMethodException e1) {
+            e1.printStackTrace();
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        }
+        e.addComponent(new Npc(ai));
+
+        Actor actor = new Actor();
+        for (int abilityId : enemyAsset.abilities) {
+            Ability ability = Assets.abilities.get(abilityId);
+            actor.abilities.put(abilityId, new Delay((long) ability.cooldown));
+        }
+        e.addComponent(actor);
+
+        int health = enemyAsset.baseStats.get("health") == null ? 100 : enemyAsset.baseStats.get("health");
+        int power = enemyAsset.baseStats.get("power") == null ? 100 : enemyAsset.baseStats.get("power");
+        e.addComponent(new Stats(
+                health, power, health, power,
+                (enemyAsset.baseStats.get("experience") == null ? 0 : enemyAsset.baseStats.get("experience")),
+                (enemyAsset.baseStats.get("level") == null ? 1 : enemyAsset.baseStats.get("level")),
+                (enemyAsset.baseStats.get("technicalAbility") == null ? 10 : enemyAsset.baseStats.get("technicalAbility")),
+                (enemyAsset.baseStats.get("cool") == null ? 10 : enemyAsset.baseStats.get("cool")),
+                (enemyAsset.baseStats.get("attractiveness") == null ? 10 : enemyAsset.baseStats.get("attractiveness")),
+                (enemyAsset.baseStats.get("body") == null ? 10 : enemyAsset.baseStats.get("body"))
+        ));
+
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMIES);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
+
+        return e;
+    }
+
     // TODO Add Spawner & Despawner Systems
     public static Entity createEnemy(World world, float x, float y) {
+        GdxLogHelper.log("assets", "Deprecated createEnemy method");
+
         Entity e = world.createEntity();
         Vector2 worldVector = MapHelper.gridToWorld(x, y);
 

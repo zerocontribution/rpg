@@ -1,11 +1,17 @@
 package io.zerocontribution.winter;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.utils.Json;
 import io.zerocontribution.winter.Constants.Animations.Player;
+import io.zerocontribution.winter.assets.*;
+import io.zerocontribution.winter.combat.abilities.Ability;
+
+import java.util.ArrayList;
 
 /**
  * @todo This class really needs some love. Too much work to maintain it.
@@ -15,6 +21,10 @@ public class Assets {
 
     public static TiledMap currentMap;
 
+    public static LevelsAsset levels;
+    public static EnemiesAsset enemies;
+    public static AbilitiesAsset abilities;
+
     private static Animation playerRunUp;
     private static Animation playerRunUpRight;
     private static Animation playerRunUpLeft;
@@ -23,10 +33,21 @@ public class Assets {
     private static Animation playerRunDownLeft;
     private static Animation playerRunRight;
     private static Animation playerRunLeft;
+    private static Animation playerDying;
 
     public static void loadMap(String mapPath) {
-        currentMap =
         currentMap = new TmxMapLoader().load(mapPath);
+    }
+
+    public static void loadConfigurations() {
+        Json json = new Json();
+        json.setElementType(LevelsAsset.class, "levels", LevelAsset.class);
+        json.setElementType(EnemiesAsset.class, "enemies", EnemyAsset.class);
+        json.setElementType(AbilitiesAsset.class, "abilities", Ability.class);
+
+        levels = json.fromJson(LevelsAsset.class, Gdx.files.internal("levels.json").read());
+        enemies = json.fromJson(EnemiesAsset.class, Gdx.files.internal("enemies.json").read());
+        abilities = json.fromJson(AbilitiesAsset.class, Gdx.files.internal("abilities.json").read());
     }
 
     public static void loadImages() {
@@ -40,6 +61,7 @@ public class Assets {
         playerRunDownLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_DOWNLEFT), Animation.LOOP);
         playerRunRight = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_RIGHT), Animation.LOOP);
         playerRunLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_LEFT), Animation.LOOP);
+        playerDying = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.DYING), Animation.NORMAL);
     }
 
     public static Animation getAnimation(String name) {
@@ -59,6 +81,8 @@ public class Assets {
             return playerRunRight;
         } else if (name.equals(Player.RUN_LEFT)) {
             return playerRunLeft;
+        } else if (name.equals(Player.DYING)) {
+            return playerDying;
         } else {
             throw new IllegalArgumentException("Invalid animation name: " + name);
         }
