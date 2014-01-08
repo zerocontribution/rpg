@@ -4,12 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import io.zerocontribution.winter.screens.IsoTiledMapScreen;
+import io.zerocontribution.winter.screens.MenuScreen;
 
 public class WinterGame extends Game {
 
     @Override
     public void create () {
-        setScreen(new IsoTiledMapScreen());
+        setScreen(new MenuScreen(this));
+//        setScreen(new IsoTiledMapScreen());
     }
 
     @Override
