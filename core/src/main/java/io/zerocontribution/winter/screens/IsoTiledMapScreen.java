@@ -19,6 +19,7 @@ public class IsoTiledMapScreen implements Screen {
     private AnimationRenderingSystem animationRenderingSystem;
     private MapRenderingSystem mapRenderer;
     private CollisionDebugSystem collisionDebugSystem;
+    private DebugHudSystem debugHudSystem;
 
     public IsoTiledMapScreen() {
         Assets.loadConfigurations();
@@ -48,6 +49,7 @@ public class IsoTiledMapScreen implements Screen {
 
         if (Constants.DEBUG) {
             collisionDebugSystem = world.setSystem(new CollisionDebugSystem(), true);
+            debugHudSystem = world.setSystem(new DebugHudSystem(), true);
         }
 
         EntityFactory.createMap(world, spriteBatch).addToWorld();
@@ -71,6 +73,7 @@ public class IsoTiledMapScreen implements Screen {
 
         if (Constants.DEBUG) {
             collisionDebugSystem.process();
+            debugHudSystem.process();
         }
     }
 
