@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class EntityFactory {
 
-    public static Entity createPlayer(World world, float x, float y) {
+    public static Entity createPlayer(World world, String name, float x, float y) {
         Entity e = world.createEntity();
         Vector2 worldVector = MapHelper.gridToWorld(x, y);
 
@@ -51,7 +51,7 @@ public class EntityFactory {
 
         e.addComponent(new AnimationTimer(0f));
 
-        e.addComponent(new Player());
+        e.addComponent(new Player(name));
 
         Actor actor = new Actor();
         actor.abilities.put(1, new Delay(1));
@@ -70,7 +70,8 @@ public class EntityFactory {
                 1
         ));
 
-        world.getManager(TagManager.class).register(Constants.Tags.PLAYER, e);
+        world.getManager(TagManager.class).register(Constants.Tags.LOCAL_PLAYER, e);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.CLIENT);
         world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
 

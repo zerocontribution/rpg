@@ -2,7 +2,7 @@ package io.zerocontribution.winter.components;
 
 import com.artemis.Component;
 
-public class Stats extends Component {
+public class Stats extends EntityComponent {
 
     public int health;
     public int power;
@@ -23,7 +23,6 @@ public class Stats extends Component {
     public int kills = 0;
 
     public Stats() {}
-
     public Stats(int health, int power, int maxHealth, int maxPower, int experience, int level,
                  int technicalAbility, int cool, int attractiveness, int body) {
 

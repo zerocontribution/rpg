@@ -3,7 +3,7 @@ package io.zerocontribution.winter.components;
 import com.artemis.Component;
 import com.artemis.Entity;
 
-public class Damage extends Component {
+public class Damage extends EntityComponent {
     public Entity ability;
     public Entity source;
     public int healthAmount;

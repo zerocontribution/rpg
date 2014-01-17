@@ -16,6 +16,11 @@ public class Constants {
     final public static String TILE_OBSTACLE = "obstacle";
 
     public class Groups {
+        /**
+         * All Entities that should be sent to the client.
+         */
+        final public static String CLIENT = "client";
+
         final public static String ACTORS = "actors";
         final public static String PLAYERS = "players";
         final public static String BLOCKING_TILES = "blocking tiles";
@@ -25,7 +30,9 @@ public class Constants {
 
     public class Tags {
         final public static String VIEW = "view";
-        final public static String PLAYER = "player"; // TODO Probably don't want this... maybe a tag for LOCAL_PLAYER?
+
+        // TODO: Remove. Direct access now from ClientGlobals.player
+        final public static String LOCAL_PLAYER = "player";
     }
 
     public class Animations {

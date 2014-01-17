@@ -3,7 +3,7 @@ package io.zerocontribution.winter.components;
 import com.artemis.Component;
 import com.artemis.Entity;
 
-public class ActionInput extends Component {
+public class ActionInput extends BaseComponent {
     public String group;
     public int abilityId; // TODO This should be loaded from the assets (XML, or whatever)
     public Entity target;

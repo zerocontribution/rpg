@@ -22,7 +22,7 @@ public class CameraSystem extends VoidEntitySystem {
 
     @Override
     public void initialize() {
-        player = world.getManager(TagManager.class).getEntity(Constants.Tags.PLAYER);
+        player = world.getManager(TagManager.class).getEntity(Constants.Tags.LOCAL_PLAYER);
         camera = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
     }
 

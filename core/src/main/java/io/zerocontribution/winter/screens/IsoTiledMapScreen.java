@@ -3,15 +3,24 @@ package io.zerocontribution.winter.screens;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
+import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.systems.*;
+import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
+import io.zerocontribution.winter.systems.server.ServerNetworkSystem;
+import io.zerocontribution.winter.utils.ClientGlobals;
 
+/**
+ * @TODO Screens should only be available to the client.
+ */
 public class IsoTiledMapScreen implements Screen {
 
     private final World world;
@@ -21,17 +30,23 @@ public class IsoTiledMapScreen implements Screen {
     private CollisionDebugSystem collisionDebugSystem;
     private DebugHudSystem debugHudSystem;
 
-    public IsoTiledMapScreen() {
+    public IsoTiledMapScreen(WinterGame game, boolean isServer, String localPlayerName) {
         Assets.loadConfigurations();
         Assets.loadMap("maps/isometric.tmx");
         Assets.loadImages();
 
         SpriteBatch spriteBatch = new SpriteBatch();
 
-        world = new World();
+        // TODO Figure out what to do with this shitshow.
+        ClientGlobals.world = new World();
+        world = ClientGlobals.world;
         world.setManager(new GroupManager());
         world.setManager(new TagManager());
 
+        ClientGlobals.network = new ClientNetworkSystem(33);
+        world.setSystem(ClientGlobals.network);
+
+        // TODO: We don't want all of these on the client-side.
         world.setSystem(new FPSLoggingSystem());
         world.setSystem(new CameraSystem());
         world.setSystem(new PlayerInputSystem());
@@ -53,11 +68,12 @@ public class IsoTiledMapScreen implements Screen {
         }
 
         EntityFactory.createMap(world, spriteBatch).addToWorld();
-        EntityFactory.createPlayer(world, 0, 0).addToWorld();
+        EntityFactory.createPlayer(world, "CannonFodder", 0, 0).addToWorld();
         EntityFactory.createEnemy(world, "player", 6, 6).addToWorld();
-//        EntityFactory.createEnemy(world, 6, 6).addToWorld();
 
         world.initialize();
+
+        ClientGlobals.network.sendLogin(localPlayerName);
     }
 
     @Override
@@ -65,8 +81,10 @@ public class IsoTiledMapScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        ClientGlobals.time = System.currentTimeMillis() + ClientGlobals.timeDiff;
         world.setDelta(delta);
         world.process();
+
 
         mapRenderer.process();
         animationRenderingSystem.process();
@@ -105,5 +123,7 @@ public class IsoTiledMapScreen implements Screen {
 
     @Override
     public void dispose() {
+        // TODO: Leaving the level shouldn't log a player out. What about map changes or going to the lobby?
+        ClientGlobals.network.sendLogout();
     }
 }

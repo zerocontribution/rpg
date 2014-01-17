@@ -2,7 +2,7 @@ package io.zerocontribution.winter.components;
 
 import com.artemis.Component;
 
-public class Velocity extends Component {
+public class Velocity extends EntityComponent {
 
     public float x, y;
 

@@ -63,7 +63,6 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         Actor actor = actorMapper.get(e);
 
         // TODO Not sure if I want to keep this sort of functionality in here?
-        // It doesn't sem
         if (findTarget) {
             // TODO It would be good to have a utility class for sorting ImmutableBags.
             ImmutableBag<Entity> enemies = world.getManager(GroupManager.class).getEntities(Constants.Groups.ENEMIES);

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import io.zerocontribution.winter.Delay;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
-public class Actor extends Component {
+public class Actor extends BaseComponent {
     public int primaryAttack = 1; // TODO
 
     // abilityID: cooldown delta

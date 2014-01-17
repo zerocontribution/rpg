@@ -1,10 +1,28 @@
 package io.zerocontribution.winter.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import io.zerocontribution.winter.WinterGame;
 
 public abstract class AbstractScreen implements Screen {
+
+    final public WinterGame game;
+
+    public Skin skin;
+
+    public AbstractScreen(WinterGame game) {
+        this.game = game;
+        createSkin();
+    }
 
     @Override
     public void render(float delta) {
@@ -39,7 +57,39 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void dispose() {
+        skin.dispose();
+    }
 
+    protected void createSkin() {
+        skin = new Skin();
+
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("white", new Texture(pixmap));
+
+        skin.add("default", new BitmapFont());
+
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.background = skin.newDrawable("white", Color.DARK_GRAY);
+        textFieldStyle.focusedBackground = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textFieldStyle.disabledBackground = skin.newDrawable("white", Color.DARK_GRAY);
+        textFieldStyle.cursor = skin.newDrawable("white", Color.BLUE);
+        textFieldStyle.font = skin.getFont("default");
+        textFieldStyle.fontColor = Color.BLUE;
+        textFieldStyle.disabledFontColor = Color.LIGHT_GRAY;
+        textFieldStyle.messageFont = skin.getFont("default");
+        textFieldStyle.messageFontColor = Color.CYAN;
+        textFieldStyle.selection = skin.newDrawable("white", Color.CYAN);
+        skin.add("default", textFieldStyle);
     }
 
 }

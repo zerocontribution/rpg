@@ -2,9 +2,10 @@ package io.zerocontribution.winter.components;
 
 import com.artemis.Component;
 
-public class GridPosition extends Component {
+public class GridPosition extends EntityComponent {
     public float x, y;
 
+    public GridPosition() {}
     public GridPosition(float x, float y) {
         this.x = x;
         this.y = y;

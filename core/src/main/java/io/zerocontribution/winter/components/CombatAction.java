@@ -5,7 +5,7 @@ import com.artemis.Entity;
 import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.combat.processors.CombatProcessor;
 
-public class CombatAction extends Component {
+public class CombatAction extends EntityComponent {
 
     public Entity ability;
     public CombatProcessor processor;
