@@ -30,7 +30,6 @@ public class CameraSystem extends VoidEntitySystem {
     protected void processSystem() {
         Cam cam = camMapper.get(camera);
         Position position = positionMapper.get(player);
-
         cam.camera.position.x = position.x;
         cam.camera.position.y = position.y;
         cam.camera.update();

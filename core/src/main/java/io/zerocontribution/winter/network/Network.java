@@ -8,15 +8,13 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
 import io.zerocontribution.winter.Directions;
 import io.zerocontribution.winter.State;
+import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 public class Network {
 
     public static int version = 1;
-
-    // TODO: Server host should be dynamically set.
-    public static String serverHost = "localhost";
     public static int serverPort = 58016;
 
     public static void register(EndPoint endPoint) {
@@ -74,6 +72,15 @@ public class Network {
         }
     }
 
+    public static class StartGame extends EventMessage {
+        public String map;
+
+        public StartGame() {}
+        public StartGame(String map) {
+            this.map = map;
+        }
+    }
+
     public static class EntityData implements Message {
         public int owner;
         public EntityComponent component;
@@ -86,7 +93,7 @@ public class Network {
 
         @Override
         public void receive(Connection pc) {
-            Entity entity = ClientGlobals.artemis.toClientEntity(owner);
+            Entity entity = WinterGame.gameClient.toClientEntity(owner);
             component.receive(pc, entity);
         }
 

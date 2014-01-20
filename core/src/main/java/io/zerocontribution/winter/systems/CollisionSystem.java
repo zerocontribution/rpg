@@ -51,6 +51,7 @@ public class CollisionSystem extends EntitySystem {
 
     private void addCollisionTiles() {
         PairMap pairMap = pairMapMapper.get(view);
+        pairMap.map.clear();
 
         TiledMap map = Assets.currentMap;
         TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground");

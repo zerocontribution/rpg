@@ -10,12 +10,12 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
+import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.components.BaseComponent;
-import io.zerocontribution.winter.network.LoginResponse;
-import io.zerocontribution.winter.network.Network;
-import io.zerocontribution.winter.network.PlayerConnection;
+import io.zerocontribution.winter.network.*;
+import io.zerocontribution.winter.server.GameServer;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 import java.io.IOException;
@@ -37,8 +37,6 @@ import java.util.ArrayList;
 public class ServerNetworkSystem extends VoidEntitySystem {
 
     private Server server;
-
-    private long timeOfLastSync;
 
     @Override
     protected void initialize() {
@@ -115,6 +113,20 @@ public class ServerNetworkSystem extends VoidEntitySystem {
         connection.close();
     }
 
+    public void handleStartGame(PlayerConnection connection, Network.StartGame packet) {
+        if (connection.getID() != 1) {
+            Log.error("StartGame message received from non-host: " + connection.getID());
+            return;
+        }
+
+        // TODO Validate
+        Assets.loadMap(packet.map);
+        Assets.loadConfigurations();
+        Assets.loadImages();
+
+        server.sendToAllTCP(new StartGameResponse(packet.map));
+    }
+
     @SuppressWarnings("unchecked")
     private void sendComponents(PlayerConnection connection, Entity entity) {
         Log.debug("Sending components for " + entity.toString());
@@ -154,6 +166,8 @@ public class ServerNetworkSystem extends VoidEntitySystem {
                 handleLoginMessage(pc, (Network.Login) o);
             } else if (o instanceof Network.Logout) {
                 handleLogoutMessage(pc, (Network.Logout) o);
+            } else if (o instanceof Network.StartGame) {
+                handleStartGame(pc, (Network.StartGame) o);
             } else {
                 Log.warn("Unhandled message");
             }

@@ -1,6 +1,5 @@
 package io.zerocontribution.winter.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -15,9 +15,11 @@ import io.zerocontribution.winter.WinterGame;
 
 public abstract class AbstractScreen implements Screen {
 
-    final public WinterGame game;
+    WinterGame game;
 
-    public Skin skin;
+    Stage stage;
+
+    Skin skin;
 
     public AbstractScreen(WinterGame game) {
         this.game = game;
@@ -28,6 +30,9 @@ public abstract class AbstractScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
@@ -37,12 +42,13 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void show() {
-
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
@@ -58,6 +64,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
+        stage.dispose();
     }
 
     protected void createSkin() {

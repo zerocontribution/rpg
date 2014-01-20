@@ -19,7 +19,7 @@ import io.zerocontribution.winter.systems.server.ServerNetworkSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 /**
- * @TODO Screens should only be available to the client.
+ * @deprecated Use GameScreen instead
  */
 public class IsoTiledMapScreen implements Screen {
 
@@ -38,13 +38,12 @@ public class IsoTiledMapScreen implements Screen {
         SpriteBatch spriteBatch = new SpriteBatch();
 
         // TODO Figure out what to do with this shitshow.
-        ClientGlobals.world = new World();
-        world = ClientGlobals.world;
+        WinterGame.world = new World();
+        world = WinterGame.world;
         world.setManager(new GroupManager());
         world.setManager(new TagManager());
 
-        ClientGlobals.network = new ClientNetworkSystem(33);
-        world.setSystem(ClientGlobals.network);
+//        world.setSystem(ClientGlobals.network);
 
         // TODO: We don't want all of these on the client-side.
         world.setSystem(new FPSLoggingSystem());
@@ -72,8 +71,6 @@ public class IsoTiledMapScreen implements Screen {
         EntityFactory.createEnemy(world, "player", 6, 6).addToWorld();
 
         world.initialize();
-
-        ClientGlobals.network.sendLogin(localPlayerName);
     }
 
     @Override
@@ -123,7 +120,6 @@ public class IsoTiledMapScreen implements Screen {
 
     @Override
     public void dispose() {
-        // TODO: Leaving the level shouldn't log a player out. What about map changes or going to the lobby?
-        ClientGlobals.network.sendLogout();
+            // TODO: Leaving the level shouldn a player out. What about map changes or going to the lobby?
     }
 }

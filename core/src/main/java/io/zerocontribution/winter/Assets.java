@@ -36,8 +36,8 @@ public class Assets {
     private static Animation playerRunLeft;
     private static Animation playerDying;
 
-    public static void loadMap(String mapPath) {
-        currentMap = new TmxMapLoader().load(mapPath);
+    public static void loadMap(String mapName) {
+        currentMap = new TmxMapLoader().load("maps/" + mapName + ".tmx");
     }
 
     public static void loadConfigurations() {

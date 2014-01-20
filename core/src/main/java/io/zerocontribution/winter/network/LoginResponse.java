@@ -2,6 +2,7 @@ package io.zerocontribution.winter.network;
 
 import com.artemis.Entity;
 import com.esotericsoftware.kryonet.Connection;
+import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 public class LoginResponse extends EventMessage {
@@ -14,7 +15,7 @@ public class LoginResponse extends EventMessage {
 
     @Override
     public void receive(Connection pc) {
-        Entity entity = ClientGlobals.artemis.toClientEntity(id);
+        Entity entity = WinterGame.gameClient.toClientEntity(id);
         ClientGlobals.player = entity;
         entity.addToWorld();
     }
