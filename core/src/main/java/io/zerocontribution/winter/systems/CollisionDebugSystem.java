@@ -46,7 +46,7 @@ public class CollisionDebugSystem extends EntitySystem {
 
     @SuppressWarnings("unchecked")
     public CollisionDebugSystem() {
-        super(Aspect.getAspectForAll(Blocking.class, Bounds.class));
+        super(Aspect.getAspectForAll(Bounds.class));
     }
 
     @Override

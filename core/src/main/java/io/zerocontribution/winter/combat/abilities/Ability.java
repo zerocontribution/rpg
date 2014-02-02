@@ -2,6 +2,7 @@ package io.zerocontribution.winter.combat.abilities;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import io.zerocontribution.winter.combat.processors.CombatProcessor;
@@ -11,11 +12,14 @@ import io.zerocontribution.winter.utils.GdxLogHelper;
 public abstract class Ability implements Json.Serializable {
 
     public int id;
+    public String texturePath;
     public String name;
     public String description;
     public CombatProcessor processor;
     public int cost;
     public float cooldown;
+
+    abstract public Texture getTexture();
 
     abstract public Entity create(World world, Entity source, String group, Position position);
 
@@ -23,6 +27,7 @@ public abstract class Ability implements Json.Serializable {
 
     public void write(Json json) {
         json.writeValue("id", id);
+        json.writeValue("texturePath", texturePath);
         json.writeValue("name", name);
         json.writeValue("description", description);
         json.writeValue("processorClass", processor.getClass().getName());
@@ -36,6 +41,7 @@ public abstract class Ability implements Json.Serializable {
         description = jsonData.getString("description");
         cost = jsonData.getInt("cost");
         cooldown = jsonData.getFloat("cooldown");
+        texturePath = jsonData.getString("texturePath");
 
         try {
             processor = (CombatProcessor) Class.forName(jsonData.getString("processorClass")).newInstance();

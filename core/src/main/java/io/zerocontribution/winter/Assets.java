@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Json;
 import io.zerocontribution.winter.Constants.Animations.Player;
 import io.zerocontribution.winter.assets.*;
 import io.zerocontribution.winter.combat.abilities.Ability;
+import io.zerocontribution.winter.components.Item;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class Assets {
     public static LevelsAsset levels;
     public static EnemiesAsset enemies;
     public static AbilitiesAsset abilities;
+    public static ItemsAsset items;
 
     private static Animation playerRunUp;
     private static Animation playerRunUpRight;
@@ -45,10 +47,12 @@ public class Assets {
         json.setElementType(LevelsAsset.class, "levels", LevelAsset.class);
         json.setElementType(EnemiesAsset.class, "enemies", EnemyAsset.class);
         json.setElementType(AbilitiesAsset.class, "abilities", Ability.class);
+        json.setElementType(ItemsAsset.class, "items", Item.class);
 
         levels = json.fromJson(LevelsAsset.class, Gdx.files.internal("levels.json").read());
         enemies = json.fromJson(EnemiesAsset.class, Gdx.files.internal("enemies.json").read());
         abilities = json.fromJson(AbilitiesAsset.class, Gdx.files.internal("abilities.json").read());
+        items = json.fromJson(ItemsAsset.class, Gdx.files.internal("items.json").read());
     }
 
     public static void loadImages() {

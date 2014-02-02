@@ -4,6 +4,7 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +18,7 @@ public class IsoTiledMapScreen implements Screen {
     private final World world;
 
     private AnimationRenderingSystem animationRenderingSystem;
+    private SpriteRenderingSystem spriteRenderingSystem;
     private MapRenderingSystem mapRenderer;
     private CollisionDebugSystem collisionDebugSystem;
     private DebugHudSystem debugHudSystem;
@@ -28,13 +30,16 @@ public class IsoTiledMapScreen implements Screen {
 
         SpriteBatch spriteBatch = new SpriteBatch();
 
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
         world = new World();
         world.setManager(new GroupManager());
         world.setManager(new TagManager());
 
         world.setSystem(new FPSLoggingSystem());
         world.setSystem(new CameraSystem());
-        world.setSystem(new PlayerInputSystem());
+        world.setSystem(new PlayerInputSystem(inputMultiplexer));
         world.setSystem(new AIProcessingSystem());
         world.setSystem(new ActionProcessingSystem());
         world.setSystem(new CombatProcessingSystem());
@@ -43,9 +48,12 @@ public class IsoTiledMapScreen implements Screen {
         world.setSystem(new MovementSystem());
         world.setSystem(new AnimationUpdatingSystem());
         world.setSystem(new ExpiredProcessingSystem());
+        world.setSystem(new LootSystem());
+        world.setSystem(new HudSystem(inputMultiplexer));
 
         mapRenderer = world.setSystem(new MapRenderingSystem(), true);
         animationRenderingSystem = world.setSystem(new AnimationRenderingSystem(spriteBatch), true);
+        spriteRenderingSystem = world.setSystem(new SpriteRenderingSystem(spriteBatch), true);
 
         if (Constants.DEBUG) {
             collisionDebugSystem = world.setSystem(new CollisionDebugSystem(), true);
@@ -70,6 +78,7 @@ public class IsoTiledMapScreen implements Screen {
 
         mapRenderer.process();
         animationRenderingSystem.process();
+        spriteRenderingSystem.process();
 
         if (Constants.DEBUG) {
             collisionDebugSystem.process();

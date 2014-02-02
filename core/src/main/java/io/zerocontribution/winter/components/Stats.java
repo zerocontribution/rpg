@@ -14,6 +14,7 @@ public class Stats extends Component {
     public int maxExperience;
     public int level;
     public int maxLevel;
+    public int credits;
 
     public int technicalAbility;
     public int cool;

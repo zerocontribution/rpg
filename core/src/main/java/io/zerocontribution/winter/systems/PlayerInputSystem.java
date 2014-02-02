@@ -5,10 +5,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
-import com.artemis.managers.TagManager;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
 import io.zerocontribution.winter.Constants;
@@ -29,17 +29,19 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     @Mapper
     ComponentMapper<Player> playerMapper;
 
+    private InputMultiplexer inputMultiplexer;
     private boolean up, down, left, right, findTarget = false;
     private int abilityId = 0;
 
     @SuppressWarnings("unchecked")
-    public PlayerInputSystem() {
+    public PlayerInputSystem(InputMultiplexer inputMultiplexer) {
         super(Aspect.getAspectForAll(Player.class, Velocity.class));
+        this.inputMultiplexer = inputMultiplexer;
     }
 
     @Override
     protected void initialize() {
-        Gdx.input.setInputProcessor(this);
+        inputMultiplexer.addProcessor(this);
     }
 
     protected void process(Entity e) {
@@ -131,6 +133,22 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
             case Keys.NUM_1:
                 abilityId = 1; // TODO
+                break;
+
+            case Keys.C:
+                // TODO Character HUD
+                break;
+
+            case Keys.I:
+                world.getSystem(HudSystem.class).toggleInventory();
+                break;
+
+            case Keys.L:
+                // TODO Quest Log HUD
+                break;
+
+            case Keys.ESCAPE:
+                // TODO Menu HUD
                 break;
         }
         return true;

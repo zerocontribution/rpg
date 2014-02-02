@@ -15,9 +15,9 @@ public class ZombieAI extends AI {
     public ZombieAI(World world) {
         super(world);
 
-        modules = new AIModule[3];
+        modules = new AIModule[2];
         modules[0] = new BasicVision(world, 250, 500);
         modules[1] = new BasicFollow(world, 100, 100);
-        modules[2] = new BasicAttack(world, 50, 2);
+//        modules[2] = new BasicAttack(world, 50, 2);
     }
 }

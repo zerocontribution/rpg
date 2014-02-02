@@ -1,5 +1,7 @@
 package io.zerocontribution.winter.combat;
 
+import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.assets.AbilitiesAsset;
 import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.combat.abilities.PunchAbility;
 
@@ -9,6 +11,6 @@ public class Abilities {
     public static void loadAbilities() {}
 
     public static Ability get(int abilityId) {
-        return new PunchAbility();
+        return Assets.abilities.get(abilityId);
     }
 }

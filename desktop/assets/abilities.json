@@ -2,6 +2,7 @@
     "abilities": [
         {
             "class": "io.zerocontribution.winter.combat.abilities.PunchAbility",
+            "texturePath": "mock/Book_00.png",
             "id": 1,
             "name": "Punch",
             "description": "A standard melee attack",

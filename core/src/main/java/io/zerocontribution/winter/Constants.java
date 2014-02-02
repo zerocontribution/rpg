@@ -21,6 +21,8 @@ public class Constants {
         final public static String BLOCKING_TILES = "blocking tiles";
         final public static String NPC_ATTACKS = "npc attacks";
         final public static String ENEMIES = "enemies";
+        final public static String ITEMS = "items";
+        final public static String DROPS = "drops";
     }
 
     public class Tags {

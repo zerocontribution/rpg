@@ -1,0 +1,13 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "class": "io.zerocontribution.winter.components.Item",
+            "type": "WEAPON",
+            "name": "Pistol",
+            "description": "A basic pistol",
+            "texturePath": "",
+            "iconPath": "",
+        }
+    ]
+}

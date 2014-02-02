@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
@@ -11,7 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.ai.AI;
 import io.zerocontribution.winter.ai.normals.ZombieAI;
+import io.zerocontribution.winter.assets.AbilitiesAsset;
 import io.zerocontribution.winter.assets.EnemyAsset;
+import io.zerocontribution.winter.assets.ItemsAsset;
+import io.zerocontribution.winter.combat.Abilities;
 import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.GdxLogHelper;
@@ -51,7 +55,9 @@ public class EntityFactory {
 
         e.addComponent(new AnimationTimer(0f));
 
-        e.addComponent(new Player());
+        Player player = new Player();
+        player.bindAbility(Abilities.get(1), Input.Keys.NUM_1);
+        e.addComponent(player);
 
         Actor actor = new Actor();
         actor.abilities.put(1, new Delay(1));
@@ -69,6 +75,8 @@ public class EntityFactory {
                 1,
                 1
         ));
+
+        e.addComponent(new Inventory(32));
 
         world.getManager(TagManager.class).register(Constants.Tags.PLAYER, e);
         world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
@@ -275,6 +283,55 @@ public class EntityFactory {
         e.addComponent(new Blocking());
 
         world.getManager(GroupManager.class).add(e, Constants.Groups.BLOCKING_TILES);
+
+        return e;
+    }
+
+    public static Entity createItem(World world, int id, float x, float y) {
+        Entity e = world.createEntity();
+
+        Item item = Assets.items.get(id);
+
+        Vector2 worldVector = MapHelper.gridToWorld(x, y);
+        e.addComponent(new Position(worldVector.x, worldVector.y));
+        e.addComponent(new GridPosition(x, y));
+
+        e.addComponent(new Dimensions(32, 32));
+
+        Bounds bounds = new Bounds();
+        bounds.rect = new Rectangle();
+        bounds.rect.x = worldVector.x;
+        bounds.rect.y = worldVector.y;
+        bounds.rect.width = Constants.TILE_WIDTH;
+        bounds.rect.height = Constants.TILE_HEIGHT;
+        e.addComponent(bounds);
+
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ITEMS);
+
+        return e;
+    }
+
+    public static Entity createDrop(World world, int credits, int itemId, float x, float y) {
+        Entity e = world.createEntity();
+
+        e.addComponent(new Drop(credits, itemId));
+        e.addComponent(new Sprite("mock/Metal Case_00.png"));
+
+        Vector2 worldVector = MapHelper.gridToWorld(x, y);
+        e.addComponent(new Position(worldVector.x, worldVector.y));
+        e.addComponent(new GridPosition(x, y));
+
+        e.addComponent(new Dimensions(32, 32));
+
+        Bounds bounds = new Bounds();
+        bounds.rect = new Rectangle();
+        bounds.rect.x = worldVector.x;
+        bounds.rect.y = worldVector.y;
+        bounds.rect.width = 32;
+        bounds.rect.height = 32;
+        e.addComponent(bounds);
+
+        world.getManager(GroupManager.class).add(e, Constants.Groups.DROPS);
 
         return e;
     }

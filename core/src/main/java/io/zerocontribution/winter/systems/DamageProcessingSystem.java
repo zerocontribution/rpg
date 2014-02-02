@@ -5,9 +5,13 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.badlogic.gdx.math.MathUtils;
+import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.components.Condition;
 import io.zerocontribution.winter.components.Damage;
+import io.zerocontribution.winter.components.GridPosition;
 import io.zerocontribution.winter.components.Stats;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
@@ -21,6 +25,9 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
 
     @Mapper
     ComponentMapper<Condition> conditionMapper;
+
+    @Mapper
+    ComponentMapper<GridPosition> gridPositionMapper;
 
     @SuppressWarnings("unchecked")
     public DamageProcessingSystem() {
@@ -47,6 +54,11 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
 
                 GdxLogHelper.log("damage-processor", damage.source + " killed " + e);
                 creditKill(damage.source, sourceStats, targetStats);
+
+                GridPosition gridPosition = gridPositionMapper.getSafe(e);
+                if (gridPosition != null) {
+                    createRandomDrop(gridPosition.x - 1, gridPosition.y - 1);
+                }
             }
         }
 
@@ -58,7 +70,7 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
         sourceStats.kills++;
 
         double xpGain = Math.ceil((sourceStats.level - targetStats.level + 1) * 300);
-        GdxLogHelper.log("dmaage-processing", source.toString() + " gained " + xpGain + " xp");
+        GdxLogHelper.log("damage-processing", source.toString() + " gained " + xpGain + " xp");
         sourceStats.experience += xpGain;
 
         if (sourceStats.experience >= sourceStats.maxExperience && sourceStats.maxLevel > sourceStats.level) {
@@ -79,6 +91,15 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
 
             GdxLogHelper.log("damage-processing", source.toString() + " leveled up to " + sourceStats.level);
         }
+    }
+
+    private void createRandomDrop(float x, float y) {
+        GdxLogHelper.log("damage-processing", "dropping loot");
+
+        int itemId = MathUtils.random(0, Assets.items.size());
+        int credits = MathUtils.random(10, 300);
+
+        EntityFactory.createDrop(world, credits, itemId, x, y).addToWorld();
     }
 
 }

@@ -2,16 +2,28 @@ package io.zerocontribution.winter.combat.abilities;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import io.zerocontribution.winter.Directions;
 import io.zerocontribution.winter.combat.processors.CombatProcessor;
 import io.zerocontribution.winter.combat.processors.PunchProcessor;
 import io.zerocontribution.winter.components.Expiring;
 import io.zerocontribution.winter.components.Facing;
 import io.zerocontribution.winter.components.Position;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 
 public class PunchAbility extends Ability {
+    static Texture texture;
     public int id = 1;
     public String name = "Punch";
+
+    public Texture getTexture() {
+        if (texture == null) {
+            GdxLogHelper.log("texture", texturePath);
+            texture = new Texture(Gdx.files.internal(texturePath));
+        }
+        return texture;
+    }
 
     public CombatProcessor getCombatProcessor() {
         return new PunchProcessor();
