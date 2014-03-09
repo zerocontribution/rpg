@@ -49,13 +49,13 @@ public class GameClient {
         serverToClient.put(serverID, entity);
         clientToServer.put(entity.getId(), serverID);
 
-        Log.info("Created new entity " + serverID + " -> " + entity.getId());
+        Log.info("Client", "Created new entity " + serverID + " -> " + entity.getId());
 
         return entity;
     }
 
     private <T extends Component> T createComponent(Entity entity, Class<T> type) {
-        Log.info(entity.toString() + " <- " + type.getSimpleName());
+        Log.info("Client", entity.toString() + " <- " + type.getSimpleName());
         T component = null;
 
         try {
@@ -92,7 +92,7 @@ public class GameClient {
                 Thread.sleep(10);
             } catch (InterruptedException e) {}
         }
-        Log.info("RTT: " + client.getReturnTripTime());
+        Log.info("Client", "RTT: " + client.getReturnTripTime());
         ClientGlobals.timeDiff -= client.getReturnTripTime();
     }
 
@@ -115,12 +115,12 @@ public class GameClient {
 
         @Override
         public void connected(Connection connection) {
-            Log.info("Connected to server: " + connection.toString());
+            Log.info("Client", "Connected to server: " + connection.toString());
         }
 
         @Override
         public void disconnected(Connection connection) {
-            Log.info("Disconnected from server: " + connection.toString());
+            Log.info("Client", "Disconnected from server: " + connection.toString());
         }
 
         @Override
@@ -141,12 +141,12 @@ public class GameClient {
         }
 
         public void handlePacket(final Connection pc, final Object o) {
-            Log.debug("Received: " + o.toString());
+            Log.debug("Client", "Received: " + o.toString());
 
             if (o instanceof Message) {
                 ((Message) o).receive(pc);
             } else {
-                Log.warn("Unknown message type: " + o.getClass().getSimpleName());
+                Log.warn("Client", "Unknown message type: " + o.getClass().getSimpleName());
             }
         }
 

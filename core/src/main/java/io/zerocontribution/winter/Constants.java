@@ -19,7 +19,7 @@ public class Constants {
         /**
          * All Entities that should be sent to the client.
          */
-        final public static String CLIENT = "client";
+        final public static String CLIENT = "client"; //This is a Server-only group; should be put in own class.
 
         final public static String ACTORS = "actors";
         final public static String PLAYERS = "players";

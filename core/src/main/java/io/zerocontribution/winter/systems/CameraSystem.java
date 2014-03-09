@@ -8,6 +8,7 @@ import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 
 public class CameraSystem extends VoidEntitySystem {
 
@@ -24,6 +25,20 @@ public class CameraSystem extends VoidEntitySystem {
     public void initialize() {
         player = world.getManager(TagManager.class).getEntity(Constants.Tags.LOCAL_PLAYER);
         camera = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
+    }
+
+    @Override
+    protected boolean checkProcessing() {
+        if (player != null) {
+            return true;
+        }
+
+        player = world.getManager(TagManager.class).getEntity(Constants.Tags.LOCAL_PLAYER);
+        if (player != null && positionMapper.has(player)) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override

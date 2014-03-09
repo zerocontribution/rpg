@@ -17,6 +17,7 @@ import io.zerocontribution.winter.components.BaseComponent;
 import io.zerocontribution.winter.network.*;
 import io.zerocontribution.winter.server.GameServer;
 import io.zerocontribution.winter.server.maps.tiled.TmxMapLoader;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 import java.io.IOException;
@@ -83,22 +84,24 @@ public class ServerNetworkSystem extends VoidEntitySystem {
             packet.name = "CannonFodder" + connection.getID();
         }
 
+        Log.info("Server", packet.name + " has logged in");
+
         // TODO World system (to be SpawnerSystem?) should dictate where to spawn
         int pos = 5 + connection.getID();
 
         connection.player = EntityFactory.createPlayer(world, packet.name, pos, pos);
         connection.player.addToWorld();
 
-        server.sendToAllTCP(new LoginResponse(connection.player.getId()));
+        server.sendToUDP(connection.getID(), new LoginResponse(connection.player.getId()));
 
         ImmutableBag<Entity> entities = world.getManager(GroupManager.class).getEntities(Constants.Groups.CLIENT);
-        Log.info("Sending initialization data for " + entities.size() + " entities");
+        Log.info("Server", "Sending initialization data for " + entities.size() + " entities");
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
             sendComponents(connection, entity);
         }
 
-        Log.info("Sending new player data to other players");
+        Log.info("Server", "Sending new player data to other players");
         for (Connection conn : server.getConnections()) {
             if (conn.getID() != connection.getID()) {
                 sendComponents((PlayerConnection) conn, connection.player);
@@ -116,7 +119,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
     public void handleStartGame(PlayerConnection connection, Network.StartGame packet) {
         if (connection.getID() != 1) {
-            Log.error("StartGame message received from non-host: " + connection.getID());
+            Log.error("Server", "StartGame message received from non-host: " + connection.getID());
             return;
         }
 
@@ -127,18 +130,18 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
     @SuppressWarnings("unchecked")
     private void sendComponents(PlayerConnection connection, Entity entity) {
-        Log.debug("Sending components for " + entity.toString());
+        Log.debug("Server", "Sending components for " + entity.toString());
 
         Bag<Component> components = entity.getComponents(new Bag<Component>());
         ArrayList list = new ArrayList();
 
         for (int i = 0; i < components.size(); i++) {
             BaseComponent c = (BaseComponent) components.get(i);
-            Log.debug("  Component " + c.toString());
+            Log.debug("Server", "  Component " + c.toString());
 
             Object trans = c.create(entity);
             if (trans != null) {
-                Log.debug("    Added");
+                Log.debug("Server", "    Added");
                 list.add(trans);
             }
         }

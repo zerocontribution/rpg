@@ -1,8 +1,13 @@
 package io.zerocontribution.winter.utils;
 
+import com.artemis.EntitySystem;
 import com.badlogic.gdx.Gdx;
 
 public class GdxLogHelper {
+
+    public static void log(Class tag, String message) {
+        Gdx.app.log(tag.getSimpleName(), message);
+    }
 
     public static void log(String tag, Object message) {
         Gdx.app.log(tag, String.valueOf(message));

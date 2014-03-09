@@ -79,11 +79,13 @@ public class GameScreen extends AbstractScreen {
         }
 
         EntityFactory.createMap(world, spriteBatch).addToWorld();
-        EntityFactory.createPlayer(world, "Player", 0, 0).addToWorld(); // TODO This isn't in the right spot?
+
+        WinterGame.gameClient.sendLogin("Player");
+
+//        EntityFactory.createPlayer(world, "Player", 0, 0).addToWorld(); // TODO This isn't in the right spot?
         // Send login message here?
 
         world.initialize();
-
     }
 
     @Override
