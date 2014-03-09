@@ -62,8 +62,8 @@ public class CollisionSystem extends EntitySystem {
         // TODO Add -x,-y grid coordinates so they can be added to blocking tiles.
         // TODO Rotate bounding boxes for blocks 90*
         // TODO ??? Default to squares; check for texture region?
-        for (int y = 0; y <= mapH; y++) {
-            for (int x = 0; x <= mapW; x++) {
+        for (int y = -1; y <= mapH; y++) {
+            for (int x = -1; x <= mapW; x++) {
                 if (pairMap.map.get(Pair.get(x, y)) == null) {
                     TiledMapTileLayer.Cell cell = groundLayer.getCell(x, y);
                     if (cell == null || cell.getTile().getProperties().containsKey(Constants.TILE_OBSTACLE)) {
