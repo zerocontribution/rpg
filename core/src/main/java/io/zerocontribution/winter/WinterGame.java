@@ -19,7 +19,7 @@ public class WinterGame extends Game {
 
     public static GameClient gameClient;
 
-    private Thread gameServer;
+    private GameServer gameServer;
 
     public static WinterGame getInstance() {
         return instance;
@@ -47,13 +47,19 @@ public class WinterGame extends Game {
         }
     }
 
+    @Override
+    public void dispose() {
+        if (gameServer != null) {
+            gameServer.stop();
+        }
+    }
+
     public boolean isHost() {
         return gameServer != null;
     }
 
     public void startServer() {
-        gameServer = new Thread(new GameServer());
-        gameServer.start();
+        gameServer = new GameServer();
     }
 
 }

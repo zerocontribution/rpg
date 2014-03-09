@@ -13,11 +13,11 @@ import io.zerocontribution.winter.utils.ServerGlobals;
 
 public class GameScreen implements Screen {
 
-    WinterGameServer server;
+    GameServer server;
 
     World world;
 
-    public GameScreen(WinterGameServer server) {
+    public GameScreen(GameServer server) {
         this.server = server;
         ServerGlobals.time = System.currentTimeMillis();
 

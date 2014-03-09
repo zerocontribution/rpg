@@ -6,15 +6,17 @@ buildscript {
 allprojects {
     apply plugin: "idea"
 
-    version = "1.0"
+    version = "0.1.0-SNAPSHOT"
     ext.appName = "winter-game"
     ext.gdxVersion = "0.9.9" // Use "1.0-SNAPSHOT" for nightly build
     
     repositories {
-        mavenCentral()
+        mavenLocal()
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        mavenLocal();
+//        maven { url 'http://repo.pevnostgames.net' }
+        jcenter()
+        mavenCentral()
     }
 }
 
@@ -27,9 +29,10 @@ project(":core") {
     
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-
         // Can't find this? Wtf?
 //        compile "com.baglogicgames.gdx:gdx-tools:$gdxVersion"
+
+//        compile 'net.pevnostgames:libgdxserver:1.0.0'
     }
 }
 
