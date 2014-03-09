@@ -15,7 +15,7 @@ import net.pevnostgames.lwjglserver.ServerFiles;
  *       own world that gets canned when the game is launched?
  * @todo Manage lobbies & global state via a runnable?
  */
-public class GameServer {
+public class GameServer implements Runnable {
 
     protected final ServerFiles files;
     protected final Array<Runnable> runnables = new Array<Runnable>();
@@ -33,7 +33,11 @@ public class GameServer {
     public GameServer() {
         files = new ServerFiles();
         targetDelta = 1.0f / 60;
-        initialize();
+//        initialize();
+    }
+
+    public void run() {
+        mainLoop();
     }
 
     private void initialize() {

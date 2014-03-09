@@ -2,7 +2,10 @@ package io.zerocontribution.winter.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import io.zerocontribution.winter.WinterGame;
-import io.zerocontribution.winter.screens.GameLoadScreen;
+import io.zerocontribution.winter.screens.GameScreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StartGameResponse extends EventMessage {
     public String map;
@@ -15,6 +18,10 @@ public class StartGameResponse extends EventMessage {
     @Override
     public void receive(Connection pc) {
         WinterGame game = WinterGame.getInstance();
-        game.setScreen(new GameLoadScreen(game, map));
+
+        // We're currently in the Client thread.
+        List<Object> args =  new ArrayList<Object>(1);
+        args.add(map);
+        game.changeScreen(GameScreen.class, args);
     }
 }

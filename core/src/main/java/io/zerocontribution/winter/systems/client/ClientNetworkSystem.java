@@ -43,7 +43,7 @@ public class ClientNetworkSystem extends EntitySystem {
     protected void processSystem() {
         if (ClientGlobals.commands.size() > 0) {
             Log.info("Sending client commands");
-            client.sendUDP(ClientGlobals.commands);
+            client.sendTCP(ClientGlobals.commands);
             ClientGlobals.commands.clear();
         }
     }

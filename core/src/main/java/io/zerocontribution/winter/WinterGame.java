@@ -4,9 +4,15 @@ import com.artemis.World;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import io.zerocontribution.winter.client.GameClient;
 import io.zerocontribution.winter.screens.MenuScreen;
 import io.zerocontribution.winter.server.GameServer;
+import io.zerocontribution.winter.utils.GdxLogHelper;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @todo ClientGlobals stuff should also live in here; I think.
@@ -19,7 +25,10 @@ public class WinterGame extends Game {
 
     public static GameClient gameClient;
 
-    private GameServer gameServer;
+    private Class pendingScreen;
+    private List<Object> pendingScreenArgs;
+
+    private Thread gameServer;
 
     public static WinterGame getInstance() {
         return instance;
@@ -32,6 +41,7 @@ public class WinterGame extends Game {
         setScreen(new MenuScreen(this));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void render () {
         super.render();
@@ -45,13 +55,56 @@ public class WinterGame extends Game {
                 e.printStackTrace();
             }
         }
+
+        // Oh, sweet baby jesus
+        if (pendingScreen != null) {
+            GdxLogHelper.log("WinterGame", "Received request to change screen: " + pendingScreen.getSimpleName());
+
+            List<Object> screenArgs = new ArrayList<Object>();
+            screenArgs.add(this);
+            screenArgs.addAll(pendingScreenArgs);
+
+            Class[] argTypes = new Class[screenArgs.size()];
+            for (int i = 0; i < screenArgs.size(); i++) {
+                argTypes[i] = screenArgs.get(i).getClass();
+            }
+
+            Screen newScreen = null;
+            try {
+                newScreen = (Screen) pendingScreen.getConstructor(argTypes).newInstance(screenArgs.toArray());
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+
+            if (newScreen != null) {
+                setScreen(newScreen);
+            }
+
+            pendingScreen = null;
+            pendingScreenArgs = null;
+        }
     }
 
     @Override
     public void dispose() {
         if (gameServer != null) {
-            gameServer.stop();
+            try {
+                gameServer.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public void changeScreen(Class screenClass, List<Object> args) {
+        this.pendingScreen = screenClass;
+        this.pendingScreenArgs = args;
     }
 
     public boolean isHost() {
@@ -59,7 +112,8 @@ public class WinterGame extends Game {
     }
 
     public void startServer() {
-        gameServer = new GameServer();
+        gameServer = new Thread(new GameServer());
+        gameServer.start();
     }
 
 }

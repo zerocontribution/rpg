@@ -37,7 +37,6 @@ public class GameScreen implements Screen {
 
         world.initialize();
 
-        // TODO Initialize map
         // TODO Add entities to world
         // TODO Send message to clients that the world is ready
     }
@@ -45,6 +44,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float v) {
         ServerGlobals.time = System.currentTimeMillis(); // TODO Remove
+        world.setDelta(v);
         world.process();
     }
 
