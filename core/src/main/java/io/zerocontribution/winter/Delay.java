@@ -3,11 +3,12 @@ package io.zerocontribution.winter;
 import java.util.concurrent.TimeUnit;
 
 public class Delay {
-    final public long duration;
+    public long duration;
 
     public long start;
     public long expiration;
 
+    public Delay() {}
     public Delay(long durationSeconds) {
         duration = durationSeconds;
         reset();

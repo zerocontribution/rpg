@@ -6,13 +6,13 @@ import com.badlogic.gdx.utils.ObjectMap;
 import io.zerocontribution.winter.Delay;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
-public class Actor extends BaseComponent {
+public class Actor extends EntityComponent {
     public int primaryAttack = 1; // TODO
 
     // abilityID: cooldown delta
     public ObjectMap<Integer, Delay> abilities = new ObjectMap<Integer, Delay>();
 
-    public Entity currentTarget;
+    public int currentTarget;
 
     public boolean hasAbility(int abilityId) {
         return abilities.containsKey(abilityId);

@@ -33,7 +33,7 @@ public class GameServer implements Runnable {
     public GameServer() {
         files = new ServerFiles();
         targetDelta = 1.0f / 60;
-//        initialize();
+        initialize();
     }
 
     public void run() {

@@ -51,6 +51,7 @@ public class JoinCreateGameScreen extends AbstractScreen {
         exitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                WinterGame.getInstance().stopServer();
                 WinterGame.getInstance().setScreen(new MenuScreen());
                 return true;
             }

@@ -28,7 +28,7 @@ public class WinterGame extends Game {
     private Class pendingScreen;
     private List<Object> pendingScreenArgs;
 
-    private Thread gameServer;
+    private GameServer gameServer;
 
     public static WinterGame getInstance() {
         return instance;
@@ -93,13 +93,7 @@ public class WinterGame extends Game {
 
     @Override
     public void dispose() {
-        if (gameServer != null) {
-            try {
-                gameServer.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        stopServer();
     }
 
     public void changeScreen(Class screenClass, List<Object> args) {
@@ -112,8 +106,13 @@ public class WinterGame extends Game {
     }
 
     public void startServer() {
-        gameServer = new Thread(new GameServer());
-        gameServer.start();
+        gameServer = new GameServer();
+    }
+
+    public void stopServer() {
+        if (isHost()) {
+            gameServer.stop();
+        }
     }
 
 }

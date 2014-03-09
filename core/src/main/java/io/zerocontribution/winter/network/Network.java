@@ -3,9 +3,11 @@ package io.zerocontribution.winter.network;
 import com.artemis.Entity;
 import com.artemis.utils.Bag;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
+import io.zerocontribution.winter.Delay;
 import io.zerocontribution.winter.Directions;
 import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.WinterGame;
@@ -25,6 +27,7 @@ public class Network {
         }
 
         kryo.register(Object[].class);
+        kryo.register(ObjectMap.class);
         kryo.register(Bag.class);
         kryo.register(Rectangle.class);
         kryo.register(Directions.class);
@@ -32,11 +35,14 @@ public class Network {
         kryo.register(BaseComponent.class);
         kryo.register(EntityComponent.class);
         kryo.register(Actor.class);
+        kryo.register(AnimationName.class); // Derive from an Actor property?
+        kryo.register(AnimationTimer.class); // TODO Remove?
         kryo.register(Blocking.class);
         kryo.register(Bounds.class);
         kryo.register(CombatAction.class);
         kryo.register(Condition.class);
         kryo.register(Damage.class);
+        kryo.register(Delay.class);
         kryo.register(Dimensions.class);
         kryo.register(Update.class);
         kryo.register(Facing.class);

@@ -84,7 +84,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
             }
             if (closest != null) {
                 GdxLogHelper.log("player-input", "selected closest enemy, " + closest);
-                actor.currentTarget = closest;
+                actor.currentTarget = closest.getId();
             }
             findTarget = false;
         }
@@ -92,7 +92,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         if (abilityId != 0) {
             GdxLogHelper.log("player-input", "Inbound action: " + abilityId);
             Player player = playerMapper.get(e);
-            e.addComponent(new ActionInput(player.group, abilityId, actor.currentTarget));
+            e.addComponent(new ActionInput(player.group, abilityId, world.getEntity(actor.currentTarget)));
             e.changedInWorld();
             abilityId = 0;
         }
