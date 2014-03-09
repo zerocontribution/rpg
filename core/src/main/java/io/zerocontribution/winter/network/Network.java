@@ -50,6 +50,7 @@ public class Network {
         kryo.register(TargetGridPosition.class);
         kryo.register(Velocity.class);
         kryo.register(LoginResponse.class);
+        kryo.register(StartGameResponse.class);
     }
 
     public static class Login extends EventMessage {

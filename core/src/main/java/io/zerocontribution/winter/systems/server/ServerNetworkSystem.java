@@ -16,6 +16,7 @@ import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.components.BaseComponent;
 import io.zerocontribution.winter.network.*;
 import io.zerocontribution.winter.server.GameServer;
+import io.zerocontribution.winter.server.maps.tiled.TmxMapLoader;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
     @Override
     protected void processSystem() {
-        server.sendToAllUDP(ServerGlobals.updates);
+        server.sendToAllTCP(ServerGlobals.updates);
         ServerGlobals.updates = null;
     }
 
@@ -119,10 +120,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
             return;
         }
 
-        // TODO Validate
-        Assets.loadMap(packet.map);
-        Assets.loadConfigurations();
-        Assets.loadImages();
+        ServerGlobals.currentMap = new TmxMapLoader().load("assets/maps/" + packet.map + ".tmx");
 
         server.sendToAllTCP(new StartGameResponse(packet.map));
     }
