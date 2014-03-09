@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -75,12 +76,16 @@ public abstract class AbstractScreen implements Screen {
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
 
-        skin.add("default", new BitmapFont());
+        BitmapFont font = new BitmapFont(
+                Gdx.files.internal("assets/fonts/normal.fnt"),
+                Gdx.files.internal("assets/fonts/normal_0.png"),
+                false);
+        skin.add("default", font);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+        textButtonStyle.checked = skin.newDrawable("white", Color.CYAN);
         textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
@@ -89,14 +94,20 @@ public abstract class AbstractScreen implements Screen {
         textFieldStyle.background = skin.newDrawable("white", Color.DARK_GRAY);
         textFieldStyle.focusedBackground = skin.newDrawable("white", Color.LIGHT_GRAY);
         textFieldStyle.disabledBackground = skin.newDrawable("white", Color.DARK_GRAY);
-        textFieldStyle.cursor = skin.newDrawable("white", Color.BLUE);
+        textFieldStyle.cursor = skin.newDrawable("white", Color.CYAN);
         textFieldStyle.font = skin.getFont("default");
-        textFieldStyle.fontColor = Color.BLUE;
+        textFieldStyle.fontColor = Color.CYAN;
         textFieldStyle.disabledFontColor = Color.LIGHT_GRAY;
         textFieldStyle.messageFont = skin.getFont("default");
         textFieldStyle.messageFontColor = Color.CYAN;
         textFieldStyle.selection = skin.newDrawable("white", Color.CYAN);
         skin.add("default", textFieldStyle);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.background = skin.newDrawable("white", Color.BLACK);
+        labelStyle.font = skin.getFont("default");
+        labelStyle.fontColor = Color.WHITE;
+        skin.add("default", labelStyle);
     }
 
 }

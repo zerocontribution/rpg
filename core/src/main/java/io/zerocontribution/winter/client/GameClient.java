@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 public class GameClient {
 
+    public String localName;
     public Client client;
 
     HashMap<Integer, Entity> serverToClient = new HashMap<Integer, Entity>();
@@ -96,8 +97,8 @@ public class GameClient {
         ClientGlobals.timeDiff -= client.getReturnTripTime();
     }
 
-    public void sendLogin(String localPlayerName) {
-        Network.Login msg = new Network.Login(localPlayerName, Network.version);
+    public void sendLogin() {
+        Network.Login msg = new Network.Login(localName, Network.version);
         client.sendTCP(msg);
     }
 

@@ -12,6 +12,7 @@ import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.WinterGame;
+import io.zerocontribution.winter.client.GameClient;
 import io.zerocontribution.winter.systems.*;
 import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
 import io.zerocontribution.winter.utils.GdxLogHelper;
@@ -80,10 +81,7 @@ public class GameScreen extends AbstractScreen {
 
         EntityFactory.createMap(world, spriteBatch).addToWorld();
 
-        WinterGame.gameClient.sendLogin("Player");
-
-//        EntityFactory.createPlayer(world, "Player", 0, 0).addToWorld(); // TODO This isn't in the right spot?
-        // Send login message here?
+        WinterGame.gameClient.sendLogin();
 
         world.initialize();
     }

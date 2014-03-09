@@ -80,7 +80,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
             return;
         }
 
-        if (packet.name == null || packet.name.trim().length() == 0) {
+        if (packet.name == null || packet.name.equals(Constants.UI.DEFAULT_PLAYER_NAME) || packet.name.trim().length() == 0) {
             packet.name = "CannonFodder" + connection.getID();
         }
 

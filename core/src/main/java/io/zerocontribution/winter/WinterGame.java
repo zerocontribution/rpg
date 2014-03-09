@@ -38,7 +38,7 @@ public class WinterGame extends Game {
     public void create () {
         instance = this;
         gameClient = new GameClient();
-        setScreen(new MenuScreen(this));
+        setScreen(new MenuScreen());
     }
 
     @SuppressWarnings("unchecked")

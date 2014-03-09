@@ -23,19 +23,6 @@ public class LobbyScreen extends AbstractScreen {
         if (game.isHost()) {
             showHostUI();
         }
-
-        // TODO Character selection
-
-        if (false) {
-            TextButton newCharacterButton = new TextButton("New Character", skin);
-
-            Table table = new Table();
-            table.setX(0);
-            table.setFillParent(true);
-            table.add(newCharacterButton).width(150).height(50);
-
-            stage.addActor(table);
-        }
     }
 
     /**

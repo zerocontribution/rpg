@@ -15,6 +15,10 @@ public class Constants {
     final public static float TILE_HEIGHT = 32;
     final public static String TILE_OBSTACLE = "obstacle";
 
+    public class UI {
+        final public static String DEFAULT_PLAYER_NAME = "Character Name";
+    }
+
     public class Groups {
         /**
          * All Entities that should be sent to the client.
