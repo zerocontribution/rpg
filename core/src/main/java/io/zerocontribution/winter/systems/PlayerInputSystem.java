@@ -34,7 +34,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
     @SuppressWarnings("unchecked")
     public PlayerInputSystem() {
-        super(Aspect.getAspectForAll(Player.class, Velocity.class));
+        super(Aspect.getAspectForAll(LocalPlayer.class, Player.class, Velocity.class));
     }
 
     @Override

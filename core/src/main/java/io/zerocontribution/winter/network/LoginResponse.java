@@ -10,6 +10,7 @@ import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.components.Actor;
 import io.zerocontribution.winter.components.AnimationName;
 import io.zerocontribution.winter.components.AnimationTimer;
+import io.zerocontribution.winter.components.LocalPlayer;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 public class LoginResponse extends EventMessage {
@@ -24,6 +25,8 @@ public class LoginResponse extends EventMessage {
     public void receive(Connection pc) {
         Entity e = WinterGame.gameClient.toClientEntity(id);
         ClientGlobals.player = e;
+
+        e.addComponent(new LocalPlayer());
 
         Actor actor = new Actor();
         actor.abilities.put(1, new Delay(1));
