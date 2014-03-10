@@ -1,8 +1,5 @@
 package io.zerocontribution.winter.server.maps.tiled;
 
-import com.badlogic.gdx.Files;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -18,8 +15,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import net.pevnostgames.lwjglserver.ServerFiles;
-
-import java.io.IOException;
 
 public class TmxMapLoader {
 

@@ -16,6 +16,7 @@ import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.Pair;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.ClientGlobals;
 
 public class CollisionSystem extends EntitySystem {
 
@@ -53,13 +54,12 @@ public class CollisionSystem extends EntitySystem {
         PairMap pairMap = pairMapMapper.get(view);
         pairMap.map.clear();
 
-        TiledMap map = Assets.currentMap;
+        TiledMap map = ClientGlobals.currentMap;
         TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground");
 
         float mapW = (float) map.getProperties().get("width", Integer.class);
         float mapH = (float) map.getProperties().get("height", Integer.class);
 
-        // TODO Add -x,-y grid coordinates so they can be added to blocking tiles.
         // TODO Rotate bounding boxes for blocks 90*
         // TODO ??? Default to squares; check for texture region?
         for (int y = -1; y <= mapH; y++) {

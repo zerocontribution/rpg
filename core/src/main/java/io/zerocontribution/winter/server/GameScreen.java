@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.systems.ExpiredProcessingSystem;
+import io.zerocontribution.winter.systems.MovementSystem;
 import io.zerocontribution.winter.systems.server.ServerNetworkSystem;
 import io.zerocontribution.winter.systems.server.ServerUpdateSystem;
 import io.zerocontribution.winter.utils.ServerGlobals;
@@ -14,12 +16,10 @@ import io.zerocontribution.winter.utils.ServerGlobals;
 public class GameScreen implements Screen {
 
     GameServer server;
-
     World world;
 
     public GameScreen(GameServer server) {
         this.server = server;
-        ServerGlobals.time = System.currentTimeMillis();
 
         if (Constants.DEBUG) {
             Log.DEBUG();
@@ -30,20 +30,15 @@ public class GameScreen implements Screen {
         world.setManager(new GroupManager());
         world.setManager(new TagManager());
 
-        world.setSystem(new ServerUpdateSystem(20));
         world.setSystem(new ServerNetworkSystem());
-
-        // Other systems...
+        world.setSystem(new MovementSystem(ServerGlobals.currentMap));
+        world.setSystem(new ServerUpdateSystem(1 / 20.0f));
 
         world.initialize();
-
-        // TODO Add entities to world
-        // TODO Send message to clients that the world is ready
     }
 
     @Override
     public void render(float v) {
-        ServerGlobals.time = System.currentTimeMillis(); // TODO Remove
         world.setDelta(v);
         world.process();
     }

@@ -4,7 +4,6 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,10 +11,9 @@ import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.WinterGame;
-import io.zerocontribution.winter.client.GameClient;
 import io.zerocontribution.winter.systems.*;
 import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
-import io.zerocontribution.winter.utils.GdxLogHelper;
+import io.zerocontribution.winter.utils.ClientGlobals;
 
 /**
  * The GameScreen handles the lifecycle of the actual game play.
@@ -45,7 +43,7 @@ public class GameScreen extends AbstractScreen {
         font.setUseIntegerPositions(false);
 
         Assets.loadConfigurations();
-        Assets.loadMap(map);
+        ClientGlobals.loadClientMap(map);
         Assets.loadImages();
 
         world = new World();
@@ -53,7 +51,7 @@ public class GameScreen extends AbstractScreen {
         world.setManager(new GroupManager());
         world.setManager(new TagManager());
 
-        world.setSystem(new ClientNetworkSystem(game.gameClient.client, 33));
+        world.setSystem(new ClientNetworkSystem(game.gameClient.client, 1 / 33.0f));
 
         if (Constants.DEBUG) {
             world.setSystem(new FPSLoggingSystem());
@@ -67,7 +65,7 @@ public class GameScreen extends AbstractScreen {
         world.setSystem(new CombatProcessingSystem());
         world.setSystem(new DamageProcessingSystem());
         world.setSystem(new CollisionSystem());
-        world.setSystem(new MovementSystem());
+        world.setSystem(new MovementSystem(ClientGlobals.currentMap));
         world.setSystem(new AnimationUpdatingSystem());
         world.setSystem(new ExpiredProcessingSystem());
 

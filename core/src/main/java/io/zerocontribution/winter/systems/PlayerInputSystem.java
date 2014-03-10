@@ -5,7 +5,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
-import com.artemis.managers.TagManager;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
@@ -13,6 +12,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.network.ActionCommand;
+import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
 public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
@@ -107,21 +108,25 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
             case Keys.W:
                 up = true;
                 down = false;
+                ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_UP));
                 break;
 
             case Keys.A:
                 left = true;
                 right = false;
+                ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_LEFT));
                 break;
 
             case Keys.S:
                 down = true;
                 up = false;
+                ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_DOWN));
                 break;
 
             case Keys.D:
                 right = true;
                 left = false;
+                ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_RIGHT));
                 break;
 
             case Keys.TAB:
@@ -140,18 +145,22 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         switch (keycode) {
             case Keys.W:
                 up = false;
+                ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_UP));
                 break;
 
             case Keys.A:
                 left = false;
+                ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_LEFT));
                 break;
 
             case Keys.S:
                 down = false;
+                ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_DOWN));
                 break;
 
             case Keys.D:
                 right = false;
+                ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_RIGHT));
                 break;
 
             case Keys.TAB:

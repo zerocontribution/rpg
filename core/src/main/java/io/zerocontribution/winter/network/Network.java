@@ -57,6 +57,11 @@ public class Network {
         kryo.register(Velocity.class);
         kryo.register(LoginResponse.class);
         kryo.register(StartGameResponse.class);
+        kryo.register(Command.class);
+        kryo.register(AbilityCommand.class);
+        kryo.register(ActionCommand.Action.class);
+        kryo.register(ActionCommand.Lifecycle.class);
+        kryo.register(ActionCommand.class);
     }
 
     public static class Login extends EventMessage {
@@ -85,6 +90,16 @@ public class Network {
         public StartGame() {}
         public StartGame(String map) {
             this.map = map;
+        }
+    }
+
+//    public static class ClientCommands extends Bag<Command> {}
+    public static class ClientCommands extends EventMessage {
+        public Bag<Command> commands;
+
+        public ClientCommands() {}
+        public ClientCommands(Bag<Command> commands) {
+            this.commands = commands;
         }
     }
 

@@ -11,6 +11,18 @@ public class Position extends EntityComponent {
         this.y = y;
     }
 
+    public void set(float x, float y) {
+        this.x = x;
+        this.y = y;
+        setUpdated();
+    }
+
+    public void move(float x, float y) {
+        this.x += x;
+        this.y += y;
+        setUpdated();
+    }
+
     public String toLog() {
         return new StringBuilder()
                 .append("Position[")

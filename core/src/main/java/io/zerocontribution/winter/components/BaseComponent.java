@@ -5,12 +5,22 @@ import com.artemis.Entity;
 
 public abstract class BaseComponent extends Component {
 
+    protected boolean updated = false;
+
     public Object create(Entity entity) {
         return null;
     }
 
     public boolean isUpdated() {
-        return false;
+        return updated;
+    }
+
+    public void setUpdated() {
+        updated = true;
+    }
+
+    public void setUpdated(boolean flag) {
+        updated = flag;
     }
 
 }

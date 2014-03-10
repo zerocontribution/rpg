@@ -6,11 +6,14 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.math.Vector2;
+import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Directions;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
+import io.zerocontribution.winter.utils.ServerGlobals;
 
 public class MovementSystem extends EntityProcessingSystem {
 
@@ -29,9 +32,23 @@ public class MovementSystem extends EntityProcessingSystem {
     @Mapper
     ComponentMapper<Facing> facingMapper;
 
+    Map currentMap;
+
     @SuppressWarnings("unchecked")
-    public MovementSystem() {
+    public MovementSystem(Map currentMap) {
         super(Aspect.getAspectForAll(Position.class, Velocity.class, Bounds.class));
+        this.currentMap = currentMap;
+    }
+
+    @Override
+    protected boolean checkProcessing() {
+        // HACK: Server doesn't immediately initialize the map.
+        if (currentMap == null) {
+            Log.warn("Server", "MovementSystem not processing yet: No map");
+            currentMap = ServerGlobals.currentMap;
+            return false;
+        }
+        return true;
     }
 
     protected void process(Entity e) {
@@ -39,12 +56,13 @@ public class MovementSystem extends EntityProcessingSystem {
         Velocity velocity = velocityMapper.get(e);
         Bounds bounds = boundsMapper.get(e);
 
-        position.x += velocity.x * world.delta;
-        position.y += velocity.y * world.delta;
+        position.move(velocity.x * world.delta, velocity.y * world.delta);
+//        position.x += velocity.x * world.delta;
+//        position.y += velocity.y * world.delta;
         bounds.rect.x = position.x;
         bounds.rect.y = position.y;
 
-        Vector2 grid = MapHelper.worldToGrid(position.x, position.y);
+        Vector2 grid = MapHelper.worldToGrid(currentMap, position.x, position.y);
         if (gridPositionMapper.has(e)) {
             GridPosition gridPosition = gridPositionMapper.get(e);
             gridPosition.x = grid.x;

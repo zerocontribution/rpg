@@ -7,6 +7,7 @@ import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
@@ -14,6 +15,8 @@ import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.components.BaseComponent;
+import io.zerocontribution.winter.components.Update;
+import io.zerocontribution.winter.components.Velocity;
 import io.zerocontribution.winter.network.*;
 import io.zerocontribution.winter.server.GameServer;
 import io.zerocontribution.winter.server.maps.tiled.TmxMapLoader;
@@ -23,19 +26,6 @@ import io.zerocontribution.winter.utils.ServerGlobals;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * @TODO
- *
- * - Review ALL new code: Have code mixed between master and some random commit that is not compatible.
- *
- * @see https://github.com/orlof/megastage/tree/master/src/org/megastage
- *
- * Don't lose faith, this design is great and should set us up for prediction and interpolation sometime down the road.
- */
-
-/**
- * @todo IntervalEntitySystem?
- */
 public class ServerNetworkSystem extends VoidEntitySystem {
 
     private Server server;
@@ -64,7 +54,8 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
     @Override
     protected void processSystem() {
-        server.sendToAllTCP(ServerGlobals.updates);
+        Log.debug("Server", "Sending updates");
+        server.sendToAllTCP(ServerGlobals.updates.toArray());
         ServerGlobals.updates = null;
     }
 
@@ -123,9 +114,39 @@ public class ServerNetworkSystem extends VoidEntitySystem {
             return;
         }
 
-        ServerGlobals.currentMap = new TmxMapLoader().load("assets/maps/" + packet.map + ".tmx");
+        ServerGlobals.loadServerMap(packet.map);
 
         server.sendToAllTCP(new StartGameResponse(packet.map));
+    }
+
+    // TODO Move this all out into command handlers
+    public void handleClientCommands(PlayerConnection connection, Network.ClientCommands clientCommands) {
+        for (int i = 0; i < clientCommands.commands.size(); i++) {
+            Command c = clientCommands.commands.get(i);
+            if (c instanceof ActionCommand) {
+                ActionCommand command = (ActionCommand) c;
+                Velocity velocity = world.getMapper(Velocity.class).get(connection.player);
+
+                if (command.action == ActionCommand.Action.MOVE_LEFT) {
+                    velocity.setX(command.lifecycle == ActionCommand.Lifecycle.START ? -Constants.PLAYER_SPEED : 0);
+                } else if (command.action == ActionCommand.Action.MOVE_RIGHT) {
+                    velocity.setX(command.lifecycle == ActionCommand.Lifecycle.START ? Constants.PLAYER_SPEED : 0);
+                }
+
+                if (command.action == ActionCommand.Action.MOVE_UP) {
+                    velocity.setY(command.lifecycle == ActionCommand.Lifecycle.START ? Constants.PLAYER_SPEED : 0);
+                } else if (command.action == ActionCommand.Action.MOVE_DOWN) {
+                    velocity.setY(command.lifecycle == ActionCommand.Lifecycle.START ? -Constants.PLAYER_SPEED : 0);
+                }
+
+                connection.player.addComponent(new Update());
+                connection.player.changedInWorld();
+            } else if (c instanceof AbilityCommand) {
+                Log.info("Server", "AbilityCommands not supported yet");
+            } else {
+                Log.error("Server", "Unknown command type: " + c.getClass().getSimpleName());
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -160,7 +181,6 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
         @Override
         public void received(Connection connection, Object o) {
-            Log.info("Received: " + o.getClass().getSimpleName());
             PlayerConnection pc = (PlayerConnection) connection;
 
             if (o instanceof Network.Login) {
@@ -169,8 +189,13 @@ public class ServerNetworkSystem extends VoidEntitySystem {
                 handleLogoutMessage(pc, (Network.Logout) o);
             } else if (o instanceof Network.StartGame) {
                 handleStartGame(pc, (Network.StartGame) o);
+            } else if (o instanceof Network.ClientCommands) {
+                handleClientCommands(pc, (Network.ClientCommands) o);
             } else {
-                Log.warn("Unhandled message");
+                if (o instanceof FrameworkMessage) {
+                    return;
+                }
+                Log.warn("Server", "Unhandled message: " + o.getClass().getSimpleName());
             }
         }
     }

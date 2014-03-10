@@ -14,6 +14,7 @@ import io.zerocontribution.winter.ai.normals.ZombieAI;
 import io.zerocontribution.winter.assets.EnemyAsset;
 import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
 
@@ -244,7 +245,7 @@ public class EntityFactory {
         e.addComponent(cam);
 
         MapView view = new MapView();
-        view.renderer = new IsometricTiledMapRenderer(Assets.currentMap, spriteBatch);
+        view.renderer = new IsometricTiledMapRenderer(ClientGlobals.currentMap, spriteBatch);
         e.addComponent(view);
 
         e.addComponent(new PairMap());

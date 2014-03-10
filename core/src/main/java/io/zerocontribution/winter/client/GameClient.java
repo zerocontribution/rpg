@@ -5,6 +5,7 @@ import com.artemis.Entity;
 import com.artemis.utils.Bag;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.WinterGame;
@@ -94,7 +95,7 @@ public class GameClient {
             } catch (InterruptedException e) {}
         }
         Log.info("Client", "RTT: " + client.getReturnTripTime());
-        ClientGlobals.timeDiff -= client.getReturnTripTime();
+        ClientGlobals.timeDiff = client.getReturnTripTime();
     }
 
     public void sendLogin() {
@@ -142,11 +143,12 @@ public class GameClient {
         }
 
         public void handlePacket(final Connection pc, final Object o) {
-            Log.debug("Client", "Received: " + o.toString());
-
             if (o instanceof Message) {
                 ((Message) o).receive(pc);
             } else {
+                if (o instanceof FrameworkMessage) {
+                    return;
+                }
                 Log.warn("Client", "Unknown message type: " + o.getClass().getSimpleName());
             }
         }

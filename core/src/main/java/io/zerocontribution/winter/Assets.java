@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
 import io.zerocontribution.winter.Constants.Animations.Player;
 import io.zerocontribution.winter.assets.*;
 import io.zerocontribution.winter.combat.abilities.Ability;
+import io.zerocontribution.winter.utils.ClientGlobals;
 
 import java.util.ArrayList;
 
@@ -19,8 +17,6 @@ import java.util.ArrayList;
  * @todo Refactor to using XML configurations of entities & maps.
  */
 public class Assets {
-
-    public static TiledMap currentMap;
 
     public static LevelsAsset levels;
     public static EnemiesAsset enemies;
@@ -36,9 +32,6 @@ public class Assets {
     private static Animation playerRunLeft;
     private static Animation playerDying;
 
-    public static void loadMap(String mapName) {
-        currentMap = new TmxMapLoader().load("maps/" + mapName + ".tmx");
-    }
 
     public static void loadConfigurations() {
         Json json = new Json();
