@@ -6,6 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.WinterGame;
+import io.zerocontribution.winter.utils.ClientGlobals;
+
+import java.util.ArrayList;
 
 public class DebugHudSystem extends VoidEntitySystem {
 
@@ -27,10 +31,16 @@ public class DebugHudSystem extends VoidEntitySystem {
 
     @Override
     protected void processSystem() {
-        font.draw(spriteBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, 20);
-        font.draw(spriteBatch, "Active entities: " + world.getEntityManager().getActiveEntityCount(), 20, 40);
-        font.draw(spriteBatch, "Total created: " + world.getEntityManager().getTotalCreated(), 20, 60);
-        font.draw(spriteBatch, "Total deleted: " + world.getEntityManager().getTotalDeleted(), 20, 80);
+        ArrayList<String> lines = new ArrayList<String>();
+        lines.add("Ping: " + ClientGlobals.ping);
+        lines.add("FPS: " + Gdx.graphics.getFramesPerSecond());
+        lines.add("Active entities: " + world.getEntityManager().getActiveEntityCount());
+        lines.add("Total created: " + world.getEntityManager().getTotalCreated());
+        lines.add("Total deleted: " + world.getEntityManager().getTotalDeleted());
+
+        for (int i = 0; i < lines.size(); i++) {
+            font.draw(spriteBatch, lines.get(i), 20, 20 + (i * 20));
+        }
     }
 
     @Override

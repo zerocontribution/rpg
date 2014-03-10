@@ -13,6 +13,7 @@ import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.systems.*;
 import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
+import io.zerocontribution.winter.systems.client.PingSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 /**
@@ -52,6 +53,7 @@ public class GameScreen extends AbstractScreen {
         world.setManager(new TagManager());
 
         world.setSystem(new ClientNetworkSystem(game.gameClient.client, 1 / 33.0f));
+        world.setSystem(new PingSystem(game.gameClient.client));
 
         if (Constants.DEBUG) {
             world.setSystem(new FPSLoggingSystem());

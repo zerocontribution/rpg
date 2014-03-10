@@ -16,6 +16,7 @@ import java.util.List;
 public class ClientGlobals {
 
     public static long timeDiff;
+    public static int ping = 0;
 
     public static Entity player;
 
