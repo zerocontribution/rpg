@@ -4,6 +4,8 @@ import com.artemis.Entity;
 import com.artemis.utils.Bag;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import io.zerocontribution.winter.AbstractEntityFactory;
+import io.zerocontribution.winter.client.ClientEntityFactory;
 import io.zerocontribution.winter.network.Command;
 import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
 
@@ -23,6 +25,8 @@ public class ClientGlobals {
     public static Bag<Command> commands = new Bag<Command>();
 
     public static TiledMap currentMap;
+
+    public static ClientEntityFactory entityFactory = new ClientEntityFactory();
 
     public static void loadClientMap(String mapName) {
         currentMap = new TmxMapLoader().load("maps/" + mapName + ".tmx");

@@ -8,25 +8,18 @@ import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.EntityFactory;
-import io.zerocontribution.winter.Pair;
 import io.zerocontribution.winter.components.*;
 
 /**
  * The only reason why this isn't included in the normal collision system is because the map renderer is processed
  * later, and all shapes are hidden.
  *
- * @todo Cleanup unused code that was copied from CollisionSystem.
+ * @todo Cleanup unused code that was copied from ClientCollisionSystem.
  */
 public class CollisionDebugSystem extends EntitySystem {
 

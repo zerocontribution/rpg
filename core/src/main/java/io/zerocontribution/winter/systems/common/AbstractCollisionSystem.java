@@ -1,87 +1,47 @@
-package io.zerocontribution.winter.systems;
+package io.zerocontribution.winter.systems.common;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
-import com.artemis.managers.TagManager;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.EntityFactory;
-import io.zerocontribution.winter.Pair;
 import io.zerocontribution.winter.components.*;
-import io.zerocontribution.winter.utils.ClientGlobals;
 
-public class CollisionSystem extends EntitySystem {
+public abstract class AbstractCollisionSystem extends EntitySystem {
 
-    @Mapper
-    ComponentMapper<Bounds> boundsMapper;
-
-    @Mapper
     ComponentMapper<Velocity> velocityMapper;
-
-    @Mapper
+    ComponentMapper<Bounds> boundsMapper;
     ComponentMapper<Position> positionMapper;
-
-    @Mapper
     ComponentMapper<Dimensions> dimensionsMapper;
 
-    @Mapper
-    ComponentMapper<PairMap> pairMapMapper;
-
-    private ImmutableBag<Entity> actors;
-
-    private Entity view;
-
     @SuppressWarnings("unchecked")
-    public CollisionSystem() {
+    public AbstractCollisionSystem() {
         super(Aspect.getAspectForAll(Blocking.class, Bounds.class));
     }
 
     @Override
     protected void initialize() {
-        view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
+        // Apparently I can't inject mappers in abstract classes...
+        velocityMapper = world.getMapper(Velocity.class);
+        boundsMapper = world.getMapper(Bounds.class);
+        positionMapper = world.getMapper(Position.class);
+        dimensionsMapper = world.getMapper(Dimensions.class);
+
         addCollisionTiles();
     }
 
-    private void addCollisionTiles() {
-        PairMap pairMap = pairMapMapper.get(view);
-        pairMap.map.clear();
-
-        TiledMap map = ClientGlobals.currentMap;
-        TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground");
-
-        float mapW = (float) map.getProperties().get("width", Integer.class);
-        float mapH = (float) map.getProperties().get("height", Integer.class);
-
-        // TODO Rotate bounding boxes for blocks 90*
-        // TODO ??? Default to squares; check for texture region?
-        for (int y = -1; y <= mapH; y++) {
-            for (int x = -1; x <= mapW; x++) {
-                if (pairMap.map.get(Pair.get(x, y)) == null) {
-                    TiledMapTileLayer.Cell cell = groundLayer.getCell(x, y);
-                    if (cell == null || cell.getTile().getProperties().containsKey(Constants.TILE_OBSTACLE)) {
-                        EntityFactory.createBlockingTile(world, x, y).addToWorld();
-                        pairMap.map.put(Pair.get(x, y), new Boolean(true));
-                    }
-                }
-            }
-        }
-    }
+    abstract protected void addCollisionTiles();
 
     @Override
     protected void processEntities(ImmutableBag<Entity> entities) {
-        actors = world.getManager(GroupManager.class).getEntities(Constants.Groups.ACTORS);
+        ImmutableBag<Entity> actors = world.getManager(GroupManager.class).getEntities(Constants.Groups.ACTORS);
 
         for (int i = 0; i < actors.size(); i++) {
             Entity actor = actors.get(i);
-            Velocity actorVelocity = velocityMapper.get(actor);
+            Velocity actorVelocity = velocityMapper.getSafe(actor);
 
             if (actorVelocity.x != 0f || actorVelocity.y != 0f) {
                 Bounds bounds = boundsMapper.get(actor);
@@ -101,7 +61,7 @@ public class CollisionSystem extends EntitySystem {
         }
     }
 
-    private Bounds applyVelocity(float xVel, float yVel, Bounds bounds) {
+    protected Bounds applyVelocity(float xVel, float yVel, Bounds bounds) {
         Bounds tempBounds = new Bounds();
         tempBounds.rect = new Rectangle(bounds.rect);
         tempBounds.rect.x += xVel * world.getDelta();
@@ -109,7 +69,7 @@ public class CollisionSystem extends EntitySystem {
         return tempBounds;
     }
 
-    private void checkCollisionWithActor(Entity actor, Entity entity, Bounds xBounds, Bounds yBounds, Bounds xyBounds, Velocity actorVelocity) {
+    protected void checkCollisionWithActor(Entity actor, Entity entity, Bounds xBounds, Bounds yBounds, Bounds xyBounds, Velocity actorVelocity) {
         Bounds blockingBounds = boundsMapper.get(entity);
         Position actorPosition = positionMapper.get(actor);
         Dimensions actorDimensions = dimensionsMapper.get(actor);
@@ -137,5 +97,4 @@ public class CollisionSystem extends EntitySystem {
     protected boolean checkProcessing() {
         return true;
     }
-
 }

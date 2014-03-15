@@ -57,8 +57,6 @@ public class MovementSystem extends EntityProcessingSystem {
         Bounds bounds = boundsMapper.get(e);
 
         position.move(velocity.x * world.delta, velocity.y * world.delta);
-//        position.x += velocity.x * world.delta;
-//        position.y += velocity.y * world.delta;
         bounds.rect.x = position.x;
         bounds.rect.y = position.y;
 

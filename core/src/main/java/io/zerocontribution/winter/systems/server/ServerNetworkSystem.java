@@ -3,6 +3,7 @@ package io.zerocontribution.winter.systems.server;
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
+import com.artemis.managers.TagManager;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
@@ -11,16 +12,9 @@ import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
-import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.EntityFactory;
-import io.zerocontribution.winter.components.BaseComponent;
-import io.zerocontribution.winter.components.Update;
-import io.zerocontribution.winter.components.Velocity;
+import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.network.*;
-import io.zerocontribution.winter.server.GameServer;
-import io.zerocontribution.winter.server.maps.tiled.TmxMapLoader;
-import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 import java.io.IOException;
@@ -80,7 +74,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
         // TODO World system (to be SpawnerSystem?) should dictate where to spawn
         int pos = 5 + connection.getID();
 
-        connection.player = EntityFactory.createPlayer(world, packet.name, pos, pos);
+        connection.player = ServerGlobals.entityFactory.createPlayer(world, packet.name, pos, pos);
         connection.player.addToWorld();
 
         server.sendToUDP(connection.getID(), new LoginResponse(connection.player.getId()));
@@ -115,6 +109,11 @@ public class ServerNetworkSystem extends VoidEntitySystem {
         }
 
         ServerGlobals.loadServerMap(packet.map);
+
+        Entity e = world.createEntity();
+        e.addComponent(new MapView());
+        e.addComponent(new PairMap());
+        world.getManager(TagManager.class).register(Constants.Tags.VIEW, e);
 
         server.sendToAllTCP(new StartGameResponse(packet.map));
     }

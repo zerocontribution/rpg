@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.EntityFactory;
 import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.systems.*;
+import io.zerocontribution.winter.systems.client.ClientCollisionSystem;
 import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
 import io.zerocontribution.winter.systems.client.PingSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;
@@ -66,7 +66,7 @@ public class GameScreen extends AbstractScreen {
         world.setSystem(new ActionProcessingSystem());
         world.setSystem(new CombatProcessingSystem());
         world.setSystem(new DamageProcessingSystem());
-        world.setSystem(new CollisionSystem());
+        world.setSystem(new ClientCollisionSystem());
         world.setSystem(new MovementSystem(ClientGlobals.currentMap));
         world.setSystem(new AnimationUpdatingSystem());
         world.setSystem(new ExpiredProcessingSystem());
@@ -79,7 +79,7 @@ public class GameScreen extends AbstractScreen {
             debugHudSystem = world.setSystem(new DebugHudSystem(), true);
         }
 
-        EntityFactory.createMap(world, spriteBatch).addToWorld();
+        ClientGlobals.entityFactory.createMap(world, spriteBatch).addToWorld();
 
         WinterGame.gameClient.sendLogin();
 

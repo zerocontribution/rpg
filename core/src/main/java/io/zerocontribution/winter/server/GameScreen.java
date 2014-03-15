@@ -3,12 +3,11 @@ package io.zerocontribution.winter.server;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.systems.ExpiredProcessingSystem;
 import io.zerocontribution.winter.systems.MovementSystem;
+import io.zerocontribution.winter.systems.server.ServerCollisionSystem;
 import io.zerocontribution.winter.systems.server.ServerNetworkSystem;
 import io.zerocontribution.winter.systems.server.ServerUpdateSystem;
 import io.zerocontribution.winter.utils.ServerGlobals;
@@ -31,6 +30,7 @@ public class GameScreen implements Screen {
         world.setManager(new TagManager());
 
         world.setSystem(new ServerNetworkSystem());
+        world.setSystem(new ServerCollisionSystem());
         world.setSystem(new MovementSystem(ServerGlobals.currentMap));
         world.setSystem(new ServerUpdateSystem(1 / 20.0f));
 
