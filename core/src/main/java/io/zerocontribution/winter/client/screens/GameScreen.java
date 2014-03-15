@@ -1,4 +1,4 @@
-package io.zerocontribution.winter.screens;
+package io.zerocontribution.winter.client.screens;
 
 import com.artemis.World;
 import com.artemis.managers.GroupManager;

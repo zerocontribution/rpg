@@ -1,11 +1,10 @@
-package io.zerocontribution.winter.screens;
+package io.zerocontribution.winter.client.screens;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import io.zerocontribution.winter.WinterGame;
-import io.zerocontribution.winter.utils.ClientGlobals;
 
 /**
  * @todo Add chat

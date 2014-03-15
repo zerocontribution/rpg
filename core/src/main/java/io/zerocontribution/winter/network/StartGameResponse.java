@@ -2,7 +2,7 @@ package io.zerocontribution.winter.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import io.zerocontribution.winter.WinterGame;
-import io.zerocontribution.winter.screens.GameScreen;
+import io.zerocontribution.winter.client.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import io.zerocontribution.winter.client.GameClient;
-import io.zerocontribution.winter.screens.MenuScreen;
+import io.zerocontribution.winter.client.screens.MenuScreen;
 import io.zerocontribution.winter.server.GameServer;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 

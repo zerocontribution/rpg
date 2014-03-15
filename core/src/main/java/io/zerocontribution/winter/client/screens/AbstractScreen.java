@@ -1,4 +1,4 @@
-package io.zerocontribution.winter.screens;
+package io.zerocontribution.winter.client.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
