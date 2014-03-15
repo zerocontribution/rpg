@@ -7,6 +7,7 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.ai.AI;
+import io.zerocontribution.winter.ai.AIRegistry;
 import io.zerocontribution.winter.ai.normals.ZombieAI;
 import io.zerocontribution.winter.assets.EnemyAsset;
 import io.zerocontribution.winter.combat.abilities.Ability;
@@ -131,21 +132,7 @@ public abstract class AbstractEntityFactory {
 
         e.addComponent(new AnimationTimer(0f));
 
-        AI ai = null;
-        try {
-            ai = (AI) Class.forName(enemyAsset.aiClass).getConstructor(World.class).newInstance(world);
-        } catch (InstantiationException e1) {
-            e1.printStackTrace();
-        } catch (IllegalAccessException e1) {
-            e1.printStackTrace();
-        } catch (InvocationTargetException e1) {
-            e1.printStackTrace();
-        } catch (NoSuchMethodException e1) {
-            e1.printStackTrace();
-        } catch (ClassNotFoundException e1) {
-            e1.printStackTrace();
-        }
-        e.addComponent(new Npc(ai));
+        e.addComponent(new Npc(new AIRegistry().getNew(enemyAsset.ai, world)));
 
         Actor actor = new Actor();
         for (int abilityId : enemyAsset.abilities) {
@@ -212,7 +199,7 @@ public abstract class AbstractEntityFactory {
 
         e.addComponent(new AnimationTimer(0f));
 
-        e.addComponent(new Npc(new ZombieAI(world)));
+        e.addComponent(new Npc(new AIRegistry().getNew(ZombieAI.NAME, world)));
 
         Actor actor = new Actor();
         actor.abilities.put(1, new Delay(1));

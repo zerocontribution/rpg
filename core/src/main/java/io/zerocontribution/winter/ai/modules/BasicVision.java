@@ -14,6 +14,7 @@ import io.zerocontribution.winter.components.TargetGridPosition;
 import io.zerocontribution.winter.components.Velocity;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
+import io.zerocontribution.winter.utils.ServerGlobals;
 
 /**
  * @todo Written for multiple players, but the BasicFollow system only expects a single player. Will need a way to
@@ -96,7 +97,7 @@ public class BasicVision extends AbstractAIModule {
                     targetPosition.y = -1;
                     return true;
                 } else {
-                    Vector2 gridPosition = MapHelper.worldToGrid(playerPosition.x, playerPosition.y);
+                    Vector2 gridPosition = MapHelper.worldToGrid(ServerGlobals.currentMap, playerPosition.x, playerPosition.y);
                     targetPosition.x = gridPosition.x;
                     targetPosition.y = gridPosition.y;
                     

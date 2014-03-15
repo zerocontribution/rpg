@@ -13,6 +13,8 @@ public abstract class AI {
 
     public AIModule[] modules;
 
+    final public String name = "AI";
+
     private final World world;
 
     private boolean initialized = false;

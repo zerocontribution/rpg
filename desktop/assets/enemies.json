@@ -3,7 +3,7 @@
         {
             "label": "Zombie",
             "name": "player",
-            "aiClass": "io.zerocontribution.winter.ai.normals.ZombieAI",
+            "ai": "Zombie",
             "baseStats": {
                 "health": 100,
                 "power": 100,

@@ -33,7 +33,7 @@ public class EnemyAsset {
      */
     public int[] abilities;
 
-    public String aiClass;
+    public String ai;
 
     public HashMap<String, Integer> baseStats = new HashMap<String, Integer>();
 

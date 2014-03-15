@@ -42,7 +42,6 @@ public class BasicAttack extends AbstractAIModule {
         conditionMapper = world.getMapper(Condition.class);
     }
 
-    // TODO Should probably check state before kicking everything off, yes?
     @Override
     public boolean process(Entity e) {
         if (conditionMapper.get(e).state == State.DYING) {

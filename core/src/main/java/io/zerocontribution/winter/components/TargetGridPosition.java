@@ -4,7 +4,7 @@ import com.artemis.Component;
 import io.zerocontribution.winter.ai.pathfinding.Path;
 import io.zerocontribution.winter.ai.pathfinding.PathFinder;
 
-public class TargetGridPosition extends EntityComponent {
+public class TargetGridPosition extends BaseComponent {
     public float x, y;
     public PathFinder pathFinder;
     public Path path;

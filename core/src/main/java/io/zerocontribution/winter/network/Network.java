@@ -53,7 +53,7 @@ public class Network {
         kryo.register(Position.class);
         kryo.register(SpriteColor.class);
         kryo.register(Stats.class);
-        kryo.register(TargetGridPosition.class);
+        kryo.register(TargetGridPosition.class); // TODO Don't want to transfer this.
         kryo.register(Velocity.class);
         kryo.register(LoginResponse.class);
         kryo.register(StartGameResponse.class);

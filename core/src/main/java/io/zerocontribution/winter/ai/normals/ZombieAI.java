@@ -12,6 +12,10 @@ import io.zerocontribution.winter.ai.modules.BasicVision;
  */
 public class ZombieAI extends AI {
 
+    final public static String NAME = "Zombie";
+
+    final public String name = NAME;
+
     public ZombieAI(World world) {
         super(world);
 

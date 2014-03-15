@@ -13,6 +13,7 @@ import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
+import io.zerocontribution.winter.utils.ServerGlobals;
 
 /**
  * @todo Remove Mover class.
@@ -65,7 +66,7 @@ public class BasicFollow extends AbstractAIModule {
         velocityMapper = world.getMapper(Velocity.class);
 
         Entity view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
-        map = new IsometricTileMap(ClientGlobals.currentMap, world.getMapper(PairMap.class).get(view));
+        map = new IsometricTileMap(ServerGlobals.currentMap, world.getMapper(PairMap.class).get(view));
     }
 
     @Override

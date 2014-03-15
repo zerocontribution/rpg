@@ -14,6 +14,7 @@ import io.zerocontribution.winter.systems.*;
 import io.zerocontribution.winter.systems.client.ClientCollisionSystem;
 import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
 import io.zerocontribution.winter.systems.client.PingSystem;
+import io.zerocontribution.winter.systems.server.AIProcessingSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 /**
@@ -62,7 +63,6 @@ public class GameScreen extends AbstractScreen {
         // TODO Refactor these systems to not change entity states (e.g. setting State to DYING during combat)
         world.setSystem(new CameraSystem());
         world.setSystem(new PlayerInputSystem());
-        world.setSystem(new AIProcessingSystem());
         world.setSystem(new ActionProcessingSystem());
         world.setSystem(new CombatProcessingSystem());
         world.setSystem(new DamageProcessingSystem());
