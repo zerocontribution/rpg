@@ -1,7 +1,6 @@
 package io.zerocontribution.winter.components;
 
-import com.artemis.Component;
-import io.zerocontribution.winter.Directions;
+import io.zerocontribution.winter.struct.Directions;
 
 public class Facing extends EntityComponent {
     public Directions direction;

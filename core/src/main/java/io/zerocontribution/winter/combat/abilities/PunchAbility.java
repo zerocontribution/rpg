@@ -2,7 +2,7 @@ package io.zerocontribution.winter.combat.abilities;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import io.zerocontribution.winter.Directions;
+import io.zerocontribution.winter.struct.Directions;
 import io.zerocontribution.winter.combat.processors.CombatProcessor;
 import io.zerocontribution.winter.combat.processors.PunchProcessor;
 import io.zerocontribution.winter.components.Expiring;

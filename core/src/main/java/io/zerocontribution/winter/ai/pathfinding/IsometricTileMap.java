@@ -1,6 +1,6 @@
 package io.zerocontribution.winter.ai.pathfinding;
 
-import io.zerocontribution.winter.Pair;
+import io.zerocontribution.winter.struct.Pair;
 import io.zerocontribution.winter.components.PairMap;
 import io.zerocontribution.winter.server.maps.tiled.TiledMap;
 import io.zerocontribution.winter.utils.GdxLogHelper;

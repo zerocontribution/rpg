@@ -5,13 +5,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.minlog.Log;
-import io.zerocontribution.winter.Directions;
+import io.zerocontribution.winter.struct.Directions;
 import io.zerocontribution.winter.components.*;
-import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
 

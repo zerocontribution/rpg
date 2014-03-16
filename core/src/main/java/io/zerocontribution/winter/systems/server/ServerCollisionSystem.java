@@ -5,7 +5,7 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.managers.TagManager;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.Pair;
+import io.zerocontribution.winter.struct.Pair;
 import io.zerocontribution.winter.components.PairMap;
 import io.zerocontribution.winter.server.maps.tiled.TiledMap;
 import io.zerocontribution.winter.server.maps.tiled.TiledMapTileLayer;

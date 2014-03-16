@@ -1,10 +1,7 @@
 package io.zerocontribution.winter.components;
 
-import com.artemis.Component;
-import com.artemis.Entity;
 import com.badlogic.gdx.utils.ObjectMap;
-import io.zerocontribution.winter.Delay;
-import io.zerocontribution.winter.utils.GdxLogHelper;
+import io.zerocontribution.winter.struct.Delay;
 
 public class Actor extends EntityComponent {
     public int primaryAttack = 1; // TODO

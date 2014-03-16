@@ -7,7 +7,7 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.Pair;
+import io.zerocontribution.winter.struct.Pair;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.systems.common.AbstractCollisionSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;

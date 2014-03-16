@@ -5,11 +5,7 @@ import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.esotericsoftware.kryonet.Connection;
 import io.zerocontribution.winter.Constants;
-import io.zerocontribution.winter.Delay;
 import io.zerocontribution.winter.WinterGame;
-import io.zerocontribution.winter.components.Actor;
-import io.zerocontribution.winter.components.AnimationName;
-import io.zerocontribution.winter.components.AnimationTimer;
 import io.zerocontribution.winter.components.LocalPlayer;
 import io.zerocontribution.winter.utils.ClientGlobals;
 

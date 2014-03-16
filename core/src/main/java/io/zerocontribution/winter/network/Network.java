@@ -7,12 +7,11 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
-import io.zerocontribution.winter.Delay;
-import io.zerocontribution.winter.Directions;
+import io.zerocontribution.winter.struct.Delay;
+import io.zerocontribution.winter.struct.Directions;
 import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.components.*;
-import io.zerocontribution.winter.utils.ClientGlobals;
 
 public class Network {
 

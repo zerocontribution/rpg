@@ -1,4 +1,4 @@
-package io.zerocontribution.winter;
+package io.zerocontribution.winter.struct;
 
 public enum Directions {
     UP("Up"),
