@@ -13,15 +13,27 @@ import io.zerocontribution.winter.systems.common.AbstractCollisionSystem;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 public class ServerCollisionSystem extends AbstractCollisionSystem {
+
     @Mapper
     ComponentMapper<PairMap> pairMapMapper;
+
+    Entity view;
 
     public ServerCollisionSystem() {
         super();
     }
 
+    @Override
+    protected boolean checkProcessing() {
+        if (view == null) {
+            view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
+            return view != null;
+        }
+
+        return true;
+    }
+
     protected void addCollisionTiles() {
-        Entity view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
         PairMap pairMap = pairMapMapper.get(view);
         pairMap.map.clear();
 

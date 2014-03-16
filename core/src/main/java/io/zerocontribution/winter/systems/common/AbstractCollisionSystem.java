@@ -17,6 +17,8 @@ public abstract class AbstractCollisionSystem extends EntitySystem {
     ComponentMapper<Position> positionMapper;
     ComponentMapper<Dimensions> dimensionsMapper;
 
+    private boolean collisionTilesAdded = false;
+
     @SuppressWarnings("unchecked")
     public AbstractCollisionSystem() {
         super(Aspect.getAspectForAll(Blocking.class, Bounds.class));
@@ -29,14 +31,18 @@ public abstract class AbstractCollisionSystem extends EntitySystem {
         boundsMapper = world.getMapper(Bounds.class);
         positionMapper = world.getMapper(Position.class);
         dimensionsMapper = world.getMapper(Dimensions.class);
-
-        addCollisionTiles();
     }
 
     abstract protected void addCollisionTiles();
 
     @Override
     protected void processEntities(ImmutableBag<Entity> entities) {
+        // Server-side starts running the systems before the map is loaded; so this can't be done on init anymore.
+        if (!collisionTilesAdded) {
+            addCollisionTiles();
+            collisionTilesAdded = true;
+        }
+
         ImmutableBag<Entity> actors = world.getManager(GroupManager.class).getEntities(Constants.Groups.ACTORS);
 
         for (int i = 0; i < actors.size(); i++) {

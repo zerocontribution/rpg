@@ -109,11 +109,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
         }
 
         ServerGlobals.loadServerMap(packet.map);
-
-        Entity e = world.createEntity();
-        e.addComponent(new MapView());
-        e.addComponent(new PairMap());
-        world.getManager(TagManager.class).register(Constants.Tags.VIEW, e);
+        ServerGlobals.entityFactory.createMap(world).addToWorld();
 
         server.sendToAllTCP(new StartGameResponse(packet.map));
     }

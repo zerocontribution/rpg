@@ -52,7 +52,7 @@ public class ClientEntityFactory extends AbstractEntityFactory {
 
     public Entity createBlockingTile(World world, float x, float y) {
         Entity e = world.createEntity();
-        Vector2 worldVector = MapHelper.gridToWorld(x, y);
+        Vector2 worldVector = MapHelper.gridToWorld(ClientGlobals.currentMap, x, y);
 
         e.addComponent(new Position(worldVector.x, worldVector.y));
 

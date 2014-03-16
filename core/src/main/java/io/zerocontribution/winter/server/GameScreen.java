@@ -6,6 +6,9 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Screen;
 import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.systems.ActionProcessingSystem;
+import io.zerocontribution.winter.systems.CombatProcessingSystem;
+import io.zerocontribution.winter.systems.DamageProcessingSystem;
 import io.zerocontribution.winter.systems.MovementSystem;
 import io.zerocontribution.winter.systems.server.AIProcessingSystem;
 import io.zerocontribution.winter.systems.server.ServerCollisionSystem;
@@ -32,6 +35,9 @@ public class GameScreen implements Screen {
 
         world.setSystem(new ServerNetworkSystem());
         world.setSystem(new AIProcessingSystem());
+        world.setSystem(new ActionProcessingSystem());
+        world.setSystem(new CombatProcessingSystem());
+        world.setSystem(new DamageProcessingSystem());
         world.setSystem(new ServerCollisionSystem());
         world.setSystem(new MovementSystem(ServerGlobals.currentMap));
         world.setSystem(new ServerUpdateSystem(1 / 20.0f));
