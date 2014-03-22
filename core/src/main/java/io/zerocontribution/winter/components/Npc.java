@@ -1,6 +1,5 @@
 package io.zerocontribution.winter.components;
 
-import com.artemis.Component;
 import io.zerocontribution.winter.ai.AI;
 
 // TODO AI processor should just be a name: I shouldn't need clients to know how

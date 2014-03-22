@@ -8,9 +8,6 @@ import com.badlogic.gdx.utils.Json;
 import io.zerocontribution.winter.Constants.Animations.Player;
 import io.zerocontribution.winter.assets.*;
 import io.zerocontribution.winter.combat.abilities.Ability;
-import io.zerocontribution.winter.utils.ClientGlobals;
-
-import java.util.ArrayList;
 
 /**
  * @todo This class really needs some love. Too much work to maintain it.

@@ -3,7 +3,6 @@ package io.zerocontribution.winter.components;
 import com.artemis.Entity;
 import com.esotericsoftware.kryonet.Connection;
 import io.zerocontribution.winter.network.Network;
-import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
 
 public class EntityComponent extends BaseComponent {
 

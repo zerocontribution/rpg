@@ -14,7 +14,6 @@ import io.zerocontribution.winter.systems.*;
 import io.zerocontribution.winter.systems.client.ClientCollisionSystem;
 import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
 import io.zerocontribution.winter.systems.client.PingSystem;
-import io.zerocontribution.winter.systems.server.AIProcessingSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 /**

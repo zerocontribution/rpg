@@ -4,15 +4,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
-import com.badlogic.gdx.math.Vector2;
-import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.ai.pathfinding.*;
 import io.zerocontribution.winter.components.*;
-import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.GdxLogHelper;
-import io.zerocontribution.winter.utils.MapHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 /**

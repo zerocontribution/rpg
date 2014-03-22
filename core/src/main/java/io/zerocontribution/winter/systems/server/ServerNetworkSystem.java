@@ -3,7 +3,6 @@ package io.zerocontribution.winter.systems.server;
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
-import com.artemis.managers.TagManager;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;

@@ -1,7 +1,5 @@
 package io.zerocontribution.winter.components;
 
-import com.artemis.Component;
-
 public class Stats extends EntityComponent {
 
     public int health;

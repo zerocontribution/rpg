@@ -1,9 +1,5 @@
 package io.zerocontribution.winter.assets;
 
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EnemyAsset {

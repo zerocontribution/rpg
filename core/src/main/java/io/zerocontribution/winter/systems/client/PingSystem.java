@@ -5,7 +5,6 @@ import com.artemis.Entity;
 import com.artemis.systems.IntervalEntitySystem;
 import com.artemis.utils.ImmutableBag;
 import com.esotericsoftware.kryonet.Client;
-import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 public class PingSystem extends IntervalEntitySystem {

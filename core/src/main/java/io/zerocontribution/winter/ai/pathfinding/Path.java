@@ -1,7 +1,5 @@
 package io.zerocontribution.winter.ai.pathfinding;
 
-import io.zerocontribution.winter.utils.GdxLogHelper;
-
 import java.util.ArrayList;
 
 /**

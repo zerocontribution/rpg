@@ -16,8 +16,6 @@ import io.zerocontribution.winter.systems.server.ServerNetworkSystem;
 import io.zerocontribution.winter.systems.server.ServerUpdateSystem;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class GameScreen implements Screen {
 
     GameServer server;

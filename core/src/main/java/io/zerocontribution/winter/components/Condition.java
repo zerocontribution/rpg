@@ -1,6 +1,5 @@
 package io.zerocontribution.winter.components;
 
-import com.artemis.Component;
 import io.zerocontribution.winter.State;
 
 public class Condition extends EntityComponent {

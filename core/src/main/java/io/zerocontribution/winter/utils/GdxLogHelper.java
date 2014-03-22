@@ -1,6 +1,5 @@
 package io.zerocontribution.winter.utils;
 
-import com.artemis.EntitySystem;
 import com.badlogic.gdx.Gdx;
 
 public class GdxLogHelper {

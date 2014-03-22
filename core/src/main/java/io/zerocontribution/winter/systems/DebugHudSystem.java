@@ -1,11 +1,9 @@
 package io.zerocontribution.winter.systems;
 
-import com.artemis.managers.TagManager;
 import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.ServerGlobals;

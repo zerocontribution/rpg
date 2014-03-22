@@ -2,8 +2,6 @@ package io.zerocontribution.winter.ai.modules;
 
 import com.artemis.World;
 
-import java.util.ArrayList;
-
 public abstract class AbstractAIModule implements AIModule {
 
     public World world;

@@ -5,7 +5,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.badlogic.gdx.Gdx;
 import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.combat.Abilities;
 import io.zerocontribution.winter.combat.abilities.Ability;

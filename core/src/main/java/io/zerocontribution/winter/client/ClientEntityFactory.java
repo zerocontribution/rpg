@@ -10,16 +10,9 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.*;
-import io.zerocontribution.winter.ai.AI;
-import io.zerocontribution.winter.ai.normals.ZombieAI;
-import io.zerocontribution.winter.assets.EnemyAsset;
-import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.ClientGlobals;
-import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class ClientEntityFactory extends AbstractEntityFactory {
 
