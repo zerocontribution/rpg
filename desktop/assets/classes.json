@@ -1,0 +1,58 @@
+{
+    "classes": [
+        {
+            "name": "martialArtist",
+            "label": "Martial Artist",
+            "type": "Melee Damage",
+            "description": "Master of melee combat; stealthy, quick."
+        },
+        {
+            "name": "netrunner",
+            "label": "Netrunner",
+            "type": "Melee Damage",
+            "description": "Hacker; bit of a thief. Can disable security systems. Uses a unique mix of martial arts and technology in combat."
+        },
+        {
+            "name": "mercenary",
+            "label": "Mercenary",
+            "type": "Ranged Damage",
+            "description": "Heavy weapons and explosives expert. Specialize in AOE damage with rockets and grenades or individual damage with sniper rifles."
+        },
+        {
+            "name": "technomancer",
+            "label": "Technomancer",
+            "type": "Ranged Damage",
+            "description": "Use implants and cybernetic augmentations to simulate magic."
+        },
+        {
+            "name": "exsoldier",
+            "label": "Ex-Soldier",
+            "type": "Ranged Tank",
+            "description": "Assault rifles and flash grenades. Suppressive fire and generally keeping enemies at bay to protect allies."
+        },
+        {
+            "name": "bodyguard",
+            "label": "Bodyguard",
+            "type": "Melee Tank",
+            "description": "Can take a hit and keep enemies focused on them while disabling them with stunning blows and disarms."
+        },
+        {
+            "name": "machinist",
+            "label": "Machinist",
+            "type": "Support",
+            "description": "Uses light weaponry when necessary, but would rather cause disruption with traps, turrets and robots."
+        },
+        {
+            "name": "scientist",
+            "label": "Scientist",
+            "type": "Support",
+            "description": "Assists allies by providing buffs through chemicals and stim needles; can deploy energy field shields. Its main weapon is a dart gun."
+        },
+        {
+            "name": "medic",
+            "label": "Medic",
+            "type": "Support",
+            "description": "Heals allies with bandages and tourniquets. A quick healer."
+        }
+    ]
+}
