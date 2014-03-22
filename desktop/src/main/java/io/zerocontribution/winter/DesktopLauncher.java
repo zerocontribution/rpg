@@ -8,8 +8,8 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Winter Game";
         config.useGL20 = true;
-        config.width = 1200;
-        config.height = 720;
+        config.width = 1600;
+        config.height = 900;
         new LwjglApplication(new WinterGame(), config);
     }
 }

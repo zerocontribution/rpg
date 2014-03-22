@@ -109,7 +109,7 @@ public class GameClient {
     }
 
     public void sendStartGame() {
-        Network.StartGame msg = new Network.StartGame("isometric");
+        Network.StartGame msg = new Network.StartGame("iso2");
         client.sendTCP(msg);
     }
 
