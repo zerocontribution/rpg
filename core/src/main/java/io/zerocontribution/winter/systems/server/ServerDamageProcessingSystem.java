@@ -1,4 +1,4 @@
-package io.zerocontribution.winter.systems;
+package io.zerocontribution.winter.systems.server;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -9,9 +9,10 @@ import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.components.Condition;
 import io.zerocontribution.winter.components.Damage;
 import io.zerocontribution.winter.components.Stats;
+import io.zerocontribution.winter.components.Update;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
-public class DamageProcessingSystem extends EntityProcessingSystem {
+public class ServerDamageProcessingSystem extends EntityProcessingSystem {
 
     @Mapper
     ComponentMapper<Damage> damageMapper;
@@ -23,7 +24,7 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
     ComponentMapper<Condition> conditionMapper;
 
     @SuppressWarnings("unchecked")
-    public DamageProcessingSystem() {
+    public ServerDamageProcessingSystem() {
         super(Aspect.getAspectForAll(Damage.class));
     }
 
@@ -48,6 +49,8 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
                 GdxLogHelper.log("damage-processor", damage.source + " killed " + e);
                 creditKill(damage.source, sourceStats, targetStats);
             }
+
+            e.addComponent(new Update());
         }
 
         e.removeComponent(Damage.class);
@@ -79,6 +82,8 @@ public class DamageProcessingSystem extends EntityProcessingSystem {
 
             GdxLogHelper.log("damage-processing", source.toString() + " leveled up to " + sourceStats.level);
         }
+
+        source.addComponent(new Update());
     }
 
 }

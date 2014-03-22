@@ -8,20 +8,17 @@ import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.systems.ActionProcessingSystem;
 import io.zerocontribution.winter.systems.CombatProcessingSystem;
-import io.zerocontribution.winter.systems.DamageProcessingSystem;
+import io.zerocontribution.winter.systems.server.*;
+import io.zerocontribution.winter.systems.server.ServerDamageProcessingSystem;
 import io.zerocontribution.winter.systems.MovementSystem;
-import io.zerocontribution.winter.systems.server.AIProcessingSystem;
-import io.zerocontribution.winter.systems.server.ServerCollisionSystem;
-import io.zerocontribution.winter.systems.server.ServerNetworkSystem;
-import io.zerocontribution.winter.systems.server.ServerUpdateSystem;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
-public class GameScreen implements Screen {
+public class ServerGameScreen implements Screen {
 
     GameServer server;
     World world;
 
-    public GameScreen(GameServer server) {
+    public ServerGameScreen(GameServer server) {
         this.server = server;
 
         if (Constants.DEBUG) {
@@ -37,7 +34,7 @@ public class GameScreen implements Screen {
         world.setSystem(new AIProcessingSystem());
         world.setSystem(new ActionProcessingSystem());
         world.setSystem(new CombatProcessingSystem());
-        world.setSystem(new DamageProcessingSystem());
+        world.setSystem(new ServerDamageProcessingSystem());
         world.setSystem(new ServerCollisionSystem());
         world.setSystem(new MovementSystem(ServerGlobals.currentMap));
         world.setSystem(new ServerUpdateSystem(1 / 20.0f));

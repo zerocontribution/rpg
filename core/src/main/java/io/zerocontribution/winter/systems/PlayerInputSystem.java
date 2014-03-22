@@ -12,6 +12,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.network.AbilityCommand;
 import io.zerocontribution.winter.network.ActionCommand;
 import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.GdxLogHelper;
@@ -92,9 +93,13 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
         if (abilityId != 0) {
             GdxLogHelper.log("player-input", "Inbound action: " + abilityId);
-            Player player = playerMapper.get(e);
-            e.addComponent(new ActionInput(player.group, abilityId, world.getEntity(actor.currentTarget)));
+
+            ActionInput input = new ActionInput(playerMapper.get(e).group, abilityId, world.getEntity(actor.currentTarget));
+            e.addComponent(input);
             e.changedInWorld();
+
+            ClientGlobals.commands.add(AbilityCommand.create(input));
+
             abilityId = 0;
         }
     }

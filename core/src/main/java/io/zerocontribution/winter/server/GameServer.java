@@ -142,7 +142,7 @@ public class GameServer implements Runnable {
 
     public void create() {
         // TODO Remove screen stuff and move to application listeners instead.
-        setScreen(new GameScreen(this));
+        setScreen(new ServerGameScreen(this));
     }
 
     public void resize(int i, int i2) {

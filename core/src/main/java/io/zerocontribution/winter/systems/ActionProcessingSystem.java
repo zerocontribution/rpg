@@ -11,6 +11,8 @@ import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
+// TODO: Refactor to ServerActionProcessingSystem
+// TODO: ClientActionProcessingSystem should only process local player.
 public class ActionProcessingSystem extends EntityProcessingSystem {
 
     @Mapper
