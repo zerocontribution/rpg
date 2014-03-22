@@ -48,8 +48,7 @@ public class GameScreen extends AbstractScreen {
         ClientGlobals.loadClientMap(map);
         Assets.loadImages();
 
-        world = new World();
-        WinterGame.world = world; // TODO Remove reference?
+        world = WinterGame.world; // TODO Remove local reference
         world.setManager(new GroupManager());
         world.setManager(new TagManager());
 
@@ -76,7 +75,7 @@ public class GameScreen extends AbstractScreen {
 
         if (Constants.DEBUG) {
             collisionDebugSystem = world.setSystem(new CollisionDebugSystem(), true);
-            debugHudSystem = world.setSystem(new DebugHudSystem(), true);
+            debugHudSystem = world.setSystem(new DebugHudSystem(game), true);
         }
 
         ClientGlobals.entityFactory.createMap(world, spriteBatch).addToWorld();

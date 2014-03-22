@@ -16,6 +16,8 @@ import io.zerocontribution.winter.systems.server.ServerNetworkSystem;
 import io.zerocontribution.winter.systems.server.ServerUpdateSystem;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class GameScreen implements Screen {
 
     GameServer server;
@@ -49,6 +51,10 @@ public class GameScreen implements Screen {
     public void render(float v) {
         world.setDelta(v);
         world.process();
+
+        ServerGlobals.entitiesActive.set(world.getEntityManager().getActiveEntityCount());
+        ServerGlobals.entitiesCreated.set(world.getEntityManager().getTotalCreated());
+        ServerGlobals.entitiesDeleted.set(world.getEntityManager().getTotalDeleted());
     }
 
     @Override

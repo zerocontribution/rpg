@@ -72,7 +72,7 @@ public class GameClient {
     }
 
     public void connect(String serverIP) {
-        client = new Client();
+        client = new Client(1024 * 10, 1024 * 10);
         Network.register(client);
 
         Thread kryoThread = new Thread(client);

@@ -5,7 +5,7 @@ import com.artemis.Entity;
 
 public abstract class BaseComponent extends Component {
 
-    protected boolean updated = false;
+    protected boolean updated = true;
 
     public Object create(Entity entity) {
         return null;

@@ -5,6 +5,7 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.managers.TagManager;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.components.Update;
 import io.zerocontribution.winter.struct.Pair;
 import io.zerocontribution.winter.components.PairMap;
 import io.zerocontribution.winter.server.maps.tiled.TiledMap;
@@ -50,8 +51,10 @@ public class ServerCollisionSystem extends AbstractCollisionSystem {
                 if (pairMap.map.get(Pair.get(x, y)) == null) {
                     TiledMapTileLayer.Cell cell = groundLayer.getCell(x, y);
                     if (cell == null || cell.getTile().getProperties().containsKey(Constants.TILE_OBSTACLE)) {
-                        ServerGlobals.entityFactory.createBlockingTile(world, x, y).addToWorld();
-                        pairMap.map.put(Pair.get(x, y), new Boolean(true));
+                        Entity blockingTile = ServerGlobals.entityFactory.createBlockingTile(world, x, y);
+                        blockingTile.addComponent(new Update());
+                        blockingTile.addToWorld();
+                        pairMap.map.put(Pair.get(x, y), true);
                     }
                 }
             }

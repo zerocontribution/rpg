@@ -38,6 +38,7 @@ public class WinterGame extends Game {
     public void create () {
         instance = this;
         gameClient = new GameClient();
+        world = new World();
         setScreen(new MenuScreen());
     }
 

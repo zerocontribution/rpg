@@ -8,13 +8,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.utils.ClientGlobals;
+import io.zerocontribution.winter.utils.ServerGlobals;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class DebugHudSystem extends VoidEntitySystem {
 
     private SpriteBatch spriteBatch;
     private BitmapFont font;
+    private WinterGame game;
+
+    public DebugHudSystem(WinterGame game) {
+        this.game = game;
+    }
 
     @Override
     protected void initialize() {
@@ -34,9 +41,21 @@ public class DebugHudSystem extends VoidEntitySystem {
         ArrayList<String> lines = new ArrayList<String>();
         lines.add("Ping: " + ClientGlobals.ping);
         lines.add("FPS: " + Gdx.graphics.getFramesPerSecond());
-        lines.add("Active entities: " + world.getEntityManager().getActiveEntityCount());
-        lines.add("Total created: " + world.getEntityManager().getTotalCreated());
-        lines.add("Total deleted: " + world.getEntityManager().getTotalDeleted());
+        lines.add("Entities: active: " + world.getEntityManager().getActiveEntityCount() +
+                "; created: " + world.getEntityManager().getTotalCreated() +
+                "; deleted: " + world.getEntityManager().getTotalDeleted());
+
+        if (game.isHost()) {
+            lines.add("Server Entities: active: " + ServerGlobals.entitiesActive +
+                    "; created: " + ServerGlobals.entitiesCreated +
+                    "; deleted: " + ServerGlobals.entitiesDeleted);
+        }
+
+        NumberFormat format = NumberFormat.getInstance();
+        long maxMemory = Runtime.getRuntime().maxMemory() / 1024 / 1024;
+        long freeMemory = Runtime.getRuntime().freeMemory() / 1024 / 1024;
+        long allocatedMemory = Runtime.getRuntime().totalMemory() / 1024 / 1024;
+        lines.add("Mem: free:" + format.format(freeMemory) + "; max:" + format.format(maxMemory) + "; allocated: " + format.format(allocatedMemory));
 
         for (int i = 0; i < lines.size(); i++) {
             font.draw(spriteBatch, lines.get(i), 20, 20 + (i * 20));

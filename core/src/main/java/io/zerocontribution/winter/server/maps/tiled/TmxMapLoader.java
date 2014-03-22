@@ -105,14 +105,39 @@ public class TmxMapLoader {
             int firstgid = element.getIntAttribute("firstgid", 1);
             int tileWidth = element.getIntAttribute("tilewidth", 0);
             int tileHeight = element.getIntAttribute("tileheight", 0);
+            int spacing = element.getIntAttribute("spacing", 0);
+            int margin = element.getIntAttribute("margin", 0);
+            String source = element.getAttribute("source", null);
+
+            int imageWidth = 0, imageHeight = 0;
+
+            if (source != null) {
+                throw new IllegalStateException("Server TmxMapLoader does not support tileset source attribute yet");
+            } else {
+                imageWidth = element.getChildByName("image").getIntAttribute("width", 0);
+                imageHeight = element.getChildByName("image").getIntAttribute("height", 0);
+            }
 
             TiledMapTileSet tileset = new TiledMapTileSet();
             MapProperties props = tileset.getProperties();
             props.put("firstgid", firstgid);
             props.put("tilewidth", tileWidth);
             props.put("tileheight", tileHeight);
+            props.put("margin", margin);
+            props.put("spacing", spacing);
+
+            int stopWidth = imageWidth - tileWidth;
+            int stopHeight = imageHeight - tileHeight;
 
             int id = firstgid;
+
+            for (int y = margin; y <= stopHeight; y += tileHeight + spacing) {
+                for (int x = margin; x <= stopWidth; x += tileWidth + spacing) {
+                    TiledMapTile tile = new StaticTiledMapTile();
+                    tile.setId(id);
+                    tileset.putTile(id++, tile);
+                }
+            }
 
             Array<Element> tileElements = element.getChildrenByName("tile");
 
@@ -120,23 +145,19 @@ public class TmxMapLoader {
                 int localtid = tileElement.getIntAttribute("id", 0);
 
                 TiledMapTile tile = tileset.getTile(firstgid + localtid);
-                if (tile == null) {
-                    tile = new StaticTiledMapTile();
-                    tile.setId(id);
-                    tileset.putTile(id + localtid, tile);
-                }
-
-                String terrain = tileElement.getAttribute("terrain", null);
-                if (terrain != null) {
-                    tile.getProperties().put("terrain", terrain);
-                }
-                String probability = tileElement.getAttribute("probability", null);
-                if (probability != null) {
-                    tile.getProperties().put("probability", probability);
-                }
-                Element properties = tileElement.getChildByName("properties");
-                if (properties != null) {
-                    loadProperties(tile.getProperties(), properties);
+                if (tile != null) {
+                    String terrain = tileElement.getAttribute("terrain", null);
+                    if (terrain != null) {
+                        tile.getProperties().put("terrain", terrain);
+                    }
+                    String probability = tileElement.getAttribute("probability", null);
+                    if (probability != null) {
+                        tile.getProperties().put("probability", probability);
+                    }
+                    Element properties = tileElement.getChildByName("properties");
+                    if (properties != null) {
+                        loadProperties(tile.getProperties(), properties);
+                    }
                 }
             }
 

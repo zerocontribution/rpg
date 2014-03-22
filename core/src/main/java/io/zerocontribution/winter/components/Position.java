@@ -1,7 +1,5 @@
 package io.zerocontribution.winter.components;
 
-import com.artemis.Component;
-
 public class Position extends EntityComponent {
     public float x, y;
 

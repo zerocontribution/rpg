@@ -48,6 +48,14 @@ public class ServerUpdateSystem extends IntervalEntitySystem {
 
             entity.removeComponent(Update.class);
             entity.changedInWorld();
+
+            // Known limitation: Prevent buffer sizes from getting out of hand on large updates. Splits updates across
+            // multiple cycles.
+            // TODO: This may be better done in the ServerNetworkSystem and just burst multiple packets in a single tick.
+            if (bag.size() > 50) {
+                Log.warn("ServerUpdateSystem", "Updates incomplete: Reached component limit");
+                break;
+            }
         }
 
         if (bag.size() > 0) {

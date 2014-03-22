@@ -26,7 +26,8 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
     @Override
     protected void initialize() {
-        server = new Server() {
+        // TODO These are pretty big-big buffers... :\
+        server = new Server(1024 * 10, 1024 * 10) {
             @Override
             protected Connection newConnection() {
                 return new PlayerConnection();
@@ -153,11 +154,10 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
         for (int i = 0; i < components.size(); i++) {
             BaseComponent c = (BaseComponent) components.get(i);
-            Log.debug("Server", "  Component " + c.toString());
 
             Object trans = c.create(entity);
             if (trans != null) {
-                Log.debug("Server", "    Added");
+                Log.debug("Server", "  Component " + c.toString());
                 list.add(trans);
             }
         }
