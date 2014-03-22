@@ -29,6 +29,8 @@ project(":core") {
     
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+
         // Can't find this? Wtf?
 //        compile "com.baglogicgames.gdx:gdx-tools:$gdxVersion"
 
