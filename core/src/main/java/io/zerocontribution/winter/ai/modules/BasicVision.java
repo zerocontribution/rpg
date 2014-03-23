@@ -64,7 +64,7 @@ public class BasicVision extends AbstractAIModule {
             if (conditionMapper.get(players.get(i)).state == State.DYING) {
                 continue;
             }
-            
+
             Position entityPosition = positionMapper.get(e);
             Position playerPosition = positionMapper.get(players.get(i));
             TargetGridPosition targetPosition = targetGridPositionMapper.get(e);
@@ -75,7 +75,7 @@ public class BasicVision extends AbstractAIModule {
 
             if (!spotted) {
                 if (dst < range) {
-                    Vector2 gridPosition = MapHelper.worldToGrid(playerPosition.x, playerPosition.y);
+                    Vector2 gridPosition = MapHelper.worldToGrid(ServerGlobals.currentMap, playerPosition.x, playerPosition.y);
                     targetPosition.x = gridPosition.x;
                     targetPosition.y = gridPosition.y;
 

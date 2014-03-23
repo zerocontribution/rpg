@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Json;
 import io.zerocontribution.winter.Constants.Animations.Player;
 import io.zerocontribution.winter.assets.*;
 import io.zerocontribution.winter.combat.abilities.Ability;
+import io.zerocontribution.winter.spawners.IntervalSpawner;
+import io.zerocontribution.winter.spawners.Spawner;
 
 /**
  * @todo This class really needs some love. Too much work to maintain it.
@@ -18,6 +20,7 @@ public class Assets {
     public static LevelsAsset levels;
     public static EnemiesAsset enemies;
     public static AbilitiesAsset abilities;
+    public static MapsAsset maps;
 
     private static Animation playerRunUp;
     private static Animation playerRunUpRight;
@@ -29,16 +32,19 @@ public class Assets {
     private static Animation playerRunLeft;
     private static Animation playerDying;
 
-
     public static void loadConfigurations() {
         Json json = new Json();
         json.setElementType(LevelsAsset.class, "levels", LevelAsset.class);
         json.setElementType(EnemiesAsset.class, "enemies", EnemyAsset.class);
         json.setElementType(AbilitiesAsset.class, "abilities", Ability.class);
+        json.setElementType(MapsAsset.class, "maps", MapAsset.class);
+
+        json.addClassTag("intervalSpawner", IntervalSpawner.class);
 
         levels = json.fromJson(LevelsAsset.class, Gdx.files.internal("levels.json").read());
         enemies = json.fromJson(EnemiesAsset.class, Gdx.files.internal("enemies.json").read());
         abilities = json.fromJson(AbilitiesAsset.class, Gdx.files.internal("abilities.json").read());
+        maps = json.fromJson(MapsAsset.class, Gdx.files.internal("maps.json").read());
     }
 
     public static void loadImages() {

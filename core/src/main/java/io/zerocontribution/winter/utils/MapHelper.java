@@ -11,6 +11,8 @@ import io.zerocontribution.winter.server.maps.tiled.TiledMap;
  *
  * @todo Cache vector results instead of creating new objects all the time.
  * @todo Fucking fuck.
+ *
+ * @link http://www.alcove-games.com/advanced-tutorials/isometric-tile-picking/
  */
 public class MapHelper {
 
@@ -37,11 +39,6 @@ public class MapHelper {
         );
     }
 
-    public static Vector2 gridToWorld(float x, float y) {
-        Log.warn("MapHelper", "gridToWorld(float, float) deprecated!");
-        return gridToWorld(ClientGlobals.currentMap, x, y);
-    }
-
     public static Vector2 worldToGrid(Map map, float x, float y) {
         float tileHalfW;
         float tileHalfH;
@@ -63,11 +60,6 @@ public class MapHelper {
                 (float) Math.floor((x / tileHalfW - y / tileHalfH) / 2),
                 (float) Math.floor((y / tileHalfH + x / tileHalfW) / 2)
         );
-    }
-
-    public static Vector2 worldToGrid(float x, float y) {
-//        Log.warn("MapHelper", "worldToGrid(float, float) deprecated!");
-        return worldToGrid(ClientGlobals.currentMap, x, y);
     }
 
     public static Vector2 gridToScreen(float x, float y) {

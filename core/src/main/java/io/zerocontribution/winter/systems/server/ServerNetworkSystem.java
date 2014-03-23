@@ -11,7 +11,9 @@ import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
+import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.assets.MapAsset;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.network.*;
 import io.zerocontribution.winter.server.ServerEntityFactory;
@@ -109,15 +111,14 @@ public class ServerNetworkSystem extends VoidEntitySystem {
             return;
         }
 
-        ServerGlobals.loadServerMap(packet.map);
-        ServerGlobals.entityFactory.createMap(world).addToWorld();
-
-        // TODO Move this out: Should be done with spawners instead
-        for (int i = 0; i <= 5; i++) {
-            Entity enemy = new ServerEntityFactory().createEnemy(world, i + 10.0f, i + 10.0f);
-            enemy.addComponent(new Update());
-            enemy.addToWorld();
+        MapAsset map = Assets.maps.get(packet.map);
+        if (map == null) {
+            // TODO sendToAllTCP(new ServerErrorResponse("No map ..."))
+            throw new RuntimeException("No map asset found for " + packet.map);
         }
+
+        ServerGlobals.loadServerMap(map);
+        ServerGlobals.entityFactory.createMap(world).addToWorld();
 
         server.sendToAllTCP(new StartGameResponse(packet.map));
     }

@@ -44,7 +44,6 @@ public class GameScreen extends AbstractScreen {
         font = new BitmapFont();
         font.setUseIntegerPositions(false);
 
-        Assets.loadConfigurations();
         ClientGlobals.loadClientMap(map);
         Assets.loadImages();
 

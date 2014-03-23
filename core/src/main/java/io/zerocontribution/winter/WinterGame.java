@@ -39,6 +39,7 @@ public class WinterGame extends Game {
         instance = this;
         gameClient = new GameClient();
         world = new World();
+        Assets.loadConfigurations();
         setScreen(new MenuScreen());
     }
 

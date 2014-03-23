@@ -7,6 +7,7 @@ dependencies {
     compile files(
             "./libs/artemis-a609b2076aacc0ef5ecf0b390205d01bb88ceae2.jar",
             "./libs/gdx-tools-0.9.9.jar",
+            "./libs/libgdx-utils.jar",
             "./libs/kryonet/debug/onejar/kryonet-2.21-all.jar"
     )
 }

@@ -52,7 +52,8 @@
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 </data>
  </layer>
- <objectgroup color="#ffaa00" name="Objects" width="40" height="40">
-  <object name="spawn" type="spawn" x="66" y="1172" width="38" height="37"/>
+ <objectgroup color="#ffaa00" name="Spawns" width="40" height="40">
+  <object name="playerSpawn" type="spawn" x="66" y="1172" width="38" height="37"/>
+  <object name="intervalSpawnPoint" type="spawn" x="638" y="798" width="351" height="93"/>
  </objectgroup>
 </map>

@@ -27,6 +27,7 @@ public class ServerGameScreen implements Screen {
         world.setManager(new TagManager());
 
         world.setSystem(new ServerNetworkSystem());
+        world.setSystem(new SpawnerSystem());
         world.setSystem(new AIProcessingSystem());
         world.setSystem(new ActionProcessingSystem());
         world.setSystem(new CombatProcessingSystem());
