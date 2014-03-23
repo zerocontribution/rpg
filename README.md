@@ -1,102 +1,75 @@
-libgdx-gradle-template
-======================
+# rpg
 
-Gradle template for libgdx projects that works on the CLI, Eclipse and Intellij IDEA. This tempate will eventually
-replace the libgdx Setup-UI currently in use. To get started **[Download the template](https://github.com/libgdx/libgdx-gradle-template/archive/master.zip)**
-or fork and clone this repository.
+A multiplayer cyberpunk action RPG.
 
-### A word about Gradle
-[Gradle](http://www.gradle.org/) is a nifty build and dependency managment system. A build system allows you to easily
-compile and package (potentially different versions of) your project. A dependency management system allows
-you to declaratively specify 3rd party libraries, which the dependency management system will
-pull in automatically for you. No need to put Jar files or native libraries in your project tree.
+# Contributing
 
-You do not need to install Gradle manually, this template uses the [Gradle wrapper](http://www.gradle.org/docs/current/userguide/gradle_wrapper.html)
-which takes care of that for you transparently. The first time you invoke gradle on the command line,
-the Gradle wrapper will automatically download and install Gradle into your home directory.
+*If you want to contribute, you **MUST** follow this process:*
 
-To use this template you do not need to know Gradle necessarily, pretty much everything is taken 
-care of for you.
+## Forks & Pull Requests
 
-### A word about Source Control
-The contents of this repository are everything you need to commit to your source control repository.
-Do not commit Eclipse or IntelliJ Idea projec files, especially if other people are working on the
-same project. Instead, everyone just downloads this IDE-unaware project, then uses Gradle to generate
-local IDE project files.
+All contributions must be made via forks and pull requests: So first, you must fork the repository.
 
-Also make sure to commit the gradlew, gradlew.bat files and the gradle/ folder. This way, nobody needs
-to manually install Gradle on their system.
+When making a change, checkout a new branch based off the most recent version of develop, do your work, then rebase your
+changes off the upstream repository before making a pull request. **If you do not make a pull request from a separate
+branch, I will close your PR immediately.**
 
-### Project Structure
-This template has the following structure (ignoring some directores and files in the Android project for brevity).
+## Commit Messages
 
-    build.gradle                 <- main Gradle build file, add dependencies here
-    settings.gradle              <- definition of the sub-modules for core, desktop, Android
-    
-    core/                        <- Core project
-       build.gradle              <- Gradle build file for core project, no need to touch this
-       src/                      <- All your game's source code goes here!
-       
-    desktop/                     <- Desktop project
-       build.gradle              <- Gradle build file for desktop project, no need to touch this
-       src/                      <- the desktop project's source code, contains launcher class
-       
-    android/                     <- Android project
-       AndroidManifest.xml       <- Android specific configuration
-       build.gradle              <- Gradle build file for Android project, DON'T EVER TOUCH THIS!
-       assets/                   <- contains all your graphics, audio, etc. files, shared with desktop
-       res/                      <- contains icons of your app and other resources
-       src/                      <- the Android project's source code, contains launcher class
+Commits must conform to the following format:
 
-### Command Line Usage
-Before you can do anything, you need to set the ANDROID_HOME environment variable to point
-to your Android SDK's root folder. On Windows you can do this on the command line
+```
+ComponentName: Short description no longer than 70 characters.
 
-    set ANDROID_HOME=C:/Path/To/Your/Android/Sdk
-    
-On Linux and Mac OS X you can do this in the shell
+A longer description, if necessary.
 
-    export ANDROID_HOME=/Path/To/Your/Android/Sdk
-    
-Both commands will set the ANDROID_HOME enviroment variable for the duration of your shell session. You 
-should set this environment variable permanently on your system. Please consult the internet for instructions.
+Closes #1
+```
 
-Once you have ANDROID_HOME set, you can continue with using Gradle. On windows, you use 
-the gradlew.bat files, which you can invoke like this:
+Should there be any issues associated with the commit you are making, they must be explicitly called out with the
+`closes ###` format so that the issue you are working on is automatically closed.
 
-    gradlew clean
-    
+## Reporting Issues
+
+If you are reporting a new issue, add a short description and be sure to add the proper labels to it. It should not be
+assigned to anyone unless they are going to start working on it immediately.
+
+# Development
+
+## Setup a JVM env
+
+You should download and install the most recent version of JDK7.
+
+## Setup GVM
+
+This project uses Gradle, which you can get via GVM: http://gvmtool.net/
+
+Once GVM is installed, run:
+
+```
+gvm install gradle 1.9
+```
+
+## Command-line Usage
+
 On Linux or Mac OS X you invoke gradle like this:
 
     ./gradlew clean
-    
-Note the leading dot slash on Unix like systems. In both cases, the clean task will remove all 
+
+Note the leading dot slash on Unix like systems. In both cases, the clean task will remove all
 build files, e.g. class files previously generated.
 
 #### Running the desktop project
 To run the desktop project issue this gradle command:
 
     ./gradlew desktop:run
-    
+
 #### Packaging the desktop project
 To create a ZIP distribution including shell scripts to start your app, issue this gradle command:
 
     ./gradlew desktop:distZip
-    
+
 This will create a ZIP file in the folder desktop/build/distributions, ready to be send to testers.
-    
-#### Running the Android project
-To run the Android project, issues this gradle command:
-
-    ./gradlew android:installDebug
-   
-This will compile the APK for Android, and install it on a connected device. You will have to
-start the app manually on the device.
-
-#### Packaging the Android project
-The android:installDebug task will create an unsigned debug APK of your app, which you can find
-in the android/build/apk/ folder. If you want to build a signed APK for release on the Google 
-Play Store, please consult the [Android Gradle plugin documentation](http://tools.android.com/tech-docs/new-build-system/user-guide)
 
 ### Eclipse Usage
 You can let Gradle generate Eclipse projects for your application easily:
@@ -164,14 +137,3 @@ To run/debug the Android project, first create a run configuration:
   
 To run/debug the desktop project, just select the run configuration you just created
 and then either click the green play button, or the green play button with the bug.
-
-### Dependency Management
-One of the benefits of Gradle and similar systems like Maven or Ivy, is that integrating
-third party dependencies in your project is really simple. It also has the benfit that
-your project file tree doesn't contain any JAR files or other 3rd party resources, keeping
-things clean and tidy. Every time your or a team mate invoke a Gradle task, the 
-dependencies of your project will get checked and updated if necessary.
-
-How and where do you specify dependencies?
-
-TBD see build.gradle in root for now
