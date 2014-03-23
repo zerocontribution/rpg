@@ -13,7 +13,9 @@ public class SpawnerSystem extends VoidEntitySystem {
 
     protected void processSystem() {
         for (Spawner spawner : ServerGlobals.currentMapAsset.spawners) {
-            spawner.spawn(world);
+            if (spawner.shouldSpawn(world)) {
+                spawner.spawn(world);
+            }
         }
     }
 
