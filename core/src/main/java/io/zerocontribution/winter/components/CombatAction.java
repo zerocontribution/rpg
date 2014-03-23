@@ -3,7 +3,7 @@ package io.zerocontribution.winter.components;
 import com.artemis.Entity;
 import io.zerocontribution.winter.combat.processors.CombatProcessor;
 
-public class CombatAction extends EntityComponent {
+public class CombatAction extends BaseComponent {
 
     public Entity ability;
     public CombatProcessor processor;

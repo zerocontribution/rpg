@@ -18,6 +18,7 @@ import io.zerocontribution.winter.utils.ServerGlobals;
  * @todo Add minimum distance for "follower" functionality.
  * @todo Add "stuck" resolution: If entity hasn't changed position in n ticks and hasn't reached its target yet,
  *       try moving to a different neighbor tile and retry.
+ * @todo Velocity changes are being made even after the AI has reached its destination as best as it can.
  */
 public class BasicFollow extends AbstractAIModule {
 
@@ -84,8 +85,7 @@ public class BasicFollow extends AbstractAIModule {
             targetPosition.currentPathStep = 1; // Step 0 is starting point.
             interval = 0;
 
-            velocity.x = 0f;
-            velocity.y = 0f;
+            velocity.set(0, 0);
         } else if (targetPosition.y >= 0 && targetPosition.x >= 0) {
             if (targetPosition.pathFinder == null) {
                 targetPosition.pathFinder = new AStarPathFinder(map, range, true, new ManhattanHeuristic());
@@ -120,32 +120,30 @@ public class BasicFollow extends AbstractAIModule {
                         .append((int) targetPosition.x).append(",").append((int) targetPosition.y)
                         .toString());
 
-                velocity.x = 0;
-                velocity.y = 0;
+                velocity.set(0, 0);
             } else {
                 if (targetPosition.path.getLength() == targetPosition.currentPathStep) {
                     // Reached our destination. Call it a day.
                     targetPosition.path = null;
                     targetPosition.currentPathStep = 1;
-                    velocity.x = 0;
-                    velocity.y = 0;
+                    velocity.set(0, 0);
                 } else {
                     Path.Step step = targetPosition.path.getStep(targetPosition.currentPathStep);
 
                     if (step.getX() > gridPosition.x) {
-                        velocity.x = speed;
+                        velocity.setX(speed);
                     } else if (step.getX() < gridPosition.x) {
-                        velocity.x = -speed;
+                        velocity.setX(-speed);
                     } else {
-                        velocity.x = 0;
+                        velocity.setX(0);
                     }
 
                     if (step.getY() > gridPosition.y) {
-                        velocity.y = speed;
+                        velocity.setY(speed);
                     } else if (step.getY() < gridPosition.y) {
-                        velocity.y = -speed;
+                        velocity.setY(-speed);
                     } else {
-                        velocity.y = 0;
+                        velocity.setY(0);
                     }
 
                     if (velocity.x == 0f && velocity.y == 0) {
@@ -157,6 +155,11 @@ public class BasicFollow extends AbstractAIModule {
             // An invalid target destination that we're just going to ignore.
             // TODO Fix the collision system so negative coordinates are not possible.
             GdxLogHelper.log("pathfinding", "TODO invalid destination");
+        }
+
+        if (velocity.isUpdated()) {
+            e.addComponent(new Update());
+            e.changedInWorld();
         }
 
         return false;

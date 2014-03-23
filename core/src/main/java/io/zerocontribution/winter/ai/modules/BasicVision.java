@@ -8,10 +8,7 @@ import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.State;
-import io.zerocontribution.winter.components.Condition;
-import io.zerocontribution.winter.components.Position;
-import io.zerocontribution.winter.components.TargetGridPosition;
-import io.zerocontribution.winter.components.Velocity;
+import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
@@ -90,8 +87,9 @@ public class BasicVision extends AbstractAIModule {
                     spotted = false;
 
                     Velocity velocity = velocityMapper.get(e);
-                    velocity.x = 0;
-                    velocity.y = 0;
+                    velocity.set(0, 0);
+                    e.addComponent(new Update());
+                    e.changedInWorld();
 
                     targetPosition.x = -1;
                     targetPosition.y = -1;
@@ -106,7 +104,6 @@ public class BasicVision extends AbstractAIModule {
             }
         }
 
-        GdxLogHelper.log("ai-vision", "No players to look for: Exiting AI processor.");
         return true;
     }
 }

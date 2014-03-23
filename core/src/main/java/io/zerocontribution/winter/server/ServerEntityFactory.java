@@ -8,7 +8,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.AbstractEntityFactory;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.State;
+import io.zerocontribution.winter.ai.AIRegistry;
+import io.zerocontribution.winter.ai.normals.ZombieAI;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.struct.Delay;
+import io.zerocontribution.winter.struct.Directions;
+import io.zerocontribution.winter.utils.GdxLogHelper;
 import io.zerocontribution.winter.utils.MapHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
@@ -45,6 +51,71 @@ public class ServerEntityFactory extends AbstractEntityFactory {
         e.addComponent(new Blocking());
 
         world.getManager(GroupManager.class).add(e, Constants.Groups.BLOCKING_TILES);
+
+        return e;
+    }
+
+    // TODO Add Spawner & Despawner Systems
+    public Entity createEnemy(World world, float x, float y) {
+        GdxLogHelper.log("assets", "Deprecated createEnemy method");
+
+        Entity e = world.createEntity();
+        Vector2 worldVector = MapHelper.gridToWorld(ServerGlobals.currentMap, x, y);
+
+        e.addComponent(new Name("player")); // TODO Change when more assets come along.
+
+        e.addComponent(new SpriteColor(1, 0.3f, 0.3f, 1));
+
+        e.addComponent(new Facing(Directions.DOWN));
+
+        e.addComponent(new Condition(State.RUN));
+
+        Bounds bounds = new Bounds();
+        bounds.rect = new Rectangle();
+        bounds.rect.x = worldVector.x;
+        bounds.rect.y = worldVector.y;
+        bounds.rect.width = 18;
+        bounds.rect.height = 64;
+        e.addComponent(bounds);
+
+        e.addComponent(new Blocking());
+
+        e.addComponent(new Position(worldVector.x, worldVector.y));
+
+        // TODO Maybe all Position information should be rolled into a singular Component?
+        e.addComponent(new GridPosition(x, y));
+
+        e.addComponent(new TargetGridPosition(x, y));
+
+        e.addComponent(new Dimensions(18, 64));
+
+        e.addComponent(new Velocity());
+
+        e.addComponent(new AnimationName(Constants.Animations.Player.RUN_DOWN)); // TODO Change with new assets
+
+        e.addComponent(new AnimationTimer(0f));
+
+        e.addComponent(new Npc(new AIRegistry().getNew(ZombieAI.NAME, world)));
+
+        Actor actor = new Actor();
+        actor.abilities.put(1, new Delay(1));
+        e.addComponent(actor);
+
+        e.addComponent(new Stats(
+                100,
+                100,
+                100,
+                100,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1
+        ));
+
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMIES);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
 
         return e;
     }

@@ -18,6 +18,7 @@ public abstract class AI {
     private final World world;
 
     private boolean initialized = false;
+    private int acc = 0;
 
     public AI(World world) {
         this.world = world;
@@ -37,8 +38,13 @@ public abstract class AI {
     }
 
     protected void processModules(Entity e) {
+        acc++;
         for (int i = 0; i < modules.length; i++) {
-            if (modules[i].process(e)) break;
+            if (modules[i].shouldProcess(acc) && modules[i].process(e)) break;
+        }
+
+        if (acc == Integer.MAX_VALUE) {
+            acc = 0;
         }
     }
 

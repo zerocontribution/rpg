@@ -19,8 +19,8 @@ public class AIProcessingSystem extends EntityProcessingSystem {
 
     @Override
     protected void process(Entity e) {
-        npcMapper.get(e).getAI().initialize();
-        npcMapper.get(e).getAI().process(e);
+        npcMapper.get(e).ai.initialize();
+        npcMapper.get(e).ai.process(e);
     }
 
 }

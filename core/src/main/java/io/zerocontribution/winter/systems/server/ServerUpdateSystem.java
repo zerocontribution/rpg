@@ -35,7 +35,7 @@ public class ServerUpdateSystem extends IntervalEntitySystem {
 
             for (int j = 0; j < components.size(); j++) {
                 BaseComponent baseComponent = (BaseComponent) components.get(j);
-                if (baseComponent.isUpdated()) {
+                if (baseComponent != null && baseComponent.isUpdated()) {
                     Object transferable = baseComponent.create(entity);
                     if (transferable != null) {
                         bag.add((Network.EntityData) transferable);
@@ -50,7 +50,7 @@ public class ServerUpdateSystem extends IntervalEntitySystem {
             // Known limitation: Prevent buffer sizes from getting out of hand on large updates. Splits updates across
             // multiple cycles.
             // TODO: This may be better done in the ServerNetworkSystem and just burst multiple packets in a single tick.
-            if (bag.size() > 50) {
+            if (bag.size() > 100) {
                 Log.warn("ServerUpdateSystem", "Updates incomplete: Reached component limit");
                 break;
             }

@@ -12,4 +12,8 @@ public abstract class AbstractAIModule implements AIModule {
 
     public void initialize() {}
 
+    public boolean shouldProcess(int acc) {
+        return true;
+    }
+
 }

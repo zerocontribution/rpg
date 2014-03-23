@@ -14,6 +14,7 @@ import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.network.*;
+import io.zerocontribution.winter.server.ServerEntityFactory;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 import java.io.IOException;
@@ -110,6 +111,13 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
         ServerGlobals.loadServerMap(packet.map);
         ServerGlobals.entityFactory.createMap(world).addToWorld();
+
+        // TODO Move this out: Should be done with spawners instead
+        for (int i = 0; i <= 5; i++) {
+            Entity enemy = new ServerEntityFactory().createEnemy(world, i + 10.0f, i + 10.0f);
+            enemy.addComponent(new Update());
+            enemy.addToWorld();
+        }
 
         server.sendToAllTCP(new StartGameResponse(packet.map));
     }
