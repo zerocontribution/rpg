@@ -4,8 +4,8 @@
             "name": "isometric",
             "spawners": [
                 {
-                    "class": "intervalSpawner",
-                    "interval": 5.0,
+                    "class": "waveSpawner",
+                    "interval": 60.0,
                     "increment": 1,
                     "enemies": [
                         "player"

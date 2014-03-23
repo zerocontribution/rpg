@@ -8,11 +8,20 @@ import com.badlogic.gdx.math.Vector2;
 import io.zerocontribution.winter.utils.ServerGlobals;
 import net.dermetfan.utils.libgdx.maps.MapUtils;
 
+import java.util.List;
+
 public abstract class Spawner {
 
     public final static String MAP_SPAWN_LAYER = "Spawns";
 
+    public List<String> enemies;
+    public String zone;
+
     abstract public void spawn(World world);
+
+    public boolean shouldSpawn(World world) {
+        return true;
+    }
 
     protected Rectangle getSpawnBoundary(String zone) {
         MapLayer spawns = ServerGlobals.currentMap.getLayers().get(MAP_SPAWN_LAYER);
@@ -50,6 +59,10 @@ public abstract class Spawner {
         }
 
         return location;
+    }
+
+    protected String getGroupName() {
+        return this.getClass().getSimpleName() + this.hashCode();
     }
 
 }

@@ -10,6 +10,7 @@ import io.zerocontribution.winter.assets.*;
 import io.zerocontribution.winter.combat.abilities.Ability;
 import io.zerocontribution.winter.spawners.IntervalSpawner;
 import io.zerocontribution.winter.spawners.Spawner;
+import io.zerocontribution.winter.spawners.WaveSpawner;
 
 /**
  * @todo This class really needs some love. Too much work to maintain it.
@@ -40,6 +41,7 @@ public class Assets {
         json.setElementType(MapsAsset.class, "maps", MapAsset.class);
 
         json.addClassTag("intervalSpawner", IntervalSpawner.class);
+        json.addClassTag("waveSpawner", WaveSpawner.class);
 
         levels = json.fromJson(LevelsAsset.class, Gdx.files.internal("levels.json").read());
         enemies = json.fromJson(EnemiesAsset.class, Gdx.files.internal("enemies.json").read());
