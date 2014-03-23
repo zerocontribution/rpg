@@ -55,10 +55,6 @@ public class GameScreen extends AbstractScreen {
         world.setSystem(new ClientNetworkSystem(game.gameClient.client, 1 / 33.0f));
         world.setSystem(new PingSystem(game.gameClient.client));
 
-        if (Constants.DEBUG) {
-            world.setSystem(new FPSLoggingSystem());
-        }
-
         // TODO Refactor these systems to not change entity states (e.g. setting State to DYING during combat)
         world.setSystem(new CameraSystem());
         world.setSystem(new PlayerInputSystem());

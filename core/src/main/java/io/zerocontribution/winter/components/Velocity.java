@@ -3,11 +3,14 @@ package io.zerocontribution.winter.components;
 public class Velocity extends EntityComponent {
 
     public float x, y;
+    transient public float lastX, lastY;
 
     public void set(float x, float y) {
         if (this.x == x && this.y == y) {
             return;
         }
+        lastX = this.x;
+        lastY = this.y;
 
         this.x = x;
         this.y = y;
@@ -18,6 +21,7 @@ public class Velocity extends EntityComponent {
         if (this.x == x) {
             return;
         }
+        lastX = this.x;
 
         this.x = x;
         setUpdated();
@@ -27,9 +31,14 @@ public class Velocity extends EntityComponent {
         if (this.y == y) {
             return;
         }
+        lastY = this.y;
 
         this.y = y;
         setUpdated();
+    }
+
+    public boolean changed() {
+        return lastY != y || lastX != x;
     }
 
     public String toString() {

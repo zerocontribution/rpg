@@ -54,36 +54,38 @@ public class MovementSystem extends EntityProcessingSystem {
         Velocity velocity = velocityMapper.get(e);
         Bounds bounds = boundsMapper.get(e);
 
-        position.move(velocity.x * world.delta, velocity.y * world.delta);
-        bounds.rect.x = position.x;
-        bounds.rect.y = position.y;
+        if (velocity.x != 0 || velocity.y != 0) {
+            position.move(velocity.x * world.delta, velocity.y * world.delta);
+            bounds.rect.x = position.x;
+            bounds.rect.y = position.y;
 
-        Vector2 grid = MapHelper.worldToGrid(currentMap, position.x, position.y);
-        if (gridPositionMapper.has(e)) {
-            GridPosition gridPosition = gridPositionMapper.get(e);
-            gridPosition.x = grid.x;
-            gridPosition.y = grid.y;
-        }
+            Vector2 grid = MapHelper.worldToGrid(currentMap, position.x, position.y);
+            if (gridPositionMapper.has(e)) {
+                GridPosition gridPosition = gridPositionMapper.get(e);
+                gridPosition.x = grid.x;
+                gridPosition.y = grid.y;
+            }
 
-        if (facingMapper.has(e)) {
-            Facing facing = facingMapper.get(e);
+            if (facingMapper.has(e)) {
+                Facing facing = facingMapper.get(e);
 
-            if (velocity.x > 0 && velocity.y == 0) {
-                facing.direction = Directions.RIGHT;
-            } else if (velocity.x < 0 && velocity.y == 0) {
-                facing.direction = Directions.LEFT;
-            } else if (velocity.x > 0 && velocity.y > 0) {
-                facing.direction = Directions.UP_RIGHT;
-            } else if (velocity.x < 0 && velocity.y > 0) {
-                facing.direction = Directions.UP_LEFT;
-            } else if (velocity.x > 0 && velocity.y < 0) {
-                facing.direction = Directions.DOWN_RIGHT;
-            } else if (velocity.x < 0 && velocity.y < 0) {
-                facing.direction = Directions.DOWN_LEFT;
-            } else if (velocity.x == 0 && velocity.y > 0) {
-                facing.direction = Directions.UP;
-            } else if (velocity.x == 0 && velocity.y < 0) {
-                facing.direction = Directions.DOWN;
+                if (velocity.x > 0 && velocity.y == 0) {
+                    facing.direction = Directions.RIGHT;
+                } else if (velocity.x < 0 && velocity.y == 0) {
+                    facing.direction = Directions.LEFT;
+                } else if (velocity.x > 0 && velocity.y > 0) {
+                    facing.direction = Directions.UP_RIGHT;
+                } else if (velocity.x < 0 && velocity.y > 0) {
+                    facing.direction = Directions.UP_LEFT;
+                } else if (velocity.x > 0 && velocity.y < 0) {
+                    facing.direction = Directions.DOWN_RIGHT;
+                } else if (velocity.x < 0 && velocity.y < 0) {
+                    facing.direction = Directions.DOWN_LEFT;
+                } else if (velocity.x == 0 && velocity.y > 0) {
+                    facing.direction = Directions.UP;
+                } else if (velocity.x == 0 && velocity.y < 0) {
+                    facing.direction = Directions.DOWN;
+                }
             }
         }
     }

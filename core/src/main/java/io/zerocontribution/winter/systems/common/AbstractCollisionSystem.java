@@ -88,14 +88,22 @@ public abstract class AbstractCollisionSystem extends EntitySystem {
             } else if (actorVelocity.y > 0f) {
                 actorPosition.y = blockingBounds.rect.y - actorDimensions.height;
             }
-            actorVelocity.y = 0f;
+
+            if (actorVelocity.changed()) {
+                actorVelocity.setUpdated(false);
+            }
+            actorVelocity.setY(0);
         } else if (!yBounds.rect.overlaps(blockingBounds.rect)) {
             if (actorVelocity.x < 0f) {
                 actorPosition.x = blockingBounds.rect.x + blockingBounds.rect.width;
             } else if (actorVelocity.x > 0f) {
                 actorPosition.x = blockingBounds.rect.x - actorDimensions.width;
             }
-            actorVelocity.x = 0f;
+
+            if (actorVelocity.changed()) {
+                actorVelocity.setUpdated(false);
+            }
+            actorVelocity.setX(0);
         }
     }
 

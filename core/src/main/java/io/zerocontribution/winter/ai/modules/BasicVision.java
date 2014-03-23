@@ -61,6 +61,10 @@ public class BasicVision extends AbstractAIModule {
         ImmutableBag<Entity> players = world.getManager(GroupManager.class).getEntities(Constants.Groups.PLAYERS);
 
         for (int i = 0; i < players.size(); i++) {
+            if (conditionMapper.get(players.get(i)).state == State.DYING) {
+                continue;
+            }
+            
             Position entityPosition = positionMapper.get(e);
             Position playerPosition = positionMapper.get(players.get(i));
             TargetGridPosition targetPosition = targetGridPositionMapper.get(e);

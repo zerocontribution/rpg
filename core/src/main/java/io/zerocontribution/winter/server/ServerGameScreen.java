@@ -21,10 +21,6 @@ public class ServerGameScreen implements Screen {
     public ServerGameScreen(GameServer server) {
         this.server = server;
 
-        if (Constants.DEBUG) {
-            Log.DEBUG();
-        }
-
         world = new World();
 
         world.setManager(new GroupManager());

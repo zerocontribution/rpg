@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
+import com.esotericsoftware.minlog.Log;
+import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.struct.Delay;
 import io.zerocontribution.winter.struct.Directions;
 import io.zerocontribution.winter.State;
@@ -23,6 +25,12 @@ public class Network {
 
         for (Class<?> clazz : Network.class.getDeclaredClasses()) {
             kryo.register(clazz);
+        }
+
+        // Add verbosity levels.
+        if (Constants.DEBUG) {
+            Log.INFO();
+//            Log.DEBUG();
         }
 
         kryo.register(Object[].class);
