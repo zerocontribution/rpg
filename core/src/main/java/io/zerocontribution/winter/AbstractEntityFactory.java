@@ -33,7 +33,7 @@ public abstract class AbstractEntityFactory {
         bounds.rect.x = worldVector.x;
         bounds.rect.y = worldVector.y;
         bounds.rect.width = 18;
-        bounds.rect.height = 64; // TODO This is definitely not correct.
+        bounds.rect.height = 24;
         e.addComponent(bounds);
 
         e.addComponent(new Blocking());
