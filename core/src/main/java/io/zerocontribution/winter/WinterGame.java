@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import io.zerocontribution.winter.client.GameClient;
 import io.zerocontribution.winter.client.screens.MenuScreen;
+import io.zerocontribution.winter.event.Events;
 import io.zerocontribution.winter.server.GameServer;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
@@ -24,6 +25,8 @@ public class WinterGame extends Game {
     public static World world;
 
     public static GameClient gameClient;
+
+    public static Events events = new Events();
 
     private Class pendingScreen;
     private List<Object> pendingScreenArgs;
