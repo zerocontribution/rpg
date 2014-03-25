@@ -1,10 +1,15 @@
 package io.zerocontribution.winter.ui;
 
+import com.artemis.Entity;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.WinterGame;
 
 public class UIManager {
 
@@ -15,6 +20,8 @@ public class UIManager {
     private Skin skin;
     private Stage stage;
     private BitmapFont font;
+    private InputMultiplexer inputMultiplexer;
+    private Entity localPlayer;
 
     public static UIManager getInstance() {
         return instance;
@@ -30,6 +37,8 @@ public class UIManager {
 
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("assets/ui/HoloSkin/Holo-dark-hdpi.json"));
+
+        localPlayer = WinterGame.world.getManager(TagManager.class).getEntity(Constants.Tags.LOCAL_PLAYER);
     }
 
     public void render(float delta) {
@@ -47,5 +56,17 @@ public class UIManager {
 
     public BitmapFont getFont() {
         return font;
+    }
+
+    public InputMultiplexer getInputMultiplexer() {
+        return inputMultiplexer;
+    }
+
+    public void setInputMultiplexer(InputMultiplexer inputMultiplexer) {
+        this.inputMultiplexer = inputMultiplexer;
+    }
+
+    public Entity getLocalPlayer() {
+        return localPlayer;
     }
 }

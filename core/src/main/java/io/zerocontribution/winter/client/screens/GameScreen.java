@@ -11,10 +11,7 @@ import io.zerocontribution.winter.Assets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.systems.*;
-import io.zerocontribution.winter.systems.client.ClientCollisionSystem;
-import io.zerocontribution.winter.systems.client.ClientDamageProcessingSystem;
-import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
-import io.zerocontribution.winter.systems.client.PingSystem;
+import io.zerocontribution.winter.systems.client.*;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 /**
@@ -34,6 +31,7 @@ public class GameScreen extends AbstractScreen {
     private AnimationRenderingSystem animationRenderingSystem;
     private MapRenderingSystem mapRenderingSystem;
     private CollisionDebugSystem collisionDebugSystem;
+    private HudSystem hudSystem;
     private DebugHudSystem debugHudSystem;
 
     public GameScreen(WinterGame game, String map) {
@@ -67,6 +65,7 @@ public class GameScreen extends AbstractScreen {
 
         mapRenderingSystem = world.setSystem(new MapRenderingSystem(), true);
         animationRenderingSystem = world.setSystem(new AnimationRenderingSystem(spriteBatch), true);
+        hudSystem = world.setSystem(new HudSystem(), true);
 
         if (Constants.DEBUG) {
             collisionDebugSystem = world.setSystem(new CollisionDebugSystem(), true);
@@ -90,6 +89,7 @@ public class GameScreen extends AbstractScreen {
 
         mapRenderingSystem.process();
         animationRenderingSystem.process();
+        hudSystem.process();
 
         if (Constants.DEBUG) {
             collisionDebugSystem.process();

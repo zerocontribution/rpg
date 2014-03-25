@@ -5,6 +5,7 @@
             "id": 1,
             "name": "Punch",
             "description": "A standard melee attack",
+            "texturePath": "mock/Book_00.png",
             "cost": 0,
             "cooldown": 1,
             "processorClass": "io.zerocontribution.winter.combat.processors.PunchProcessor"
