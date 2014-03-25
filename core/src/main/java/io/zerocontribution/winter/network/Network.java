@@ -56,6 +56,7 @@ public class Network {
         kryo.register(GridPosition.class);
         kryo.register(Name.class);
         kryo.register(Npc.class);
+        kryo.register(Npc.Type.class);
         kryo.register(Player.class);
         kryo.register(Position.class);
         kryo.register(SpriteColor.class);

@@ -79,7 +79,6 @@ public class ServerEntityFactory extends AbstractEntityFactory {
         world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
 
-
         return e;
     }
 

@@ -24,16 +24,7 @@ public class LoginResponse extends EventMessage {
 
         e.addComponent(new LocalPlayer());
 
-//        Actor actor = new Actor();
-//        actor.abilities.put(1, new Delay(1));
-//        e.addComponent(actor);
-//
-//        e.addComponent(new AnimationName(Constants.Animations.Player.RUN_DOWN));
-//        e.addComponent(new AnimationTimer(0f));
-
         WinterGame.world.getManager(TagManager.class).register(Constants.Tags.LOCAL_PLAYER, e);
-        WinterGame.world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
-        WinterGame.world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
 
         e.changedInWorld();
     }
