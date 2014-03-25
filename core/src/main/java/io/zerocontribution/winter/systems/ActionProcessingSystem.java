@@ -45,7 +45,7 @@ public class ActionProcessingSystem extends EntityProcessingSystem {
                     GdxLogHelper.log("action-input", "Executing action " + action.abilityId);
                     Ability ability = Abilities.get(action.abilityId);
 
-                    Entity abilityEntity = ability.create(world, e, action.group, positionMapper.get(e));
+                    Entity abilityEntity = ability.create(world, e, positionMapper.get(e));
 
                     e.addComponent(new CombatAction(abilityEntity, ability.getCombatProcessor(), action.target));
                 } else {

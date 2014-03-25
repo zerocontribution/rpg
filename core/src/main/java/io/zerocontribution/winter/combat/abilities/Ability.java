@@ -17,7 +17,7 @@ public abstract class Ability implements Json.Serializable {
     public int cost;
     public float cooldown;
 
-    abstract public Entity create(World world, Entity source, String group, Position position);
+    abstract public Entity create(World world, Entity source, Position position);
 
     abstract public CombatProcessor getCombatProcessor();
 
