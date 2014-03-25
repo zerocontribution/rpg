@@ -69,45 +69,46 @@ public abstract class AbstractScreen implements Screen {
     }
 
     protected void createSkin() {
-        skin = new Skin();
-
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-
-        BitmapFont font = new BitmapFont(
-                Gdx.files.internal("assets/fonts/normal.fnt"),
-                Gdx.files.internal("assets/fonts/normal_0.png"),
-                false);
-        skin.add("default", font);
-
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = skin.newDrawable("white", Color.CYAN);
-        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-        textButtonStyle.font = skin.getFont("default");
-        skin.add("default", textButtonStyle);
-
-        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.background = skin.newDrawable("white", Color.DARK_GRAY);
-        textFieldStyle.focusedBackground = skin.newDrawable("white", Color.LIGHT_GRAY);
-        textFieldStyle.disabledBackground = skin.newDrawable("white", Color.DARK_GRAY);
-        textFieldStyle.cursor = skin.newDrawable("white", Color.CYAN);
-        textFieldStyle.font = skin.getFont("default");
-        textFieldStyle.fontColor = Color.CYAN;
-        textFieldStyle.disabledFontColor = Color.LIGHT_GRAY;
-        textFieldStyle.messageFont = skin.getFont("default");
-        textFieldStyle.messageFontColor = Color.CYAN;
-        textFieldStyle.selection = skin.newDrawable("white", Color.CYAN);
-        skin.add("default", textFieldStyle);
-
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.background = skin.newDrawable("white", Color.BLACK);
-        labelStyle.font = skin.getFont("default");
-        labelStyle.fontColor = Color.WHITE;
-        skin.add("default", labelStyle);
+        skin = new Skin(Gdx.files.internal("assets/ui/HoloSkin/Holo-dark-hdpi.json"));
+//        skin = new Skin();
+//
+//        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+//        pixmap.setColor(Color.WHITE);
+//        pixmap.fill();
+//        skin.add("white", new Texture(pixmap));
+//
+//        BitmapFont font = new BitmapFont(
+//                Gdx.files.internal("assets/fonts/normal.fnt"),
+//                Gdx.files.internal("assets/fonts/normal_0.png"),
+//                false);
+//        skin.add("default", font);
+//
+//        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+//        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+//        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+//        textButtonStyle.checked = skin.newDrawable("white", Color.CYAN);
+//        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+//        textButtonStyle.font = skin.getFont("default");
+//        skin.add("default", textButtonStyle);
+//
+//        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+//        textFieldStyle.background = skin.newDrawable("white", Color.DARK_GRAY);
+//        textFieldStyle.focusedBackground = skin.newDrawable("white", Color.LIGHT_GRAY);
+//        textFieldStyle.disabledBackground = skin.newDrawable("white", Color.DARK_GRAY);
+//        textFieldStyle.cursor = skin.newDrawable("white", Color.CYAN);
+//        textFieldStyle.font = skin.getFont("default");
+//        textFieldStyle.fontColor = Color.CYAN;
+//        textFieldStyle.disabledFontColor = Color.LIGHT_GRAY;
+//        textFieldStyle.messageFont = skin.getFont("default");
+//        textFieldStyle.messageFontColor = Color.CYAN;
+//        textFieldStyle.selection = skin.newDrawable("white", Color.CYAN);
+//        skin.add("default", textFieldStyle);
+//
+//        Label.LabelStyle labelStyle = new Label.LabelStyle();
+//        labelStyle.background = skin.newDrawable("white", Color.BLACK);
+//        labelStyle.font = skin.getFont("default");
+//        labelStyle.fontColor = Color.WHITE;
+//        skin.add("default", labelStyle);
     }
 
 }
