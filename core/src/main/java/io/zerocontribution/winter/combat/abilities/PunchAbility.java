@@ -18,7 +18,7 @@ public class PunchAbility extends Ability {
     }
 
     @Override
-    public Entity create(World world, Entity source, String group, Position position) {
+    public Entity create(World world, Entity source, Position position) {
         Entity e = world.createEntity();
 
         e.addComponent(new Expiring(0.25f));

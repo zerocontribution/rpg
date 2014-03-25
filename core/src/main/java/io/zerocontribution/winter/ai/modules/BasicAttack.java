@@ -70,7 +70,7 @@ public class BasicAttack extends AbstractAIModule {
         if (target != null) {
             GdxLogHelper.log("ai-attack", "Target found: attacking");
             Actor actor = actorMapper.get(e);
-            e.addComponent(new ActionInput(Constants.Groups.NPC_ATTACKS, actor.primaryAttack, target));
+            e.addComponent(new ActionInput(actor.primaryAttack, target));
             e.changedInWorld();
         }
 

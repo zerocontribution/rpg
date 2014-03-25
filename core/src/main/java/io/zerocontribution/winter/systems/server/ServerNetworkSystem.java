@@ -146,7 +146,12 @@ public class ServerNetworkSystem extends VoidEntitySystem {
                 connection.player.addComponent(new Update());
                 connection.player.changedInWorld();
             } else if (c instanceof AbilityCommand) {
-                Log.info("Server", "AbilityCommands not supported yet");
+                AbilityCommand command = (AbilityCommand) c;
+
+                // TODO: Do not add the Update component here: We don't publish actions?
+                ActionInput input = new ActionInput(command.abilityId, world.getEntity(command.targetEntityId));
+                connection.player.addComponent(input);
+                connection.player.changedInWorld();
             } else {
                 Log.error("Server", "Unknown command type: " + c.getClass().getSimpleName());
             }

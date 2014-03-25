@@ -94,7 +94,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         if (abilityId != 0) {
             GdxLogHelper.log("player-input", "Inbound action: " + abilityId);
 
-            ActionInput input = new ActionInput(playerMapper.get(e).group, abilityId, world.getEntity(actor.currentTarget));
+            ActionInput input = new ActionInput(abilityId, world.getEntity(actor.currentTarget));
             e.addComponent(input);
             e.changedInWorld();
 
