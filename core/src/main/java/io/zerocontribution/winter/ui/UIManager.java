@@ -58,14 +58,6 @@ public class UIManager {
         return font;
     }
 
-    public InputMultiplexer getInputMultiplexer() {
-        return inputMultiplexer;
-    }
-
-    public void setInputMultiplexer(InputMultiplexer inputMultiplexer) {
-        this.inputMultiplexer = inputMultiplexer;
-    }
-
     public Entity getLocalPlayer() {
         return localPlayer;
     }

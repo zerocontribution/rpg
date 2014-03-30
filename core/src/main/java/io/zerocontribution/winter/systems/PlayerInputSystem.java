@@ -12,8 +12,10 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.components.*;
+import io.zerocontribution.winter.input.InputManager;
 import io.zerocontribution.winter.network.AbilityCommand;
 import io.zerocontribution.winter.network.ActionCommand;
+import io.zerocontribution.winter.systems.client.HudSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.GdxLogHelper;
 
@@ -41,7 +43,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
     @Override
     protected void initialize() {
-        Gdx.input.setInputProcessor(this);
+        InputManager.getInputProcessor().addProcessor(this);
     }
 
     protected void process(Entity e) {
@@ -140,6 +142,10 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
             case Keys.NUM_1:
                 abilityId = 1; // TODO
+                break;
+
+            case Keys.ESCAPE:
+                world.getSystem(HudSystem.class).toggleInGameMenu();
                 break;
         }
         return true;
