@@ -1,6 +1,8 @@
 package io.zerocontribution.winter;
 
 import com.artemis.World;
+import com.artemis.managers.GroupManager;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -40,10 +42,19 @@ public class WinterGame extends Game {
     @Override
     public void create () {
         instance = this;
-        gameClient = new GameClient();
-        world = new World();
+
+        initializeClient();
+
         Assets.loadConfigurations();
         setScreen(new MenuScreen());
+    }
+
+    private void initializeClient() {
+        gameClient = new GameClient();
+
+        world = new World();
+        world.setManager(new GroupManager());
+        world.setManager(new TagManager());
     }
 
     @SuppressWarnings("unchecked")

@@ -6,6 +6,7 @@ import com.artemis.managers.GroupManager;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
@@ -16,7 +17,7 @@ import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.assets.MapAsset;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.network.*;
-import io.zerocontribution.winter.server.ServerEntityFactory;
+import io.zerocontribution.winter.utils.MapHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 import java.io.IOException;
@@ -74,13 +75,10 @@ public class ServerNetworkSystem extends VoidEntitySystem {
 
         Log.info("Server", packet.name + " has logged in");
 
-        // TODO World system (to be SpawnerSystem?) should dictate where to spawn
-        int pos = 5 + connection.getID();
-
-        connection.player = ServerGlobals.entityFactory.createPlayer(world, packet.name, pos, pos);
+        connection.player = ServerGlobals.entityFactory.createPlayer(world, packet.name);
         connection.player.addToWorld();
 
-        server.sendToUDP(connection.getID(), new LoginResponse(connection.player.getId()));
+        server.sendToTCP(connection.getID(), new LoginResponse(connection.player.getId()));
 
         ImmutableBag<Entity> entities = world.getManager(GroupManager.class).getEntities(Constants.Groups.CLIENT);
         Log.info("Server", "Sending initialization data for " + entities.size() + " entities");
@@ -94,6 +92,20 @@ public class ServerNetworkSystem extends VoidEntitySystem {
             if (conn.getID() != connection.getID()) {
                 sendComponents((PlayerConnection) conn, connection.player);
             }
+        }
+    }
+
+    public void handleGameLoaded(PlayerConnection connection, Network.GameLoaded packet) {
+        // TODO World system (to be SpawnerSystem?) should dictate where to spawn
+        int pos = 5 + connection.getID();
+
+        Log.info("Server", "Creating world entity for " + connection.player);
+
+        ServerGlobals.entityFactory.createWorldPlayer(connection.player, pos, pos);
+        connection.player.changedInWorld();
+
+        for (Connection conn : server.getConnections()) {
+            sendComponents((PlayerConnection) conn, connection.player);
         }
     }
 
@@ -191,14 +203,16 @@ public class ServerNetworkSystem extends VoidEntitySystem {
         public void received(Connection connection, Object o) {
             PlayerConnection pc = (PlayerConnection) connection;
 
-            if (o instanceof Network.Login) {
+            if (o instanceof Network.ClientCommands) {
+                handleClientCommands(pc, (Network.ClientCommands) o);
+            } else if (o instanceof Network.Login) {
                 handleLoginMessage(pc, (Network.Login) o);
             } else if (o instanceof Network.Logout) {
                 handleLogoutMessage(pc, (Network.Logout) o);
             } else if (o instanceof Network.StartGame) {
                 handleStartGame(pc, (Network.StartGame) o);
-            } else if (o instanceof Network.ClientCommands) {
-                handleClientCommands(pc, (Network.ClientCommands) o);
+            } else if (o instanceof Network.GameLoaded) {
+                handleGameLoaded(pc, (Network.GameLoaded) o);
             } else {
                 if (o instanceof FrameworkMessage) {
                     return;

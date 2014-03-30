@@ -49,7 +49,7 @@ public abstract class AbstractCollisionSystem extends EntitySystem {
             Entity actor = actors.get(i);
             Velocity actorVelocity = velocityMapper.getSafe(actor);
 
-            if (actorVelocity.x != 0f || actorVelocity.y != 0f) {
+            if (actorVelocity != null && (actorVelocity.x != 0f || actorVelocity.y != 0f)) {
                 Bounds bounds = boundsMapper.get(actor);
 
                 for (int j = 0; j < entities.size(); j++) {

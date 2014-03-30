@@ -18,8 +18,6 @@ import io.zerocontribution.winter.utils.MapHelper;
 
 public abstract class AbstractEntityFactory {
 
-    public abstract Entity createPlayer(World world, String name, float x, float y);
-
     public abstract Entity createMap(World world);
 
     public abstract Entity createBlockingTile(World world, float x, float y);

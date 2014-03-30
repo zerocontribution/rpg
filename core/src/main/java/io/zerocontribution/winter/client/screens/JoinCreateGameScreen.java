@@ -30,6 +30,7 @@ public class JoinCreateGameScreen extends AbstractScreen {
                 game.startServer();
                 WinterGame.gameClient.connect("localhost");
                 WinterGame.gameClient.localName = playerName.getText();
+                WinterGame.gameClient.sendLogin();
                 game.setScreen(new LobbyScreen(game));
                 return true;
             }
@@ -42,6 +43,7 @@ public class JoinCreateGameScreen extends AbstractScreen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 WinterGame.gameClient.connect(hostIPField.getText());
                 WinterGame.gameClient.localName = playerName.getText();
+                WinterGame.gameClient.sendLogin();
                 game.setScreen(new LobbyScreen(game));
                 return true;
             }

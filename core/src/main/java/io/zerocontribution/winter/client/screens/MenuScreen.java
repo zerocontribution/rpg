@@ -28,6 +28,7 @@ public class MenuScreen extends AbstractScreen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.startServer();
                 WinterGame.gameClient.connect("localhost");
+                WinterGame.gameClient.sendLogin();
                 WinterGame.gameClient.sendStartGame();
                 game.setScreen(new LobbyScreen(game));
                 return true;

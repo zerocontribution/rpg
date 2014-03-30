@@ -103,6 +103,10 @@ public class GameClient {
         client.sendTCP(msg);
     }
 
+    public void sendGameLoaded() {
+        client.sendTCP(new Network.GameLoaded());
+    }
+
     public void sendLogout() {
         Network.Logout msg = new Network.Logout();
         client.sendTCP(msg);

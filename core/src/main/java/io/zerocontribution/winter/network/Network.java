@@ -101,7 +101,10 @@ public class Network {
         }
     }
 
-//    public static class ClientCommands extends Bag<Command> {}
+    public static class GameLoaded extends EventMessage {
+        public GameLoaded() {}
+    }
+
     public static class ClientCommands extends EventMessage {
         public Bag<Command> commands;
 
