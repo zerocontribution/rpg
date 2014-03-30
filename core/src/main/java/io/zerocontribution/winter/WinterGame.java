@@ -101,6 +101,10 @@ public class WinterGame extends Game {
         stopServer();
     }
 
+    public void changeScreen(Class screenClass) {
+        changeScreen(screenClass, new ArrayList<Object>());
+    }
+
     public void changeScreen(Class screenClass, List<Object> args) {
         this.pendingScreen = screenClass;
         this.pendingScreenArgs = args;
