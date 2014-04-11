@@ -4,55 +4,73 @@
             "name": "martialArtist",
             "label": "Martial Artist",
             "type": "Melee Damage",
-            "description": "Master of melee combat; stealthy, quick."
+            "description": "Master of melee combat; stealthy, quick.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "netrunner",
             "label": "Netrunner",
             "type": "Melee Damage",
-            "description": "Hacker; bit of a thief. Can disable security systems. Uses a unique mix of martial arts and technology in combat."
+            "description": "Hacker; bit of a thief. Can disable security systems. Uses a unique mix of martial arts and technology in combat.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "mercenary",
             "label": "Mercenary",
             "type": "Ranged Damage",
-            "description": "Heavy weapons and explosives expert. Specialize in AOE damage with rockets and grenades or individual damage with sniper rifles."
+            "description": "Heavy weapons and explosives expert. Specialize in AOE damage with rockets and grenades or individual damage with sniper rifles.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "technomancer",
             "label": "Technomancer",
             "type": "Ranged Damage",
-            "description": "Use implants and cybernetic augmentations to simulate magic."
+            "description": "Use implants and cybernetic augmentations to simulate magic.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "exsoldier",
             "label": "Ex-Soldier",
             "type": "Ranged Tank",
-            "description": "Assault rifles and flash grenades. Suppressive fire and generally keeping enemies at bay to protect allies."
+            "description": "Assault rifles and flash grenades. Suppressive fire and generally keeping enemies at bay to protect allies.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "bodyguard",
             "label": "Bodyguard",
             "type": "Melee Tank",
-            "description": "Can take a hit and keep enemies focused on them while disabling them with stunning blows and disarms."
+            "description": "Can take a hit and keep enemies focused on them while disabling them with stunning blows and disarms.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "machinist",
             "label": "Machinist",
             "type": "Support",
-            "description": "Uses light weaponry when necessary, but would rather cause disruption with traps, turrets and robots."
+            "description": "Uses light weaponry when necessary, but would rather cause disruption with traps, turrets and robots.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "scientist",
             "label": "Scientist",
             "type": "Support",
-            "description": "Assists allies by providing buffs through chemicals and stim needles; can deploy energy field shields. Its main weapon is a dart gun."
+            "description": "Assists allies by providing buffs through chemicals and stim needles; can deploy energy field shields. Its main weapon is a dart gun.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         },
         {
             "name": "medic",
             "label": "Medic",
             "type": "Support",
-            "description": "Heals allies with bandages and tourniquets. A quick healer."
+            "description": "Heals allies with bandages and tourniquets. A quick healer.",
+            "previewTexturePath": "mock/mock-class.jpg",
+            "previewToggledTexturePath": "mock/mock-class-toggled.jpg"
         }
     ]
 }

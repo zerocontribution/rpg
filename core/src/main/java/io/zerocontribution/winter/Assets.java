@@ -22,6 +22,7 @@ public class Assets {
     public static EnemiesAsset enemies;
     public static AbilitiesAsset abilities;
     public static MapsAsset maps;
+    public static ClassesAsset classes;
 
     private static Animation playerRunUp;
     private static Animation playerRunUpRight;
@@ -47,6 +48,7 @@ public class Assets {
         enemies = json.fromJson(EnemiesAsset.class, Gdx.files.internal("enemies.json").read());
         abilities = json.fromJson(AbilitiesAsset.class, Gdx.files.internal("abilities.json").read());
         maps = json.fromJson(MapsAsset.class, Gdx.files.internal("maps.json").read());
+        classes = json.fromJson(ClassesAsset.class, Gdx.files.internal("classes.json").read());
     }
 
     public static void loadImages() {

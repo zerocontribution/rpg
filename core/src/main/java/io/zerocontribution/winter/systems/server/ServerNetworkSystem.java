@@ -170,6 +170,18 @@ public class ServerNetworkSystem extends VoidEntitySystem {
         }
     }
 
+    public void handlePlayerLobbyState(PlayerConnection connection, PlayerLobbyState playerLobbyState) {
+        connection.player.getComponent(Player.class).setGameClass(playerLobbyState.selectedClass);
+        connection.player.addComponent(new Update());
+        connection.player.changedInWorld();
+    }
+
+    public void handleChatMessage(PlayerConnection connection, ChatMessage message) {
+        message.name = connection.player.getComponent(Player.class).name;
+        Log.info("Server", "Message broadcast (ALL) from " + message.name + ": '" + message.message + "'");
+        server.sendToAllTCP(message);
+    }
+
     @SuppressWarnings("unchecked")
     private void sendComponents(PlayerConnection connection, Entity entity) {
         Log.debug("Server", "Sending components for " + entity.toString());
@@ -213,6 +225,10 @@ public class ServerNetworkSystem extends VoidEntitySystem {
                 handleStartGame(pc, (Network.StartGame) o);
             } else if (o instanceof Network.GameLoaded) {
                 handleGameLoaded(pc, (Network.GameLoaded) o);
+            } else if (o instanceof PlayerLobbyState) {
+                handlePlayerLobbyState(pc, (PlayerLobbyState) o);
+            } else if (o instanceof ChatMessage) {
+                handleChatMessage(pc, (ChatMessage) o);
             } else {
                 if (o instanceof FrameworkMessage) {
                     return;

@@ -61,17 +61,6 @@ public class WinterGame extends Game {
     @Override
     public void render () {
         super.render();
-        // TODO Add world reset
-        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            try {
-                setScreen(getScreen().getClass().newInstance());
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
         // Oh, sweet baby jesus
         if (pendingScreen != null) {
             GdxLogHelper.log("WinterGame", "Received request to change screen: " + pendingScreen.getSimpleName());

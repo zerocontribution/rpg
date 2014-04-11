@@ -4,10 +4,7 @@ import com.artemis.Entity;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,6 +22,7 @@ public class UIManager {
     private BitmapFont font;
     private InputMultiplexer inputMultiplexer;
     private Entity localPlayer;
+    private OrthographicCamera hudCamera;
 
     public static UIManager getInstance() {
         return instance;
@@ -43,6 +41,10 @@ public class UIManager {
         initializeSkin();
 
         localPlayer = WinterGame.world.getManager(TagManager.class).getEntity(Constants.Tags.LOCAL_PLAYER);
+
+//        hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        hudCamera.position.set(0, 0, 0);
+//        hudCamera.setToOrtho(true);
     }
 
     private void initializeSkin() {
@@ -73,5 +75,9 @@ public class UIManager {
 
     public Entity getLocalPlayer() {
         return localPlayer;
+    }
+
+    public OrthographicCamera getHUDCamera() {
+        return hudCamera;
     }
 }
