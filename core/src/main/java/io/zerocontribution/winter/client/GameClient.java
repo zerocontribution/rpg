@@ -9,8 +9,14 @@ import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.WinterGame;
+import io.zerocontribution.winter.components.Player;
+import io.zerocontribution.winter.network.ChatMessage;
 import io.zerocontribution.winter.network.Message;
 import io.zerocontribution.winter.network.Network;
+import io.zerocontribution.winter.network.PlayerLobbyState;
+import io.zerocontribution.winter.systems.client.ClientNetworkSystem;
+import io.zerocontribution.winter.systems.client.PingSystem;
+import io.zerocontribution.winter.ui.UIManager;
 import io.zerocontribution.winter.utils.ClientGlobals;
 
 import java.io.IOException;
@@ -86,21 +92,15 @@ public class GameClient {
         }
 
         client.addListener(new ClientNetworkListener());
-
-        // TODO: This should get refreshed every 5 seconds or so.
-        client.updateReturnTripTime();
-        while (client.getReturnTripTime() == -1) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {}
-        }
-        Log.info("Client", "RTT: " + client.getReturnTripTime());
-        ClientGlobals.timeDiff = client.getReturnTripTime();
     }
 
     public void sendLogin() {
         Network.Login msg = new Network.Login(localName, Network.version);
         client.sendTCP(msg);
+    }
+
+    public void sendGameLoaded() {
+        client.sendTCP(new Network.GameLoaded());
     }
 
     public void sendLogout() {
@@ -110,6 +110,19 @@ public class GameClient {
 
     public void sendStartGame() {
         Network.StartGame msg = new Network.StartGame("isometric");
+        client.sendTCP(msg);
+    }
+
+    public void sendPlayerLobbyState(String selectedClass) {
+        client.sendTCP(new PlayerLobbyState(selectedClass));
+    }
+
+    /**
+     * @todo There's no reason this is its own individual TCP message.
+     * @param message
+     */
+    public void sendChatMessage(String message) {
+        ChatMessage msg = new ChatMessage(message);
         client.sendTCP(msg);
     }
 

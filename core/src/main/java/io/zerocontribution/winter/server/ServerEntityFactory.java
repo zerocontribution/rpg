@@ -24,8 +24,21 @@ import io.zerocontribution.winter.utils.ServerGlobals;
 
 public class ServerEntityFactory extends AbstractEntityFactory {
 
-    public Entity createPlayer(World world, String name, float x, float y) {
+    public Entity createPlayer(World world, String name) {
         Entity e = world.createEntity();
+
+        e.addComponent(new Player(name));
+
+        // TODO: Server depends on CLIENT & LOCAL_PLAYER. :\
+        world.getManager(TagManager.class).register(Constants.Tags.LOCAL_PLAYER, e);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.CLIENT);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
+        world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
+
+        return e;
+    }
+
+    public void createWorldPlayer(Entity e, float x, float y) {
         Vector2 worldVector = MapHelper.gridToWorld(ServerGlobals.currentMap, x, y);
 
         e.addComponent(new Name("player"));
@@ -54,8 +67,6 @@ public class ServerEntityFactory extends AbstractEntityFactory {
 
         e.addComponent(new AnimationTimer(0f));
 
-        e.addComponent(new Player(name));
-
         Actor actor = new Actor();
         actor.abilities.put(1, new Delay(1));
         e.addComponent(actor);
@@ -72,14 +83,6 @@ public class ServerEntityFactory extends AbstractEntityFactory {
                 1,
                 1
         ));
-
-        // TODO: Server depends on CLIENT & LOCAL_PLAYER. :\
-        world.getManager(TagManager.class).register(Constants.Tags.LOCAL_PLAYER, e);
-        world.getManager(GroupManager.class).add(e, Constants.Groups.CLIENT);
-        world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYERS);
-        world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
-
-        return e;
     }
 
     public Entity createMap(World world) {

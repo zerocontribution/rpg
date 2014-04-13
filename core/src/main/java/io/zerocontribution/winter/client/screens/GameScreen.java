@@ -46,8 +46,6 @@ public class GameScreen extends AbstractScreen {
         Assets.loadImages();
 
         world = WinterGame.world; // TODO Remove local reference
-        world.setManager(new GroupManager());
-        world.setManager(new TagManager());
 
         world.setSystem(new ClientNetworkSystem(game.gameClient.client, 1 / 33.0f));
         world.setSystem(new PingSystem(game.gameClient.client));
@@ -74,7 +72,7 @@ public class GameScreen extends AbstractScreen {
 
         ClientGlobals.entityFactory.createMap(world, spriteBatch).addToWorld();
 
-        WinterGame.gameClient.sendLogin();
+        WinterGame.gameClient.sendGameLoaded();
 
         world.initialize();
     }

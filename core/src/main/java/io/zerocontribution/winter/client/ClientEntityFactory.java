@@ -16,12 +16,6 @@ import io.zerocontribution.winter.utils.MapHelper;
 
 public class ClientEntityFactory extends AbstractEntityFactory {
 
-    @Override
-    public Entity createPlayer(World world, String name, float x, float y) {
-        // TODO Delete this interface
-        throw new IllegalStateException("Clients cannot create players (delete this interface)");
-    }
-
     // TODO Yuck.
     public Entity createMap(World world) {
         throw new IllegalStateException("Use createMap(World world, SpriteBatch spriteBatch) instead");

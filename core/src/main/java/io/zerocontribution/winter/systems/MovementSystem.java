@@ -42,7 +42,6 @@ public class MovementSystem extends EntityProcessingSystem {
     protected boolean checkProcessing() {
         // HACK: Server doesn't immediately initialize the map.
         if (currentMap == null) {
-            Log.warn("Server", "MovementSystem not processing yet: No map");
             currentMap = ServerGlobals.currentMap;
             return false;
         }

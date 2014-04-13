@@ -70,6 +70,9 @@ public class Network {
         kryo.register(ActionCommand.Action.class);
         kryo.register(ActionCommand.Lifecycle.class);
         kryo.register(ActionCommand.class);
+        kryo.register(PlayerLobbyState.class);
+        kryo.register(ChatMessage.class);
+        kryo.register(ChatMessage.ChatMessageEvent.class); // TODO Remove
     }
 
     public static class Login extends EventMessage {
@@ -101,7 +104,10 @@ public class Network {
         }
     }
 
-//    public static class ClientCommands extends Bag<Command> {}
+    public static class GameLoaded extends EventMessage {
+        public GameLoaded() {}
+    }
+
     public static class ClientCommands extends EventMessage {
         public Bag<Command> commands;
 

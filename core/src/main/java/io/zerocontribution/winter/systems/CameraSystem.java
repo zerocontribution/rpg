@@ -27,16 +27,7 @@ public class CameraSystem extends VoidEntitySystem {
 
     @Override
     protected boolean checkProcessing() {
-        if (player != null) {
-            return true;
-        }
-
-        player = world.getManager(TagManager.class).getEntity(Constants.Tags.LOCAL_PLAYER);
-        if (player != null && positionMapper.has(player)) {
-            return true;
-        }
-
-        return false;
+        return player != null && positionMapper.has(player);
     }
 
     @Override

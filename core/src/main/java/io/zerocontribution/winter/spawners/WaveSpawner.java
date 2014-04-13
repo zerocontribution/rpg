@@ -27,7 +27,7 @@ public class WaveSpawner extends IntervalSpawner {
         }
 
         if (flag) {
-            flag = anyAlive(world.getManager(GroupManager.class).getEntities(Constants.Groups.PLAYERS));
+                flag = anyAlive(world.getManager(GroupManager.class).getEntities(Constants.Groups.PLAYERS));
         }
 
         return flag;
@@ -36,7 +36,8 @@ public class WaveSpawner extends IntervalSpawner {
     protected boolean anyAlive(ImmutableBag<Entity> entities) {
         boolean alive = false;
         for (int i = 0; i < entities.size(); i++) {
-            if (entities.get(i).getComponent(Condition.class).state != State.DYING) {
+            Condition condition = entities.get(i).getComponent(Condition.class);
+            if (condition != null && condition.state != State.DYING) {
                 alive = true;
                 break;
             }
