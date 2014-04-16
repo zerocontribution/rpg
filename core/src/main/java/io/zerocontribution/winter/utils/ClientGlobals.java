@@ -1,5 +1,6 @@
 package io.zerocontribution.winter.utils;
 
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.utils.Bag;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -25,5 +26,9 @@ public class ClientGlobals {
 
     public static void loadClientMap(String mapName) {
         currentMap = new TmxMapLoader().load("maps/" + mapName + ".tmx");
+    }
+
+    public static <T extends Component> T getPlayerComponent(Class<T> componentClass) {
+        return player.getComponent(componentClass);
     }
 }

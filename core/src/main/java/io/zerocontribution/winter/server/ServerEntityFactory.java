@@ -71,18 +71,7 @@ public class ServerEntityFactory extends AbstractEntityFactory {
         actor.abilities.put(1, new Delay(1));
         e.addComponent(actor);
 
-        e.addComponent(new Stats(
-                100,
-                100,
-                100,
-                100,
-                0,
-                1,
-                1,
-                1,
-                1,
-                1
-        ));
+        e.addComponent(new Stats());
     }
 
     public Entity createMap(World world) {
@@ -166,18 +155,7 @@ public class ServerEntityFactory extends AbstractEntityFactory {
         actor.abilities.put(1, new Delay(1));
         e.addComponent(actor);
 
-        e.addComponent(new Stats(
-                100,
-                100,
-                100,
-                100,
-                0,
-                1,
-                1,
-                1,
-                1,
-                1
-        ));
+        e.addComponent(new Stats());
 
         world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMIES);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);
@@ -244,17 +222,7 @@ public class ServerEntityFactory extends AbstractEntityFactory {
         }
         e.addComponent(actor);
 
-        int health = enemyAsset.baseStats.get("health") == null ? 100 : enemyAsset.baseStats.get("health");
-        int power = enemyAsset.baseStats.get("power") == null ? 100 : enemyAsset.baseStats.get("power");
-        e.addComponent(new Stats(
-                health, power, health, power,
-                (enemyAsset.baseStats.get("experience") == null ? 0 : enemyAsset.baseStats.get("experience")),
-                (enemyAsset.baseStats.get("level") == null ? 1 : enemyAsset.baseStats.get("level")),
-                (enemyAsset.baseStats.get("technicalAbility") == null ? 10 : enemyAsset.baseStats.get("technicalAbility")),
-                (enemyAsset.baseStats.get("cool") == null ? 10 : enemyAsset.baseStats.get("cool")),
-                (enemyAsset.baseStats.get("attractiveness") == null ? 10 : enemyAsset.baseStats.get("attractiveness")),
-                (enemyAsset.baseStats.get("body") == null ? 10 : enemyAsset.baseStats.get("body"))
-        ));
+        e.addComponent(Stats.buildFromAsset(enemyAsset));
 
         world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMIES);
         world.getManager(GroupManager.class).add(e, Constants.Groups.ACTORS);

@@ -144,6 +144,16 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
                 abilityId = 1; // TODO
                 break;
 
+            case Keys.NUM_2:
+            case Keys.NUM_3:
+            case Keys.NUM_4:
+            case Keys.NUM_5:
+                break;
+
+            case Keys.C:
+                world.getSystem(HudSystem.class).toggleCharacterWindow();
+                break;
+
             case Keys.ESCAPE:
                 world.getSystem(HudSystem.class).toggleInGameMenu();
                 break;

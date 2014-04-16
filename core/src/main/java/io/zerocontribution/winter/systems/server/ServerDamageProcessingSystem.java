@@ -65,21 +65,7 @@ public class ServerDamageProcessingSystem extends EntityProcessingSystem {
         sourceStats.experience += xpGain;
 
         if (sourceStats.experience >= sourceStats.maxExperience && sourceStats.maxLevel > sourceStats.level) {
-            sourceStats.level++;
-            sourceStats.experience = sourceStats.experience - sourceStats.maxExperience;
-            sourceStats.maxExperience *= 0.1;
-
-            sourceStats.technicalAbility += 1;
-            sourceStats.cool += 1;
-            sourceStats.attractiveness += 1;
-            sourceStats.body += 1;
-
-            sourceStats.maxHealth *= 0.1;
-            sourceStats.maxPower *= 0.1;
-
-            sourceStats.health = sourceStats.maxHealth;
-            sourceStats.power = sourceStats.maxPower;
-
+            sourceStats.levelUp();
             GdxLogHelper.log("damage-processing", source.toString() + " leveled up to " + sourceStats.level);
         }
 
