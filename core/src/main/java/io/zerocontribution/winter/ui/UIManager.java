@@ -13,16 +13,12 @@ import io.zerocontribution.winter.WinterGame;
 
 public class UIManager {
 
-    final public static String DEFAULT = "default";
-
     private static UIManager instance = new UIManager();
 
     private Skin skin;
     private Stage stage;
     private BitmapFont font;
-    private InputMultiplexer inputMultiplexer;
     private Entity localPlayer;
-    private OrthographicCamera hudCamera;
 
     public static UIManager getInstance() {
         return instance;
@@ -41,10 +37,6 @@ public class UIManager {
         initializeSkin();
 
         localPlayer = WinterGame.world.getManager(TagManager.class).getEntity(Constants.Tags.LOCAL_PLAYER);
-
-//        hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        hudCamera.position.set(0, 0, 0);
-//        hudCamera.setToOrtho(true);
     }
 
     private void initializeSkin() {
@@ -77,7 +69,4 @@ public class UIManager {
         return localPlayer;
     }
 
-    public OrthographicCamera getHUDCamera() {
-        return hudCamera;
-    }
 }
