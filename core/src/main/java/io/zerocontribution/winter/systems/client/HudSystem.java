@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import io.zerocontribution.winter.input.InputManager;
 import io.zerocontribution.winter.ui.UIManager;
+import io.zerocontribution.winter.ui.groups.PartyFrames;
 import io.zerocontribution.winter.ui.hud.ActionBar;
 import io.zerocontribution.winter.ui.hud.InGameMenu;
 import io.zerocontribution.winter.ui.hud.InGameOptions;
@@ -32,6 +33,7 @@ public class HudSystem extends VoidEntitySystem {
     protected void initialize() {
         stage = UIManager.getInstance().getStage();
         stage.addActor(new ActionBar());
+//        stage.addActor(new PartyFrames());
         stage.addActor(new ScrollingCombatText());
 
         inGameMenu = new InGameMenu();
