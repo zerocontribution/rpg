@@ -35,7 +35,12 @@ public class ServerNet implements Net {
 		netJavaImpl.sendHttpRequest(httpRequest, httpResponseListener);
 	}
 
-	@Override
+    @Override
+    public void cancelHttpRequest(HttpRequest httpRequest) {
+        netJavaImpl.cancelHttpRequest(httpRequest);
+    }
+
+    @Override
 	public ServerSocket newServerSocket(Protocol protocol, int port, ServerSocketHints hints) {
 		return new ServerApplicationSocket(protocol, port, hints);
 	}

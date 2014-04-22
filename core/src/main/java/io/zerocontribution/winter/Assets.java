@@ -54,15 +54,15 @@ public class Assets {
     public static void loadImages() {
         TextureAtlas atlas = new TextureAtlas("packs/player.pack");
 
-        playerRunUp = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_UP), Animation.LOOP);
-        playerRunUpRight = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_UPRIGHT), Animation.LOOP);
-        playerRunUpLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_UPLEFT), Animation.LOOP);
-        playerRunDown = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_DOWN), Animation.LOOP);
-        playerRunDownRight = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_DOWNRIGHT), Animation.LOOP);
-        playerRunDownLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_DOWNLEFT), Animation.LOOP);
-        playerRunRight = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_RIGHT), Animation.LOOP);
-        playerRunLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_LEFT), Animation.LOOP);
-        playerDying = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.DYING), Animation.NORMAL);
+        playerRunUp = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_UP), Animation.PlayMode.LOOP);
+        playerRunUpRight = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_UPRIGHT), Animation.PlayMode.LOOP);
+        playerRunUpLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_UPLEFT), Animation.PlayMode.LOOP);
+        playerRunDown = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_DOWN), Animation.PlayMode.LOOP);
+        playerRunDownRight = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_DOWNRIGHT), Animation.PlayMode.LOOP);
+        playerRunDownLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_DOWNLEFT), Animation.PlayMode.LOOP);
+        playerRunRight = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_RIGHT), Animation.PlayMode.LOOP);
+        playerRunLeft = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.RUN_LEFT), Animation.PlayMode.LOOP);
+        playerDying = new Animation(Constants.Animations.ENTITY_RUN_FRAME_LENGTH, atlas.createSprites(Player.DYING), Animation.PlayMode.NORMAL);
     }
 
     public static Animation getAnimation(String name) {

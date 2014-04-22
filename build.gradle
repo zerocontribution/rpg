@@ -8,7 +8,7 @@ allprojects {
 
     version = "0.1.0-SNAPSHOT"
     ext.appName = "winter-game"
-    ext.gdxVersion = "0.9.9" // Use "1.0-SNAPSHOT" for nightly build
+    ext.gdxVersion = "1.0.0" // Use "1.0-SNAPSHOT" for nightly build
     
     repositories {
         mavenLocal()
@@ -30,9 +30,6 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-
-        // Can't find this? Wtf?
-//        compile "com.baglogicgames.gdx:gdx-tools:$gdxVersion"
 
 //        compile 'net.pevnostgames:libgdxserver:1.0.0'
     }
