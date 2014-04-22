@@ -64,16 +64,6 @@ public class InGameMenu extends Table implements InputProcessor {
         add(quitToDesktopButton).width(300).height(50);
     }
 
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        super.draw(batch, 1);
-//        ShapeRenderer shapeRenderer = new ShapeRenderer();
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(new Color(0, 0, 0, 0.5f));
-//        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        shapeRenderer.end();
-    }
-
     public boolean keyDown(int i) {
         return false;
     }

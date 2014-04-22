@@ -100,7 +100,12 @@ public class ClientSocket implements Socket {
 		}
 	}
 
-	@Override
+    @Override
+    public String getRemoteAddress() {
+        return socket.getInetAddress().getCanonicalHostName();
+    }
+
+    @Override
 	public void dispose() {
 		if (socket != null) {
 			try {

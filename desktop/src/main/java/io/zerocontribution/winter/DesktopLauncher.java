@@ -7,7 +7,6 @@ public class DesktopLauncher {
     public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Winter Game";
-        config.useGL20 = true;
         config.width = 1600;
         config.height = 900;
         new LwjglApplication(new WinterGame(), config);
