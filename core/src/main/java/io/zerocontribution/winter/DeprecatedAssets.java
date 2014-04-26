@@ -16,7 +16,7 @@ import io.zerocontribution.winter.spawners.WaveSpawner;
  * @todo This class really needs some love. Too much work to maintain it.
  * @todo Refactor to using XML configurations of entities & maps.
  */
-public class Assets {
+public class DeprecatedAssets {
 
     public static LevelsAsset levels;
     public static EnemiesAsset enemies;

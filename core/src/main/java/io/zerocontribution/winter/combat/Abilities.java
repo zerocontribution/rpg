@@ -1,8 +1,7 @@
 package io.zerocontribution.winter.combat;
 
-import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.DeprecatedAssets;
 import io.zerocontribution.winter.combat.abilities.Ability;
-import io.zerocontribution.winter.combat.abilities.PunchAbility;
 
 // TODO Contains an identity map of abilities to query against.
 public class Abilities {
@@ -10,6 +9,6 @@ public class Abilities {
     public static void loadAbilities() {}
 
     public static Ability get(int abilityId) {
-        return Assets.abilities.get(abilityId);
+        return DeprecatedAssets.abilities.get(abilityId);
     }
 }

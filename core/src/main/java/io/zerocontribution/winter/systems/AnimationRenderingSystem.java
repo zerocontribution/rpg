@@ -9,7 +9,7 @@ import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.DeprecatedAssets;
 import io.zerocontribution.winter.components.*;
 
 public class AnimationRenderingSystem extends EntitySystem {
@@ -58,7 +58,7 @@ public class AnimationRenderingSystem extends EntitySystem {
             spriteBatch.setColor(spriteColor.r, spriteColor.g, spriteColor.b, spriteColor.a);
         }
 
-        spriteBatch.draw(Assets.getAnimationFrame(name.name, timer.time), position.x, position.y, dimensions.width, dimensions.height);
+        spriteBatch.draw(DeprecatedAssets.getAnimationFrame(name.name, timer.time), position.x, position.y, dimensions.width, dimensions.height);
 
         if (playerMapper.has(e)) {
             font.setColor(1.0f, 1.0f, 1.0f, 1.0f);

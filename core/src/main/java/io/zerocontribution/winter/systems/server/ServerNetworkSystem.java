@@ -6,18 +6,16 @@ import com.artemis.managers.GroupManager;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
-import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.DeprecatedAssets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.assets.MapAsset;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.network.*;
-import io.zerocontribution.winter.utils.MapHelper;
 import io.zerocontribution.winter.utils.ServerGlobals;
 
 import java.io.IOException;
@@ -123,7 +121,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
             return;
         }
 
-        MapAsset map = Assets.maps.get(packet.map);
+        MapAsset map = DeprecatedAssets.maps.get(packet.map);
         if (map == null) {
             // TODO sendToAllTCP(new ServerErrorResponse("No map ..."))
             throw new RuntimeException("No map asset found for " + packet.map);

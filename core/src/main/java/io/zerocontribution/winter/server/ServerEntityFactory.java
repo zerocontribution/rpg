@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.AbstractEntityFactory;
-import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.DeprecatedAssets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.State;
 import io.zerocontribution.winter.ai.AIRegistry;
@@ -169,7 +169,7 @@ public class ServerEntityFactory extends AbstractEntityFactory {
 
         Log.info("Factory", worldVector.toString());
 
-        EnemyAsset enemyAsset = Assets.enemies.get(name);
+        EnemyAsset enemyAsset = DeprecatedAssets.enemies.get(name);
         GdxLogHelper.log("asset", "Creating enemy " + enemyAsset);
 
         e.addComponent(new Name(enemyAsset.name));
@@ -217,7 +217,7 @@ public class ServerEntityFactory extends AbstractEntityFactory {
 
         Actor actor = new Actor();
         for (int abilityId : enemyAsset.abilities) {
-            Ability ability = Assets.abilities.get(abilityId);
+            Ability ability = DeprecatedAssets.abilities.get(abilityId);
             actor.abilities.put(abilityId, new Delay((long) ability.cooldown));
         }
         e.addComponent(actor);
