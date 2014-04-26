@@ -6,11 +6,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.DeprecatedAssets;
 import io.zerocontribution.winter.combat.abilities.Ability;
-import io.zerocontribution.winter.combat.abilities.PunchAbility;
 import io.zerocontribution.winter.ui.UIManager;
 
 import java.util.ArrayList;
@@ -45,7 +43,7 @@ public class ActionBar extends Actor implements InputProcessor {
         float x = getX();
         for (int i = 0; i < keys.size(); i++) {
             // TODO: Class system & getting abilities
-            Ability ability = (i == 0) ? Assets.abilities.get(1) : null;
+            Ability ability = (i == 0) ? DeprecatedAssets.abilities.get(1) : null;
 
             if (ability != null) {
                 batch.draw(ability.getTexture(), x, getY(), CELL_SIZE, CELL_SIZE);

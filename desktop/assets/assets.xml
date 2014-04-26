@@ -1,0 +1,12 @@
+<assets>
+    <group name="base">
+        <asset type="com.badlogic.gdx.scenes.scene2d.ui.Skin" path="assets/ui/HoloSkin/Holo-dark-hdpi.json" />
+    </group>
+    <group name="abilities">
+        <asset type="com.badlogic.gdx.graphics.Texture" path="assets/mock/Book_00.png"/>
+    </group>
+    <group name="classes">
+        <asset type="com.badlogic.gdx.graphics.Texture" path="assets/mock/mock-class.jpg"/>
+        <asset type="com.badlogic.gdx.graphics.Texture" path="assets/mock/mock-class-toggled.jpg"/>
+    </group>
+</assets>

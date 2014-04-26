@@ -4,9 +4,8 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import io.zerocontribution.winter.assets.Assets;
 import io.zerocontribution.winter.client.GameClient;
 import io.zerocontribution.winter.client.screens.MenuScreen;
 import io.zerocontribution.winter.event.Events;
@@ -30,6 +29,8 @@ public class WinterGame extends Game {
 
     public static Events events = new Events();
 
+    public static Assets assets;
+
     private Class pendingScreen;
     private List<Object> pendingScreenArgs;
 
@@ -45,7 +46,9 @@ public class WinterGame extends Game {
 
         initializeClient();
 
-        Assets.loadConfigurations();
+        assets = new Assets("assets.xml");
+        DeprecatedAssets.loadConfigurations();
+
         setScreen(new MenuScreen());
     }
 

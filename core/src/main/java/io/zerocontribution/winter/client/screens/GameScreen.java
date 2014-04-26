@@ -1,13 +1,11 @@
 package io.zerocontribution.winter.client.screens;
 
 import com.artemis.World;
-import com.artemis.managers.GroupManager;
-import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.DeprecatedAssets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.WinterGame;
 import io.zerocontribution.winter.systems.*;
@@ -43,7 +41,7 @@ public class GameScreen extends AbstractScreen {
         font.setUseIntegerPositions(false);
 
         ClientGlobals.loadClientMap(map);
-        Assets.loadImages();
+        DeprecatedAssets.loadImages();
 
         world = WinterGame.world; // TODO Remove local reference
 

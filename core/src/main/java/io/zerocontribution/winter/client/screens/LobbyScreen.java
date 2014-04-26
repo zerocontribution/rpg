@@ -4,27 +4,16 @@ import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.esotericsoftware.minlog.Log;
-import io.zerocontribution.winter.Assets;
+import io.zerocontribution.winter.DeprecatedAssets;
 import io.zerocontribution.winter.Constants;
 import io.zerocontribution.winter.WinterGame;
-import io.zerocontribution.winter.assets.ClassAsset;
 import io.zerocontribution.winter.components.Player;
 import io.zerocontribution.winter.ui.groups.CharacterSelection;
 import io.zerocontribution.winter.ui.groups.PlayerListing;
 import io.zerocontribution.winter.ui.hud.Chat;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LobbyScreen extends AbstractScreen {
 
@@ -113,7 +102,7 @@ public class LobbyScreen extends AbstractScreen {
     }
 
     private CharacterSelection createCharacterSelection() {
-        return new CharacterSelection(Assets.classes.classes);
+        return new CharacterSelection(DeprecatedAssets.classes.classes);
     }
 
     private Table createHostControls() {
