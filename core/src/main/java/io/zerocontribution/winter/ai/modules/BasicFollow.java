@@ -63,7 +63,10 @@ public class BasicFollow extends AbstractAIModule {
         velocityMapper = world.getMapper(Velocity.class);
 
         Entity view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
-        map = new IsometricTileMap(ServerGlobals.currentMap, world.getMapper(PairMap.class).get(view));
+        map = new IsometricTileMap(
+                ServerGlobals.currentMap.getProperties().get("width", Integer.class),
+                ServerGlobals.currentMap.getProperties().get("height", Integer.class),
+                world.getMapper(PairMap.class).get(view));
     }
 
     @Override
