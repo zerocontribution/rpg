@@ -5,12 +5,17 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
+import com.artemis.managers.TagManager;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector2;
+import com.esotericsoftware.minlog.Log;
 import io.zerocontribution.winter.Constants;
+import io.zerocontribution.winter.ai.pathfinding.*;
 import io.zerocontribution.winter.components.*;
 import io.zerocontribution.winter.input.InputManager;
 import io.zerocontribution.winter.network.AbilityCommand;
@@ -18,8 +23,11 @@ import io.zerocontribution.winter.network.ActionCommand;
 import io.zerocontribution.winter.systems.client.HudSystem;
 import io.zerocontribution.winter.utils.ClientGlobals;
 import io.zerocontribution.winter.utils.GdxLogHelper;
+import io.zerocontribution.winter.utils.MapHelper;
 
 public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
+
+    private static Mover mover = new Mover();
 
     @Mapper
     ComponentMapper<Velocity> velocityMapper;
@@ -28,13 +36,21 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     ComponentMapper<Position> positionMapper;
 
     @Mapper
-    ComponentMapper<Actor> actorMapper;
+    ComponentMapper<GridPosition> gridPositionMapper;
 
     @Mapper
-    ComponentMapper<Player> playerMapper;
+    ComponentMapper<TargetGridPosition> targetGridPositionMapper;
 
-    private boolean up, down, left, right, findTarget = false;
+    @Mapper
+    ComponentMapper<Actor> actorMapper;
+
+    private boolean findTarget;
     private int abilityId = 0;
+    private Vector2 newTargetPosition = null;
+
+    IsometricTileMap map;
+
+    Camera camera;
 
     @SuppressWarnings("unchecked")
     public PlayerInputSystem() {
@@ -44,25 +60,18 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     @Override
     protected void initialize() {
         InputManager.getInputProcessor().addProcessor(this);
+
+        Entity view = world.getManager(TagManager.class).getEntity(Constants.Tags.VIEW);
+        map = new IsometricTileMap(
+                ClientGlobals.currentMap.getProperties().get("width", Integer.class),
+                ClientGlobals.currentMap.getProperties().get("height", Integer.class),
+                world.getMapper(PairMap.class).get(view));
+
+        camera = view.getComponent(Cam.class).camera;
     }
 
     protected void process(Entity e) {
-        Velocity velocity = velocityMapper.get(e);
-
-        velocity.x = 0;
-        velocity.y = 0;
-
-        if (left) {
-            velocity.x = -Constants.PLAYER_SPEED;
-        } else if (right) {
-            velocity.x = Constants.PLAYER_SPEED;
-        }
-
-        if (up) {
-            velocity.y = Constants.PLAYER_SPEED;
-        } else if (down) {
-            velocity.y = -Constants.PLAYER_SPEED;
-        }
+        updateMovement(e);
 
         Actor actor = actorMapper.get(e);
 
@@ -106,6 +115,114 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         }
     }
 
+    private void updateMovement(Entity e) {
+        TargetGridPosition targetPosition = targetGridPositionMapper.get(e);
+        if (newTargetPosition != null) {
+            targetPosition.set(MapHelper.screenToGrid(camera, newTargetPosition.x, newTargetPosition.y));
+            newTargetPosition = null;
+        }
+
+        if (!targetPosition.hasTarget()) {
+            return;
+        }
+
+        GridPosition gridPosition = gridPositionMapper.get(e);
+        Velocity velocity = velocityMapper.get(e);
+
+        if (targetPosition.at(gridPosition)) {
+            targetPosition.reset();
+            velocity.set(0, 0);
+            sendAllMovementStopActions();
+        } else if (targetPosition.hasTarget()) {
+            if (targetPosition.pathFinder == null) {
+                targetPosition.pathFinder = new AStarPathFinder(map, 100, true, new ManhattanHeuristic());
+            }
+
+            if (targetPosition.path == null) {
+                try {
+                    targetPosition.path = targetPosition.pathFinder.findPath(
+                            mover,
+                            (int) gridPosition.x,
+                            (int) gridPosition.y,
+                            (int) targetPosition.x,
+                            (int) targetPosition.y
+                    );
+                    targetPosition.currentPathStep = 1;
+                } catch (ArrayIndexOutOfBoundsException aioob) {
+                    Log.error("Client", "Input conversion error (" + targetPosition.toLog() + ") " + aioob.toString());
+                    targetPosition.reset();
+                }
+            }
+
+            if (targetPosition.path == null) {
+                Log.warn("Client", new StringBuilder()
+                        .append("Pathfinding could not find path for ")
+                        .append(gridPosition.toLog())
+                        .append(" to ")
+                        .append(targetPosition.toLog())
+                        .toString());
+            } else {
+                if (targetPosition.path.getLength() == targetPosition.currentPathStep) {
+                    targetPosition.path = null;
+                    targetPosition.currentPathStep = 1;
+                    velocity.set(0, 0);
+
+                    sendAllMovementStopActions();
+                } else {
+                    Path.Step step = targetPosition.path.getStep(targetPosition.currentPathStep);
+
+                    if (step.getX() > gridPosition.x) {
+                        velocity.setX(Constants.PLAYER_SPEED);
+                        ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_RIGHT));
+                    } else if (step.getX() < gridPosition.x) {
+                        velocity.setX(-Constants.PLAYER_SPEED);
+                        ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_LEFT));
+                    } else {
+                        velocity.setX(0);
+
+                        ActionCommand.Action[] actions = {ActionCommand.Action.MOVE_LEFT, ActionCommand.Action.MOVE_RIGHT};
+                        sendStopActions(actions);
+                    }
+
+                    if (step.getY() > gridPosition.y) {
+                        velocity.setY(Constants.PLAYER_SPEED);
+                        ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_UP));
+                    } else if (step.getY() < gridPosition.y) {
+                        velocity.setY(-Constants.PLAYER_SPEED);
+                        ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_DOWN));
+                    } else {
+                        velocity.setY(0);
+
+                        ActionCommand.Action[] actions = {ActionCommand.Action.MOVE_UP, ActionCommand.Action.MOVE_DOWN};
+                        sendStopActions(actions);
+                    }
+
+                    if (velocity.x == 0 && velocity.y == 0) {
+                        targetPosition.currentPathStep++;
+                    }
+                }
+            }
+        } else {
+            Log.info("Client", "Pathfinding ignoring invalid destination");
+        }
+    }
+
+    private void sendAllMovementStopActions() {
+        ActionCommand.Action[] actions = {
+                ActionCommand.Action.MOVE_UP,
+                ActionCommand.Action.MOVE_DOWN,
+                ActionCommand.Action.MOVE_LEFT,
+                ActionCommand.Action.MOVE_RIGHT
+        };
+        sendStopActions(actions);
+    }
+
+    private void sendStopActions(ActionCommand.Action[] actions) {
+        for (ActionCommand.Action action : actions) {
+            ClientGlobals.commands.add(ActionCommand.stop(action));
+        }
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         abilityId = 0;
@@ -113,26 +230,18 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
         switch (keycode) {
             case Keys.W:
-                up = true;
-                down = false;
                 ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_UP));
                 break;
 
             case Keys.A:
-                left = true;
-                right = false;
                 ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_LEFT));
                 break;
 
             case Keys.S:
-                down = true;
-                up = false;
                 ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_DOWN));
                 break;
 
             case Keys.D:
-                right = true;
-                left = false;
                 ClientGlobals.commands.add(ActionCommand.start(ActionCommand.Action.MOVE_RIGHT));
                 break;
 
@@ -165,22 +274,18 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Keys.W:
-                up = false;
                 ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_UP));
                 break;
 
             case Keys.A:
-                left = false;
                 ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_LEFT));
                 break;
 
             case Keys.S:
-                down = false;
                 ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_DOWN));
                 break;
 
             case Keys.D:
-                right = false;
                 ClientGlobals.commands.add(ActionCommand.stop(ActionCommand.Action.MOVE_RIGHT));
                 break;
 
@@ -198,6 +303,10 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button == Input.Buttons.LEFT) {
+            newTargetPosition = new Vector2(screenX, screenY);
+        }
+
         return false;
     }
 

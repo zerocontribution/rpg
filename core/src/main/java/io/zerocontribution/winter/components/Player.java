@@ -33,6 +33,8 @@ public class Player extends EntityComponent {
     public void receive(Connection pc, Entity entity) {
         super.receive(pc, entity);
 
+        entity.addComponent(new TargetGridPosition());
+
         WinterGame.world.getManager(GroupManager.class).add(entity, Constants.Groups.CLIENT);
         WinterGame.world.getManager(GroupManager.class).add(entity, Constants.Groups.PLAYERS);
         WinterGame.world.getManager(GroupManager.class).add(entity, Constants.Groups.ACTORS);

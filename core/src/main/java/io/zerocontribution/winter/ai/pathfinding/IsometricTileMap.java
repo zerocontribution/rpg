@@ -14,9 +14,9 @@ public class IsometricTileMap implements TileBasedMap {
     private int height;
     private PairMap tilePairMap;
 
-    public IsometricTileMap(TiledMap map, PairMap tilePairMap) {
-        width = map.getProperties().get("width", Integer.class);
-        height = map.getProperties().get("height", Integer.class);
+    public IsometricTileMap(int width, int height, PairMap tilePairMap) {
+        this.width = width;
+        this.height = height;
         this.tilePairMap = tilePairMap;
     }
 

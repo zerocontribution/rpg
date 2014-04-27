@@ -6,6 +6,7 @@ public class Constants {
 
     final public static boolean DEBUG = true;
 
+    final public static String DEFAULT_PLAYER_NAME = "Buttmuncher";
     final public static float PLAYER_SPEED = 240; // 120 is roughly run speed.
 
     final public static int CAMERA_WIDTH = Gdx.graphics.getWidth();

@@ -68,7 +68,7 @@ public class ServerNetworkSystem extends VoidEntitySystem {
         }
 
         if (packet.name == null || packet.name.equals(Constants.UI.DEFAULT_PLAYER_NAME) || packet.name.trim().length() == 0) {
-            packet.name = "CannonFodder" + connection.getID();
+            packet.name = Constants.DEFAULT_PLAYER_NAME + connection.getID();
         }
 
         Log.info("Server", packet.name + " has logged in");

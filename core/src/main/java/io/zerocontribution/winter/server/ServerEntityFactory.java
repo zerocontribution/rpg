@@ -58,6 +58,8 @@ public class ServerEntityFactory extends AbstractEntityFactory {
         e.addComponent(new Blocking());
 
         e.addComponent(new Position(worldVector.x, worldVector.y));
+        e.addComponent(new GridPosition(x, y));
+        e.addComponent(new TargetGridPosition(x, y));
 
         e.addComponent(new Dimensions(18, 64));
 
