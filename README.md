@@ -1,3 +1,5 @@
+[ ![Codeship Status for zerocontribution/rpg](https://www.codeship.io/projects/e6720130-f443-0131-3cd8-568540174dde/status)](https://www.codeship.io/projects/28074)
+
 # rpg
 
 A multiplayer cyberpunk action RPG.
